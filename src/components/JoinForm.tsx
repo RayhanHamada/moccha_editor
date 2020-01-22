@@ -6,19 +6,38 @@ import * as joinRoomAction from '../features/join/joinAction';
 
 import './JoinForm.scss';
 import { connect } from 'react-redux';
+import { history } from '../store';
 
 const mapDispatchToProps = (dispatch: Dispatch<MyTypes.RootAction>) =>
 	bindActionCreators(
 		{
 			setUsername: joinRoomAction.setUsername,
 			setRoom: joinRoomAction.setRoom,
+			authenticate: joinRoomAction.authenticate,
 		},
 		dispatch
 	);
 
-type JoinFormProps = ReturnType<typeof mapDispatchToProps>;
+const mapStateToProps = ({ joinRoomReducer }: MyTypes.RootState) => ({
+	username: joinRoomReducer.username,
+	room: joinRoomReducer.room,
+});
+
+type JoinFormProps = ReturnType<typeof mapDispatchToProps> &
+	ReturnType<typeof mapStateToProps>;
 
 const JoinForm = (props: JoinFormProps) => {
+	// go to editor page
+	const goToEditor = () => {
+		// for now just checking if room and username field is not empty
+		if (props.room === '' || props.username === '') {
+			alert('Form Field must not be empty and alphanumeric allowed only');
+			return;
+		}
+		history.push('/editor');
+		props.authenticate();
+	};
+
 	return (
 		<form id="join-form" className="self-center pt-5">
 			<div className="mb-4">
@@ -45,7 +64,10 @@ const JoinForm = (props: JoinFormProps) => {
 					onChange={ev => props.setRoom(ev.target.value)}
 				></input>
 			</div>
-			<button className="join-button w-64 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+			<button
+				className="join-button w-64 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+				onClick={goToEditor}
+			>
 				Join the Room
 			</button>
 			<br />
@@ -54,4 +76,4 @@ const JoinForm = (props: JoinFormProps) => {
 	);
 };
 
-export default connect(null, mapDispatchToProps)(JoinForm);
+export default connect(mapStateToProps, mapDispatchToProps)(JoinForm);

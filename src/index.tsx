@@ -16,6 +16,7 @@ ReactDOM.render(
 		<ConnectedRouter history={history}>
 			<Switch>
 				<Route exact={true} path="/" render={() => <LoginPage />} />
+				<Route path="/editor" render={() => <div>Editor Page, Hooray</div>} />
 			</Switch>
 		</ConnectedRouter>
 	</Provider>,

@@ -11,4 +11,5 @@ export const setRoom = createAction('@join/SET_ROOM', (room: string) => ({
 	room,
 }))();
 
-export const toEditor = createAction('@join/TO_EDITOR')();
+export const authenticate = createAction('@join/AUTH')();
+export const deauthenticate = createAction('@join/DEAUTH')();

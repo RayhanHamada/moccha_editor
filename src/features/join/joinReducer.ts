@@ -3,6 +3,7 @@ import { createReducer } from 'typesafe-actions';
 const initialState = {
 	username: '',
 	room: '',
+	authenticated: false,
 };
 
 const joinReducer = createReducer(initialState)
@@ -19,9 +20,15 @@ const joinReducer = createReducer(initialState)
 			room: action.payload.room,
 		};
 	})
-	.handleType("@join/TO_EDITOR", (state) => {
-		
-	})
-	;
+
+	.handleType('@join/AUTH', state => ({
+		...state,
+		authenticated: true,
+	}))
+
+	.handleType('@join/DEAUTH', state => ({
+		...state,
+		authenticated: false,
+	}));
 
 export default joinReducer;
