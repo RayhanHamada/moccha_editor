@@ -34,8 +34,8 @@ const JoinForm = (props: JoinFormProps) => {
 			alert('Form Field must not be empty and alphanumeric allowed only');
 			return;
 		}
-		history.push('/editor');
 		props.authenticate();
+		history.push('/editor');
 	};
 
 	return (

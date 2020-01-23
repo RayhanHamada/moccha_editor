@@ -4,7 +4,6 @@ import 'tailwindcss/dist/tailwind.css';
 import './LoginPage.scss';
 import Typer from '../components/Typer';
 import JoinForm from '../components/JoinForm';
-import { connect } from 'react-redux';
 
 const LoginPage = () => {
 	return (
@@ -36,4 +35,4 @@ const LoginPage = () => {
 	);
 };
 
-export default connect()(LoginPage);
+export default LoginPage;
