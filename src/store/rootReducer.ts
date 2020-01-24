@@ -3,13 +3,13 @@ import { History } from 'history';
 
 import { connectRouter } from 'connected-react-router';
 import counterReducer from '../features/counter/counterReducer';
-import joinRoomReducer from '../features/join/joinReducer';
+import authReducer from '../features/auth/authReducer';
 
 const createRootReducer = (history: History) =>
 	combineReducers({
 		router: connectRouter(history),
 		counterReducer,
-		joinRoomReducer,
+		authReducer,
 	});
 
 export default createRootReducer;

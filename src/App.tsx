@@ -6,8 +6,8 @@ import { MyTypes } from './types';
 import { Dispatch, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-const mapStateToProps = ({ joinRoomReducer }: MyTypes.RootState) => ({
-	authenticated: joinRoomReducer.authenticated,
+const mapStateToProps = ({ authReducer }: MyTypes.RootState) => ({
+	authenticated: authReducer.authenticated,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch<MyTypes.RootAction>) =>

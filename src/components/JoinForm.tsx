@@ -1,49 +1,38 @@
 import React from 'react';
-
-import { Dispatch, bindActionCreators } from 'redux';
-import { MyTypes } from '../types';
-import * as joinRoomAction from '../features/join/joinAction';
-
-import './JoinForm.scss';
 import { connect } from 'react-redux';
 import { history } from '../store';
+import { Dispatch, bindActionCreators } from 'redux';
+
+import { MyTypes } from '../types';
+import * as roomActions from '../features/auth/authAction';
+
+import './JoinForm.scss';
 
 const mapDispatchToProps = (dispatch: Dispatch<MyTypes.RootAction>) =>
 	bindActionCreators(
 		{
-			setUsername: joinRoomAction.setUsername,
-			setRoom: joinRoomAction.setRoom,
-			authenticate: joinRoomAction.authenticate,
+			setUsername: roomActions.setUsername,
+			setRoom: roomActions.setRoom,
+			authenticate: roomActions.authenticate,
 		},
 		dispatch
 	);
 
-const mapStateToProps = ({ joinRoomReducer }: MyTypes.RootState) => ({
-	username: joinRoomReducer.username,
-	room: joinRoomReducer.room,
+const mapStateToProps = ({ authReducer }: MyTypes.RootState) => ({
+	username: authReducer.username,
+	room: authReducer.room,
 });
 
 type JoinFormProps = ReturnType<typeof mapDispatchToProps> &
 	ReturnType<typeof mapStateToProps>;
 
 const JoinForm = (props: JoinFormProps) => {
-	// go to editor page
-	const goToEditor = () => {
-		// for now just checking if room and username field is not empty
-		if (props.room === '' || props.username === '') {
-			alert('Form Field must not be empty and alphanumeric allowed only');
-			return;
-		}
-		props.authenticate();
-		history.push('/editor');
-	};
-
 	return (
-		<form id="join-form" className="self-center pt-5">
-			<div className="mb-4">
-				<label className="block text-gray-800 text-lg" htmlFor="username">
-					Username
-				</label>
+		<form
+			id="join-form"
+			className="self-center pt-5 flex flex-col items-center"
+		>
+			<div className="mb-1">
 				<input
 					className="shadow appearance-none border rounded py-2 px-3 w-64 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 					id="form-username"
@@ -52,26 +41,31 @@ const JoinForm = (props: JoinFormProps) => {
 					onChange={ev => props.setUsername(ev.target.value)}
 				></input>
 			</div>
-			<div className="mb-4">
-				<label className="block text-gray-800 text-lg" htmlFor="username">
-					Room
-				</label>
+			<small className="mb-10">*username is required</small>
+			<span className="self-center text-gray-800 text-2xl mb-2">
+				Now You Can{' '}
+			</span>
+			<button className="join-button w-64 mb-5 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+				Create a room
+			</button>
+			<span className="self-center text-gray-800 text-2xl mb-2">Or</span>
+			<div className="self-center text-gray-800 mb-2">
+				Enter that random string sent by ur friend
+			</div>
+			<div className="mb-1">
 				<input
 					className="shadow appearance-none border rounded py-2 px-3 w-64 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
 					id="form-room"
 					type="text"
-					placeholder="Enter Your Room Here"
+					placeholder={`Like "bfd5b1a2-0be0......."`}
 					onChange={ev => props.setRoom(ev.target.value)}
 				></input>
 			</div>
-			<button
-				className="join-button w-64 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-				onClick={goToEditor}
-			>
-				Join the Room
+			<small className="mb-4">*the random string is required</small>
+			<button className="join-button w-64 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+				Join the room
 			</button>
 			<br />
-			<small>*Un-existed Room will created automatically</small>
 		</form>
 	);
 };

@@ -25,7 +25,7 @@ const LoginPage = () => {
 					id="join-room-title"
 					className="self-center text-gray-800 text-3xl"
 				>
-					Join A Room !
+					Fill The Guest Book First !
 				</span>
 				<JoinForm />
 				<div className="flex-row mt-auto self-center pb-1">

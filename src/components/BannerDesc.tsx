@@ -8,16 +8,14 @@ const BannerDesc = () => {
 	const texts = [
 		'Pair Programming',
 		'Ngoding Bareng',
-		<p key="bucin">
-			<strike>Bucin</strike> Projekan Bareng
-		</p>,
 		'Nugas Bareng',
+		'Projekan Bareng',
 	];
 
 	return (
-		<p className="banner-desc ml-32 text-3xl">
+		<span className="banner-desc ml-32 text-3xl">
 			<TextLoop children={texts} /> Made Easy
-		</p>
+		</span>
 	);
 };
 
