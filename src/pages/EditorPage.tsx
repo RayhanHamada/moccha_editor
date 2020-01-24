@@ -3,7 +3,7 @@ import { Dispatch, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { MyTypes } from '../types';
-import * as joinRoomActions from '../features/join/joinAction';
+import * as joinRoomActions from './../features/join/joinAction';
 
 import './EditorPage.scss';
 

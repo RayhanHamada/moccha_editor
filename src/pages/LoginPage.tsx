@@ -1,9 +1,13 @@
 import React from 'react';
 
+import Typer from '../components/Typer';
+import TextLoop from 'react-text-loop';
+
+import JoinForm from '../components/JoinForm';
+
 import 'tailwindcss/dist/tailwind.css';
 import './LoginPage.scss';
-import Typer from '../components/Typer';
-import JoinForm from '../components/JoinForm';
+import BannerDesc from '../components/BannerDesc';
 
 const LoginPage = () => {
 	return (
@@ -12,7 +16,7 @@ const LoginPage = () => {
 				<span className="banner-title text-6xl font-bold ml-32 mt-10">
 					Moccha Text Editor
 				</span>
-				<p className="banner-desc ml-32 text-3xl">Pair Programming Made Easy</p>
+				<BannerDesc />
 				<br />
 				<Typer />
 			</div>
