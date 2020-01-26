@@ -1,0 +1,83 @@
+Project Moccha Text Editor
+
+what => A text editor that allow 2 (or more probably) person to work on same code
+        like vscode live share, but i'd like to add some custom features
+
+must have features => 
+    1. a real basic editor that working (solved with monaco editor)
+    2. ability to run code (solved with judge0 API)
+    3. real-time 2-ways code changes on editor (still figuring out, possibility with applyChange monaco API) 
+
+features i'd like to add => 
+    1. audio communication between user
+
+
+libs: 
+    - socket.io client side for real-time code changes transfer between user
+    - web RTC or Peer JS (still haven't decide) for real-time audio communication between user
+
+
+steps: 
+    for creating room (on client):
+        1. check if username field is filled,
+            - if filled, go to step 2
+            - if empty, just call alert
+        
+        2. make request for room key to server, 
+            - if success (we get the room key) make a socket 
+            connection with the room key as room and then navigate to editor page.
+            
+            - if not just call alert that something is wrong.
+        
+        3. prepare the editor
+
+        4. display the room key somewhere on the ui (to be copied) to be shared to friends
+
+        optional
+        5. wait for friend entering the room, and receive friend's sdp, 
+        and then send our own sdp for p2p communication 
+    
+    for joining room (on client):
+        1. check if username field and room key field is filled, if so then,
+        
+        2. make request for joining room to server,
+            - if success (automatically, or by room host's permission),
+            client will be navigated to editor page.
+
+            - if not, alert will be popped on login page and client will not
+            be navigated to editor page.
+
+        optional
+        3. send our own sdp to another user (host) and receive their sdp for p2p communication
+    
+    for creating room (on server):
+        1. get request for creating a room (GET method),
+        
+        2. generate a uuid for client room key, push it to collection of existed room keys, 
+        and send the room key back to client.
+
+    for joining room (on server):
+        1. get request for joining a room (GET method, with username and room key as param),
+
+        2. check if the room key is exists in existed room keys,
+            - if exists,
+                - if automatically could join the room,
+                    1. notice host that there's a user entering the room
+                
+                - if permission from host is required
+                    1. notice host that there's a user asked for permission for entering the room
+                        - if allowed,
+                            1. user entering the room
+
+                        - if not,
+                            nothing, the incoming user just failed to enter the room.
+                
+            - if not exists,
+                1. User will be notified that there's room exists based on that room key.
+                2. User will be suggested to make their own room
+        
+        optional
+        3. client will send their sdp to other client and receive others sdp for p2p communication
+
+
+

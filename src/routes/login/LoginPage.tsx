@@ -1,13 +1,12 @@
 import React from 'react';
 
-import Typer from '../components/Typer';
-import TextLoop from 'react-text-loop';
+import Typer from '../../components/typer/Typer';
 
-import JoinForm from '../components/JoinForm';
+import JoinForm from '../../components/join_form/JoinForm';
 
 import 'tailwindcss/dist/tailwind.css';
 import './LoginPage.scss';
-import BannerDesc from '../components/BannerDesc';
+import BannerDesc from '../../components/BannerDesc';
 
 const LoginPage = () => {
 	return (

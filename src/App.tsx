@@ -1,20 +1,11 @@
 import React from 'react';
-import { Switch, Route } from 'react-router';
-import LoginPage from './pages/LoginPage';
-import EditorPage from './pages/EditorPage';
-import { MyTypes } from './types';
-import { Dispatch, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Switch, Route } from 'react-router';
 
-const mapStateToProps = ({ authReducer }: MyTypes.RootState) => ({
-	authenticated: authReducer.authenticated,
-});
+import LoginPage from './routes/login/LoginPage';
+import EditorPage from './routes/editor/EditorPage';
 
-const mapDispatchToProps = (dispatch: Dispatch<MyTypes.RootAction>) =>
-	bindActionCreators({}, dispatch);
-
-type AppProps = ReturnType<typeof mapStateToProps> &
-	ReturnType<typeof mapDispatchToProps>;
+import { mapStateToProps, mapDispatchToProps, AppProps } from './applogics';
 
 const App = (props: AppProps) => {
 	return (

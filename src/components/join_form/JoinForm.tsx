@@ -1,30 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { history } from '../store';
-import { Dispatch, bindActionCreators } from 'redux';
 
-import { MyTypes } from '../types';
-import * as roomActions from '../features/auth/authAction';
+import { JoinFormProps, mapStateToProps, mapDispatchToProps } from './logics';
 
 import './JoinForm.scss';
-
-const mapDispatchToProps = (dispatch: Dispatch<MyTypes.RootAction>) =>
-	bindActionCreators(
-		{
-			setUsername: roomActions.setUsername,
-			setRoom: roomActions.setRoom,
-			authenticate: roomActions.authenticate,
-		},
-		dispatch
-	);
-
-const mapStateToProps = ({ authReducer }: MyTypes.RootState) => ({
-	username: authReducer.username,
-	room: authReducer.room,
-});
-
-type JoinFormProps = ReturnType<typeof mapDispatchToProps> &
-	ReturnType<typeof mapStateToProps>;
 
 const JoinForm = (props: JoinFormProps) => {
 	return (
@@ -41,11 +20,14 @@ const JoinForm = (props: JoinFormProps) => {
 					onChange={ev => props.setUsername(ev.target.value)}
 				></input>
 			</div>
-			<small className="mb-10">*username is required</small>
+			<small className="mb-10">*username is required {props.angka}</small>
 			<span className="self-center text-gray-800 text-2xl mb-2">
 				Now You Can{' '}
 			</span>
-			<button className="join-button w-64 mb-5 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+			<button 
+			className="join-button w-64 mb-5 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+			onClick={props.createRoom}
+			>
 				Create a room
 			</button>
 			<span className="self-center text-gray-800 text-2xl mb-2">Or</span>
