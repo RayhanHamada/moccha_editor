@@ -20,14 +20,11 @@ const JoinForm = (props: JoinFormProps) => {
 					onChange={ev => props.setUsername(ev.target.value)}
 				></input>
 			</div>
-			<small className="mb-10">*username is required {props.angka}</small>
+			<small className="mb-10">*username is required </small>
 			<span className="self-center text-gray-800 text-2xl mb-2">
 				Now You Can{' '}
 			</span>
-			<button 
-			className="join-button w-64 mb-5 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-			onClick={props.createRoom}
-			>
+			<button className="join-button w-64 mb-5 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
 				Create a room
 			</button>
 			<span className="self-center text-gray-800 text-2xl mb-2">Or</span>
