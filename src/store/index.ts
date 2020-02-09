@@ -17,14 +17,15 @@ const epicMiddleware = createEpicMiddleware<
 >();
 
 const appliedMiddleware = applyMiddleware(
-	...[routerMiddleware(history), epicMiddleware]
+	routerMiddleware(history),
+	epicMiddleware
 );
 const composeWith =
 	process.env.NODE_ENV === 'development'
 		? composeWithDevTools(appliedMiddleware)
 		: compose(appliedMiddleware);
 
-const configureStore = (preloadedState: Partial<MyTypes.RootState> = {}) =>
+export const configureStore = (preloadedState: Partial<MyTypes.RootState> = {}) =>
 	createStore(createRootReducer(history), preloadedState, composeWith);
 
 const store = configureStore(/*override this parameter if you desire different initial state for your store */);
