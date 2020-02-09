@@ -1,8 +1,8 @@
 import { createReducer } from 'typesafe-actions';
 
-const initialState = {
+const initialState: AppFeatures.Auth = {
 	username: '',
-	room: '',
+	roomKey: '',
 	authenticated: false,
 };
 
@@ -14,12 +14,10 @@ const roomReducer = createReducer(initialState)
 		};
 	})
 
-	.handleType('auth/SET_ROOM', (state, action) => {
-		return {
-			...state,
-			room: action.payload.room,
-		};
-	})
+	.handleType('auth/SET_ROOM', (state, action) => ({
+		...state,
+		roomKey: action.payload.roomKey,
+	}))
 
 	.handleType('auth/AUTHENTICATE', state => ({
 		...state,

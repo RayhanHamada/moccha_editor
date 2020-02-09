@@ -30,7 +30,7 @@ const LoginPage = () => {
 				<div className="flex-row mt-auto self-center pb-1">
 					<i
 						className="fa fa-github fa-3x ml-3"
-						onClick={() => window.open('https://github.com/RayhanHamada')}
+						onClick={() => window.open('https://github.com/RayhanHamada/moccha_editor')}
 					></i>
 				</div>
 			</div>

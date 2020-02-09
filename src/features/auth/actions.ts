@@ -7,9 +7,11 @@ export const setUsername = createAction(
 	})
 )();
 
-export const setRoom = createAction('auth/SET_ROOM', (room: string) => ({
-	room,
-}))();
+export const setRoom = createAction('auth/SET_ROOM', (roomKey: string) => {
+	return {
+		roomKey,
+	};
+})();
 
 export const authenticate = createAction('auth/AUTHENTICATE')();
 export const deauthenticate = createAction('auth/DEAUTHENTICATE')();

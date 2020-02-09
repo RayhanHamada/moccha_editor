@@ -1,10 +1,11 @@
-import { createStore, applyMiddleware, compose } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import thunk from 'redux-thunk';
-import createRootReducer from './rootReducer';
-import { createBrowserHistory } from 'history';
-import { MyTypes } from '../types';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { routerMiddleware } from 'connected-react-router';
+import { createBrowserHistory } from 'history';
+import thunk from 'redux-thunk';
+
+import createRootReducer from './rootReducer';
+import { MyTypes } from './app-custom-types';
 
 export const history = createBrowserHistory();
 

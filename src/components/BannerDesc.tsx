@@ -6,6 +6,7 @@ import TextLoop from 'react-text-loop';
 
 const BannerDesc = () => {
 	const texts = [
+		'Collaboration',
 		'Pair Programming',
 		'Ngoding Bareng',
 		'Nugas Bareng',

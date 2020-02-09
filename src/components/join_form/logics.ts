@@ -1,9 +1,9 @@
 import { bindActionCreators } from 'redux';
 
-import { MyTypes } from '../../types';
-import * as authActions from '../../features/auth/authAction';
+import { MyTypes } from '../../store/app-custom-types';
+import * as authActions from '../../features/auth/actions';
 
-export const mapDispatchToProps = (dispatch: MyTypes.RootDispatch) =>
+export const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
 	bindActionCreators(
 		{
 			setUsername: authActions.setUsername,
@@ -15,7 +15,7 @@ export const mapDispatchToProps = (dispatch: MyTypes.RootDispatch) =>
 
 export const mapStateToProps = ({ authReducer }: MyTypes.RootState) => ({
 	username: authReducer.username,
-	room: authReducer.room,
+	roomKey: authReducer.roomKey,
 });
 
 export type JoinFormProps = ReturnType<typeof mapDispatchToProps> &

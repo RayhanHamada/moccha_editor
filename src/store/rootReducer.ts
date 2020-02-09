@@ -2,8 +2,8 @@ import { combineReducers } from 'redux';
 import { History } from 'history';
 
 import { connectRouter } from 'connected-react-router';
-import counterReducer from '../features/counter/counterReducer';
-import authReducer from '../features/auth/authReducer';
+import counterReducer from '../features/counter/reducer';
+import authReducer from '../features/auth/reducer';
 
 const createRootReducer = (history: History) =>
 	combineReducers({
