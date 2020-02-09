@@ -1,16 +1,23 @@
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { routerMiddleware } from 'connected-react-router';
-import { createBrowserHistory } from 'history';
-import thunk from 'redux-thunk';
+import { createBrowserHistory, History } from 'history';
+import { createEpicMiddleware } from 'redux-observable';
 
-import createRootReducer from './rootReducer';
 import { MyTypes } from './app-custom-types';
+import createRootReducer from './rootReducer';
+import rootEpic from './root-epic';
 
-export const history = createBrowserHistory();
+export const history: History = createBrowserHistory();
+
+const epicMiddleware = createEpicMiddleware<
+	MyTypes.RootAction,
+	MyTypes.RootAction,
+	MyTypes.RootState
+>();
 
 const appliedMiddleware = applyMiddleware(
-	...[thunk, routerMiddleware(history)]
+	...[routerMiddleware(history), epicMiddleware]
 );
 const composeWith =
 	process.env.NODE_ENV === 'development'
@@ -20,6 +27,8 @@ const composeWith =
 const configureStore = (preloadedState: Partial<MyTypes.RootState> = {}) =>
 	createStore(createRootReducer(history), preloadedState, composeWith);
 
-const store = configureStore(/*override this parameter if you desire different initial state for your store */)
+const store = configureStore(/*override this parameter if you desire different initial state for your store */);
+
+epicMiddleware.run(rootEpic);
 
 export default store;

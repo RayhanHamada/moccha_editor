@@ -5,16 +5,72 @@ import 'tailwindcss/dist/tailwind.css';
 import './Typer.scss';
 
 const startType = () => {
-	const line1 = new TypeIt('#line-1', {
-		strings: "// this is moccha's code",
+
+	const line8 = new TypeIt('#line-8', {
+		strings: '// Perfect !',
+		html: true,
+		speed: 65,
+		cursor: false,
+		lifeLike: true,
+	});
+
+	const line7 = new TypeIt('#line-7', {
+		strings: 'console.log(helloFromMoccha("Hamada"));',
+		html: true,
+		speed: 65,
+		cursor: false,
+		lifeLike: true,
+		afterComplete: () => {
+			line8.go();
+		},
+	});
+
+	const line6 = new TypeIt('#line-6', {
+		strings: "// this is Hamada's code btw :)",
+		html: true,
+		speed: 65,
+		cursor: false,
+		lifeLike: true,
+		afterComplete: () => {
+			line7.go();
+		},
+	});
+
+
+	const line5 = new TypeIt('#line-5', {
+		strings: '// let me help you call that function',
+		html: true,
+		speed: 65,
+		cursor: false,
+		lifeLike: true,
+		afterComplete: () => {
+			line6.go();
+		},
+	});
+
+	
+	const line4 = new TypeIt('#line-4', {
+		strings: '}',
+		html: true,
+		speed: 90,
+		cursor: false,
+		lifeLike: true
+	});
+
+	const line3 = new TypeIt('#line-3', {
+		strings: '&nbsp &nbsp &nbsp &nbsp return `hello ${mocch`',
 		html: true,
 		speed: 90,
 		cursor: false,
 		lifeLike: true,
 		afterComplete: () => {
-			line2.go();
+			line4.go();
 		},
-	});
+	})
+		.delete(2)
+		.delete(2)
+		.delete(2)
+		.type('name}, my name is Moccha`;');
 
 	const line2 = new TypeIt('#line-2', {
 		strings: 'function helloWorld',
@@ -32,70 +88,28 @@ const startType = () => {
 		.delete(2)
 		.type('FromMoccha(name: string) {');
 
-	const line3 = new TypeIt('#line-3', {
-		strings: '&nbsp &nbsp &nbsp &nbsp return `hello ${mocch`',
+	const line1 = new TypeIt('#line-1', {
+		strings: "// this is moccha's code",
 		html: true,
 		speed: 90,
 		cursor: false,
 		lifeLike: true,
 		afterComplete: () => {
-			line4.go();
-		},
-	})
-		.delete(2)
-		.delete(2)
-		.delete(2)
-		.type('name}, my name is Moccha`;');
-
-	const line4 = new TypeIt('#line-4', {
-		strings: '}',
-		html: true,
-		speed: 90,
-		cursor: false,
-		lifeLike: true,
-		afterComplete: () => {},
-	});
-
-	const line5 = new TypeIt('#line-5', {
-		strings: '// let me help you call that function',
-		html: true,
-		speed: 65,
-		cursor: false,
-		lifeLike: true,
-		afterComplete: () => {
-			line6.go();
+			line2.go();
 		},
 	});
 
-	const line6 = new TypeIt('#line-6', {
-		strings: "// this is Hamada's code btw :)",
-		html: true,
-		speed: 65,
-		cursor: false,
-		lifeLike: true,
-		afterComplete: () => {
-			line7.go();
-		},
-	});
+	
 
-	const line7 = new TypeIt('#line-7', {
-		strings: 'console.log(helloFromMoccha("Hamada"));',
-		html: true,
-		speed: 65,
-		cursor: false,
-		lifeLike: true,
-		afterComplete: () => {
-			line8.go();
-		},
-	});
+	
 
-	const line8 = new TypeIt('#line-8', {
-		strings: '// Perfect !',
-		html: true,
-		speed: 65,
-		cursor: false,
-		lifeLike: true,
-	});
+	
+
+	
+
+	
+
+	
 
 	line1.go();
 };
