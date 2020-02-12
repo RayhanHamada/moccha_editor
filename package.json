@@ -9,13 +9,15 @@
 		"serve": "serve build",
 		"lint:ts": "eslint src/**/*.{ts,tsx} --fix",
 		"pretty": "prettier src/**/* --config ./.prettierrc",
-		"test": "jest"
+		"test": "ts-mocha src/**/*.spec.ts"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "MIT",
 	"dependencies": {
+		"axios": "^0.19.2",
 		"connected-react-router": "^6.6.1",
+		"dotenv": "^8.2.0",
 		"history": "^4.10.1",
 		"react": "^16.11.0",
 		"react-dom": "^16.11.0",
@@ -40,6 +42,7 @@
 		"@babel/preset-env": "^7.7.1",
 		"@babel/preset-react": "^7.7.0",
 		"@babel/preset-typescript": "^7.7.2",
+		"@types/chai": "^4.2.9",
 		"@types/history": "^4.7.4",
 		"@types/mocha": "^7.0.1",
 		"@types/node": "^12.12.22",
@@ -55,6 +58,7 @@
 		"@typescript-eslint/eslint-plugin": "^2.16.0",
 		"@typescript-eslint/parser": "^2.16.0",
 		"babel-loader": "^8.0.6",
+		"chai": "^4.2.0",
 		"cross-env": "^6.0.3",
 		"css-loader": "^3.4.0",
 		"eslint": "^6.8.0",
