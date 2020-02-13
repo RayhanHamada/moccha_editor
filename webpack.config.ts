@@ -2,6 +2,7 @@ import path from 'path';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
 import TerserWebpackPlugin from 'terser-webpack-plugin';
 import { Configuration } from 'webpack';
+import Dotenv from 'dotenv-webpack';
 
 const isProd = process.env.NODE_ENV === 'production';
 const entryPath = './src/index.tsx';
@@ -46,6 +47,7 @@ export default {
 			title: 'React with Webpack and Typescript Support Boilerplate',
 			template: './src/index.html',
 		}),
+		new Dotenv(),
 	],
 
 	// only specified if environment is in production mode

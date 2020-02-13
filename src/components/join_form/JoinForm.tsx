@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { JoinFormProps, mapStateToProps, mapDispatchToProps } from './logics';
 
 import './JoinForm.scss';
+import { history } from '../../store';
+import routes from '../../routes/routes-names';
 
 const JoinForm = (props: JoinFormProps) => {
 	return (
@@ -24,7 +26,20 @@ const JoinForm = (props: JoinFormProps) => {
 			<span className="self-center text-gray-800 text-2xl mb-2">
 				Now You Can{' '}
 			</span>
-			<button className="join-button w-64 mb-5 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+			<button
+				className="join-button w-64 mb-5 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+				onClick={ev => {
+					// ev.persist()
+					ev.preventDefault();
+					// fetch the keys, and then authenticate the user
+
+					if (props.username !== '') {
+						props.fetchRoomKey();
+						return;
+					}
+					alert('Username cannot be empty');
+				}}
+			>
 				Create a room
 			</button>
 			<span className="self-center text-gray-800 text-2xl mb-2">Or</span>

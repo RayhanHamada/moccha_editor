@@ -16,5 +16,8 @@ export const setRoom = createAction('auth/SET_ROOM', (roomKey: string) => {
 export const authenticate = createAction('auth/AUTHENTICATE')();
 export const deauthenticate = createAction('auth/DEAUTHENTICATE')();
 
-export const getRoomKey = createAsyncAction("auth/FETCH_ROOM_KEY", "auth/GOT_ROOM_KEY", "auth/FAIL_FETCH_ROOM_KEY")<string, string, null>();
-
+export const getRoomKey = createAsyncAction(
+	'auth/FETCH_ROOM_KEY',
+	'auth/GOT_ROOM_KEY',
+	'auth/FAIL_FETCH_ROOM_KEY'
+)<undefined, { roomKey: string }, null>();

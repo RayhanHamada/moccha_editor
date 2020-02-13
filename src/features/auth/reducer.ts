@@ -27,6 +27,11 @@ const roomReducer = createReducer(initialState)
 	.handleType('auth/DEAUTHENTICATE', state => ({
 		...state,
 		authenticated: false,
+	}))
+
+	.handleType('auth/GOT_ROOM_KEY', (state, action) => ({
+		...state,
+		roomKey: action.payload.roomKey,
 	}));
 
 export default roomReducer;

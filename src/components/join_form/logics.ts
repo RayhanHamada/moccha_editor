@@ -9,6 +9,7 @@ export const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
 			setUsername: authActions.setUsername,
 			setRoom: authActions.setRoom,
 			authenticate: authActions.authenticate,
+			fetchRoomKey: authActions.getRoomKey.request
 		},
 		dispatch
 	);
@@ -16,6 +17,7 @@ export const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
 export const mapStateToProps = ({ authReducer }: MyTypes.RootState) => ({
 	username: authReducer.username,
 	roomKey: authReducer.roomKey,
+	authenticated: authReducer.authenticated
 });
 
 export type JoinFormProps = ReturnType<typeof mapDispatchToProps> &
