@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { JoinFormProps, mapStateToProps, mapDispatchToProps } from './logics';
 
 import './JoinForm.scss';
+import { history } from '../../store';
+import routes from '../../routes/routes-names';
 
 const JoinForm = (props: JoinFormProps) => {
 	return (
@@ -33,6 +35,7 @@ const JoinForm = (props: JoinFormProps) => {
 					if (props.username !== '') {
 						// fetch the keys, and then authenticate the user
 						props.fetchRoomKey();
+						// history.push(routes.editor);
 						return;
 					}
 

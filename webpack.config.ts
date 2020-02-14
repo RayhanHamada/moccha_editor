@@ -47,7 +47,9 @@ export default {
 			title: 'React with Webpack and Typescript Support Boilerplate',
 			template: './src/index.html',
 		}),
-		new Dotenv(),
+		new Dotenv({
+			path: isProd ? './prod.env' : './dev.env',
+		}),
 	],
 
 	// only specified if environment is in production mode

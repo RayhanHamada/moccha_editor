@@ -4,12 +4,12 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"dev": "cross-env NODE_ENV=development webpack-dev-server --color --progress",
-		"build": "cross-env NODE_ENV=production webpack --color --progress",
+		"dev": "webpack-dev-server --color --progress",
+		"build": "env-cmd -e prod webpack --color --progress",
 		"serve": "serve build",
 		"lint:ts": "eslint src/**/*.{ts,tsx} --fix",
 		"pretty": "prettier src/**/* --config ./.prettierrc",
-		"test": "env-cmd ts-mocha src/**/*.spec.ts"
+		"test": "env-cmd -e test ts-mocha src/**/*.spec.ts"
 	},
 	"keywords": [],
 	"author": "",
@@ -44,6 +44,7 @@
 		"@babel/preset-typescript": "^7.7.2",
 		"@types/chai": "^4.2.9",
 		"@types/dotenv": "^8.2.0",
+		"@types/dotenv-webpack": "^1.7.0",
 		"@types/history": "^4.7.4",
 		"@types/mocha": "^7.0.1",
 		"@types/node": "^12.12.22",
