@@ -7,6 +7,9 @@ import {
 } from './auth';
 import { clearRoomKeys } from './api.util';
 
+import { config } from "dotenv";
+config();
+
 // skipped, already run test and all passed
 describe.skip('Auth API Interface', function() {
 	this.timeout(15000);
