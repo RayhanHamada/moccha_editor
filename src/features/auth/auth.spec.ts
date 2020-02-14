@@ -1,5 +1,9 @@
 import { expect } from 'chai';
 import { StateObservable, ActionsObservable } from 'redux-observable';
+import { Subject } from 'rxjs';
+import dotenv from 'dotenv';
+dotenv.config();
+
 import {
 	setRoom,
 	setUsername,
@@ -7,13 +11,11 @@ import {
 	deauthenticate,
 	getRoomKey,
 } from './actions';
-import reducer from './reducer';
 import { MyTypes } from '../../store/app-custom-types';
-import { Subject } from 'rxjs';
-import { fetchRoomKey$ } from './epics';
 import { clearRoomKeys } from '../../api/api.util';
 import { mockState } from '../mock-state';
-import { DeepPartial } from 'redux';
+import { fetchRoomKey$ } from './epics';
+import reducer from './reducer';
 
 describe("Auth's", function() {
 	describe('reducer', () => {
@@ -105,34 +107,9 @@ describe("Auth's", function() {
 				getRoomKey.request()
 			);
 
-			const expectActType: MyTypes.RootAction['type'] = 'auth/GOT_ROOM_KEY';
+			const expectActType: MyTypes.RootAction['type'] = 'auth/AUTHENTICATE';
 
 			const output$ = fetchRoomKey$(action$, state$, null);
-
-			output$.toPromise().then(action => {
-				expect(action.type).equal(expectActType);
-				done();
-			});
-		});
-
-		it('authenticate$ should output auth/AUTHENTICATE action', done => {
-			// create mock state
-			const ms: DeepPartial<MyTypes.RootState> = {
-				authReducer: {
-					username: 'berisi',
-				},
-			};
-			state$ = new StateObservable<MyTypes.RootState>(
-				new Subject(),
-				ms as MyTypes.RootState
-			);
-
-			const action$ = ActionsObservable.of(
-				getRoomKey.success({ roomKey: 'test-key' })
-			);
-
-			const expectActType: MyTypes.RootAction['type'] = 'auth/AUTHENTICATE';
-			const output$ = authAndNavigateToEditor$(action$, state$, null);
 
 			output$.toPromise().then(action => {
 				expect(action.type).equal(expectActType);

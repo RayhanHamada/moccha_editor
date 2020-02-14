@@ -1,7 +1,7 @@
 import axios from 'axios';
-// import dotenv from 'dotenv';
+import dotenv from 'dotenv';
 
-// dotenv.config();
+process.env.NODE_ENV === 'testing' ? dotenv.config() : undefined;
 
 const GET_AUTH_ENDPOINT = `${process.env.BASE_SERVER_URL}/api/auth`;
 const GET_ROOM_KEY = `${process.env.BASE_SERVER_URL}/api/auth/getRoomKey`;

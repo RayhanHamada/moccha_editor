@@ -7,8 +7,6 @@ import { ConnectedRouter } from 'connected-react-router';
 import App from './App';
 import './style.scss';
 
-// const store = configureStore(/*override this parameter if you desire different initial state for your store */);
-
 ReactDOM.render(
 	<Provider store={store}>
 		<ConnectedRouter history={history}>

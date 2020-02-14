@@ -31,12 +31,13 @@ const JoinForm = (props: JoinFormProps) => {
 				onClick={ev => {
 					// ev.persist()
 					ev.preventDefault();
-					// fetch the keys, and then authenticate the user
 
 					if (props.username !== '') {
+						// fetch the keys, and then authenticate the user
 						props.fetchRoomKey();
 						return;
 					}
+
 					alert('Username cannot be empty');
 				}}
 			>
