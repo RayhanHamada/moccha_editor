@@ -14,8 +14,10 @@ import {
 import { MyTypes } from '../../store/app-custom-types';
 import { clearRoomKeys } from '../../api/api.util';
 import { mockState } from '../mock-state';
-import { fetchRoomKey$ } from './epics';
+import { fetchRoomKey$, deauthenticate$ } from './epics';
 import reducer from './reducer';
+import { DeepPartial } from 'redux';
+import { PayloadAction } from 'typesafe-actions';
 
 describe("Auth's", function() {
 	describe('reducer', () => {
@@ -102,7 +104,7 @@ describe("Auth's", function() {
 			});
 		});
 
-		it('fetchRoomKey$ should output getRoomKey.success action', done => {
+		it('fetchRoomKey$ should output auth/AUTHENTICATE action', done => {
 			const action$ = ActionsObservable.of<MyTypes.RootAction>(
 				getRoomKey.request()
 			);
@@ -116,5 +118,41 @@ describe("Auth's", function() {
 				done();
 			});
 		});
+
+		it('deauthenticate$ should output auth/SET_ROOM', done => {
+			// make mock state
+			const mockState: DeepPartial<MyTypes.RootState> = {
+				authReducer: {
+					username: 'test-username',
+					roomKey: 'test-roomkey',
+					authenticated: true,
+				},
+			};
+			// make state's stream
+			state$ = new StateObservable<MyTypes.RootState>(
+				new Subject(),
+				mockState as MyTypes.RootState
+			);
+
+			// action stream
+			const action$: ActionsObservable<MyTypes.RootAction> = ActionsObservable.of(
+				{ type: 'auth/DEAUTHENTICATE' }
+			);
+
+			const expectedAct: MyTypes.RootAction = {
+				type: 'auth/SET_ROOM',
+				payload: {
+					roomKey: '',
+				},
+			};
+
+			const output$ = deauthenticate$(action$, state$, null);
+
+			output$.toPromise().then(action => {
+				expect(action).to.be.deep.equal(expectedAct);
+				done();
+			});
+		});
 	});
 });
+	
