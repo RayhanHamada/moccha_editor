@@ -5,6 +5,7 @@ import { EditorProps, mapStateToProps, mapDispatchToProps } from './logics';
 
 import 'tailwindcss/dist/tailwind.css';
 import './EditorPage.scss';
+import MonacoWrapper from '../../components/editor-page/MonacoWrapper';
 
 const EditorPage = (props: EditorProps) => {
 	window.onunload = window.onbeforeunload = window.onpopstate = function() {
@@ -22,6 +23,7 @@ const EditorPage = (props: EditorProps) => {
 						<span className="ml-1">Run Code</span>
 					</button>
 				</div>
+				<MonacoWrapper />
 			</div>
 			<div className="comm-panel border border-black">
 				<p>Panel 2</p>
