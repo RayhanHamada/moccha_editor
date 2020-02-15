@@ -1,2 +1,17 @@
 #wrapper-editor {
+	background: #e41749;
+
+	.code-panel {
+		flex: 3;
+
+		.tool-box {
+			.run-code {
+				font-size: 1.2em;
+			}
+		}
+	}
+
+	.comm-panel {
+		flex: 1;
+	}
 }
