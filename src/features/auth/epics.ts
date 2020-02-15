@@ -1,4 +1,4 @@
-import { mergeMap, map, mapTo } from 'rxjs/operators';
+import { mergeMap, map } from 'rxjs/operators';
 import { ofType } from 'redux-observable';
 import { from } from 'rxjs';
 
@@ -24,7 +24,7 @@ export const deauthenticate$: MyTypes.AppEpic = (action$, state$) =>
 	action$.pipe(
 		ofType('auth/DEAUTHENTICATE'),
 		// delete roomKey first
-		mergeMap(action => {
+		mergeMap(() => {
 			// get the current roomKey
 			const roomKey = state$.value.authReducer.roomKey;
 			return from(deleteRoomKey(roomKey)).pipe(

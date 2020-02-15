@@ -12,18 +12,12 @@ import { StateObservable, ActionsObservable } from 'redux-observable';
 import { MyTypes } from '../../store/app-custom-types';
 import { Subject } from 'rxjs';
 import { asyncIncrementEpic, asyncDecrementEpic } from './epics';
+import { DeepPartial } from 'redux';
 
 describe.skip('Counter', function() {
 	this.timeout(10000);
 
 	let state$: StateObservable<MyTypes.RootState>;
-
-	beforeEach(() => {
-		state$ = new StateObservable<MyTypes.RootState>(
-			new Subject(),
-			undefined as any
-		);
-	});
 
 	it('should do increment', () => {
 		// set initial state
@@ -86,6 +80,19 @@ describe.skip('Counter', function() {
 	});
 
 	it('should do async increment', done => {
+		// create mockState
+		const mockState: DeepPartial<MyTypes.RootState> = {
+			counterReducer: {
+				count: 0,
+			},
+		};
+
+		// create state stream
+		state$ = new StateObservable<MyTypes.RootState>(
+			new Subject(),
+			mockState as MyTypes.RootState
+		);
+
 		// create asyncIncrement action stream
 		const action$ = ActionsObservable.of(asyncIncrement());
 		const expectedAction: MyTypes.RootAction = { type: 'counter/INCREMENT' };
@@ -99,6 +106,19 @@ describe.skip('Counter', function() {
 	});
 
 	it('should do async decrement', done => {
+		// create mockState
+		const mockState: DeepPartial<MyTypes.RootState> = {
+			counterReducer: {
+				count: 0,
+			},
+		};
+
+		// create state stream
+		state$ = new StateObservable<MyTypes.RootState>(
+			new Subject(),
+			mockState as MyTypes.RootState
+		);
+
 		// create asyncIncrement action stream
 		const action$ = ActionsObservable.of(asyncDecrement());
 		const expectedAction: MyTypes.RootAction = { type: 'counter/DECREMENT' };

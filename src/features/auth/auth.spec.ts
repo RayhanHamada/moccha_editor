@@ -1,9 +1,15 @@
-import { expect } from 'chai';
 import { StateObservable, ActionsObservable } from 'redux-observable';
+import { expect } from 'chai';
+import { DeepPartial } from 'redux';
 import { Subject } from 'rxjs';
 import dotenv from 'dotenv';
 dotenv.config();
 
+import { MyTypes } from '../../store/app-custom-types';
+import { fetchRoomKey$, deauthenticate$ } from './epics';
+import { clearRoomKeys } from '../../api/api.util';
+import { mockState } from '../mock-state';
+import reducer from './reducer';
 import {
 	setRoom,
 	setUsername,
@@ -11,13 +17,6 @@ import {
 	deauthenticate,
 	getRoomKey,
 } from './actions';
-import { MyTypes } from '../../store/app-custom-types';
-import { clearRoomKeys } from '../../api/api.util';
-import { mockState } from '../mock-state';
-import { fetchRoomKey$, deauthenticate$ } from './epics';
-import reducer from './reducer';
-import { DeepPartial } from 'redux';
-import { PayloadAction } from 'typesafe-actions';
 
 describe("Auth's", function() {
 	describe('reducer', () => {
@@ -155,4 +154,3 @@ describe("Auth's", function() {
 		});
 	});
 });
-	
