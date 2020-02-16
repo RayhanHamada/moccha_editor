@@ -2,12 +2,27 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { JoinFormProps, mapStateToProps, mapDispatchToProps } from './logics';
+import routes from '../../routes/routes-names';
+import FormButton from './FormButton';
+import { history } from '../../store';
 
 import './index.scss';
-import { history } from '../../store';
-import routes from '../../routes/routes-names';
 
 const JoinForm = (props: JoinFormProps) => {
+	const createRoom = (ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+		// ev.persist()
+		ev.preventDefault();
+
+		if (props.username !== '') {
+			// fetch the keys, and then authenticate the user
+			props.fetchRoomKey();
+			history.push(routes.editor);
+			return;
+		}
+
+		alert('Username cannot be empty');
+	};
+
 	return (
 		<form
 			id="join-form"
@@ -26,24 +41,7 @@ const JoinForm = (props: JoinFormProps) => {
 			<span className="self-center text-gray-800 text-2xl mb-2">
 				Now You Can{' '}
 			</span>
-			<button
-				className="join-button w-64 mb-5 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-				onClick={ev => {
-					// ev.persist()
-					ev.preventDefault();
-
-					if (props.username !== '') {
-						// fetch the keys, and then authenticate the user
-						props.fetchRoomKey();
-						history.push(routes.editor);
-						return;
-					}
-
-					alert('Username cannot be empty');
-				}}
-			>
-				Create a room
-			</button>
+			<FormButton onClick={createRoom}>Create The Room</FormButton>
 			<span className="self-center text-gray-800 text-2xl mb-2">Or</span>
 			<div className="self-center text-gray-800 mb-2">
 				Enter that random string sent by ur friend
@@ -58,9 +56,7 @@ const JoinForm = (props: JoinFormProps) => {
 				></input>
 			</div>
 			<small className="mb-4">*the random string is required</small>
-			<button className="join-button w-64 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-				Join the room
-			</button>
+			<FormButton>Join The Room</FormButton>
 			<br />
 		</form>
 	);
