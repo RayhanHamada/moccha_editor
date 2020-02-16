@@ -2,25 +2,21 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router';
 
-import LoginPage from './routes/login/LoginPage';
-import EditorPage from './routes/editor/EditorPage';
+import LoginPage from './routes/login/';
+import EditorPage from './routes/editor/';
 
 import { mapStateToProps, mapDispatchToProps, AppProps } from './applogics';
 
 const App = (props: AppProps) => {
 	return (
 		<Switch>
-			{/* <Route exact={true} path="/" render={() => <LoginPage />} /> */}
-			<Route
+			<Route exact={true} path="/" render={() => <LoginPage />} />
+			{/* <Route
 				path="/"
 				render={() =>
-					true ? (
-						<EditorPage />
-					) : (
-						<div>You&rsquo;re not authenticated</div>
-					)
+					true ? <EditorPage /> : <div>You&rsquo;re not authenticated</div>
 				}
-			/>
+			/> */}
 		</Switch>
 	);
 };

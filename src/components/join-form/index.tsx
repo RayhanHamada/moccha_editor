@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { JoinFormProps, mapStateToProps, mapDispatchToProps } from './logics';
 
-import './JoinForm.scss';
+import './index.scss';
 import { history } from '../../store';
 import routes from '../../routes/routes-names';
 

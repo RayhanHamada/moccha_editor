@@ -1,11 +1,11 @@
 import React from 'react';
 
-import Typer from '../../components/typer/Typer';
+import Typer from '../../components/misc/Typer';
 
-import JoinForm from '../../components/join_form/JoinForm';
+import JoinForm from '../../components/join-form/';
 
-import './LoginPage.scss';
-import BannerDesc from '../../components/BannerDesc';
+import './index.scss';
+import BannerDesc from '../../components/misc/BannerDesc';
 
 const LoginPage = () => {
 	return (

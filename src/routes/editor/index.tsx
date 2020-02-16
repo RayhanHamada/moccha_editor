@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 
 import { EditorProps, mapStateToProps, mapDispatchToProps } from './logics';
 
-import './EditorPage.scss';
-import MonacoWrapper from '../../components/editor-page/monaco-wrapper/';
-import ToolBox from '../../components/editor-page/toolbox/';
+import './index.scss';
+import MonacoWrapper from '../../components/editor-page/monaco-wrapper';
+import ToolBox from '../../components/editor-page/toolbox';
 
 const EditorPage = (props: EditorProps) => {
 	window.onunload = window.onbeforeunload = window.onpopstate = function() {
