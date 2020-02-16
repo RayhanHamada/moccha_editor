@@ -5,6 +5,7 @@ import store, { history } from './store';
 import { ConnectedRouter } from 'connected-react-router';
 
 import App from './App';
+import 'tailwindcss/dist/tailwind.css';
 import './style.scss';
 
 ReactDOM.render(

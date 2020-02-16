@@ -4,7 +4,6 @@ import Typer from '../../components/typer/Typer';
 
 import JoinForm from '../../components/join_form/JoinForm';
 
-import 'tailwindcss/dist/tailwind.css';
 import './LoginPage.scss';
 import BannerDesc from '../../components/BannerDesc';
 
