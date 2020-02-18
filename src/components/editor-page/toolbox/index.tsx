@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import RunButton from './RunButton';
 
 import './index.scss';
+import SelectLanguage from './SelectLanguage';
 
 const ToolBox = styled.div``;
 
@@ -13,6 +14,7 @@ ToolBox.defaultProps = {
 	children: (
 		<>
 			<RunButton />
+			<SelectLanguage />
 		</>
 	),
 };

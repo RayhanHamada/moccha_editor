@@ -34,11 +34,11 @@ SelectLanguage.defaultProps = {
 		// get selected value as language
 		const selectedLang = ev.target.options[ev.target.selectedIndex]
 			.value as AppGlobalTypes.SupportedLanguage;
-		
+
 		// dispatch to store
 		store.dispatch<MyTypes.RootAction>(setLanguage(selectedLang));
 	},
-	defaultValue: 
+	defaultValue: 'typescript' as AppGlobalTypes.SupportedLanguage,
 };
 
 export default SelectLanguage;
