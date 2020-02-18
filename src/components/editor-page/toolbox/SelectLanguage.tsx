@@ -38,6 +38,7 @@ SelectLanguage.defaultProps = {
 		// dispatch to store
 		store.dispatch<MyTypes.RootAction>(setLanguage(selectedLang));
 	},
+	defaultValue: 
 };
 
 export default SelectLanguage;
