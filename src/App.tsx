@@ -10,13 +10,13 @@ import { mapStateToProps, mapDispatchToProps, AppProps } from './applogics';
 const App = (props: AppProps) => {
 	return (
 		<Switch>
-			<Route exact={true} path="/" render={() => <LoginPage />} />
-			{/* <Route
+			{/* <Route exact={true} path="/" render={() => <LoginPage />} /> */}
+			<Route
 				path="/"
 				render={() =>
 					true ? <EditorPage /> : <div>You&rsquo;re not authenticated</div>
 				}
-			/> */}
+			/>
 		</Switch>
 	);
 };

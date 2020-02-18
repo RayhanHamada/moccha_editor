@@ -26,7 +26,11 @@ const composeWith =
 		: compose(appliedMiddleware);
 
 export const configureStore = (preloadedState: Partial<MyTypes.RootState>) =>
-	createStore(createRootReducer(history), preloadedState as MyTypes.RootState, composeWith);
+	createStore(
+		createRootReducer(history),
+		preloadedState as MyTypes.RootState,
+		composeWith
+	);
 
 const store = configureStore(
 	/*override this parameter if you desire different initial state for your store */ {}

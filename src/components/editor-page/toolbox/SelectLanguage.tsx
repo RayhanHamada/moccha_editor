@@ -1,5 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import { supportedLanguages } from '../../../globals';
+import store from '../../../store';
+import { MyTypes } from '../../../store/app-custom-types';
+import { setLanguage } from '../../../features/editor-internal/actions';
 
 const Option = styled.option`
 	/* border: 2px solid black; */
@@ -27,7 +31,12 @@ SelectLanguage.defaultProps = {
 		</>
 	),
 	onChange: function(ev) {
-		// editorRef.current?.forceUpdate(() => console.log('editor updated !'))
+		// get selected value as language
+		const selectedLang = ev.target.options[ev.target.selectedIndex]
+			.value as AppGlobalTypes.SupportedLanguage;
+		
+		// dispatch to store
+		store.dispatch<MyTypes.RootAction>(setLanguage(selectedLang));
 	},
 };
 
