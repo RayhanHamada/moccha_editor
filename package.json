@@ -42,6 +42,7 @@
 	},
 	"devDependencies": {
 		"@babel/core": "^7.7.2",
+		"@babel/plugin-proposal-optional-chaining": "^7.8.3",
 		"@babel/preset-env": "^7.7.1",
 		"@babel/preset-react": "^7.7.0",
 		"@babel/preset-typescript": "^7.7.2",
@@ -63,6 +64,7 @@
 		"@types/webpack-dev-server": "^3.9.0",
 		"@typescript-eslint/eslint-plugin": "^2.16.0",
 		"@typescript-eslint/parser": "^2.16.0",
+		"awesome-typescript-loader": "^5.2.1",
 		"babel-loader": "^8.0.6",
 		"chai": "^4.2.0",
 		"cross-env": "^6.0.3",
@@ -83,6 +85,7 @@
 		"serve": "^11.2.0",
 		"style-loader": "^1.1.2",
 		"terser-webpack-plugin": "^2.2.1",
+		"ts-loader": "^6.2.1",
 		"ts-mocha": "^6.0.0",
 		"ts-node": "^8.5.4",
 		"tsc": "^1.20150623.0",

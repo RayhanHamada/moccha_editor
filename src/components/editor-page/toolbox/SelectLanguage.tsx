@@ -1,9 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+
+import { setLanguage } from '../../../features/editor-internal/actions';
+import { MyTypes } from '../../../store/app-custom-types';
 import { supportedLanguages } from '../../../globals';
 import store from '../../../store';
-import { MyTypes } from '../../../store/app-custom-types';
-import { setLanguage } from '../../../features/editor-internal/actions';
+import { editorRef } from '../monaco-wrapper/logics';
 
 const Option = styled.option`
 	/* border: 2px solid black; */
@@ -37,6 +39,8 @@ SelectLanguage.defaultProps = {
 
 		// dispatch to store
 		store.dispatch<MyTypes.RootAction>(setLanguage(selectedLang));
+
+		editorRef.current?.forceUpdate(() => console.log(`editor updated !`))
 	},
 	defaultValue: 'typescript' as AppGlobalTypes.SupportedLanguage,
 };
