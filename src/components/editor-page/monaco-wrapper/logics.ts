@@ -10,6 +10,11 @@ import { MyTypes } from '../../../store/app-custom-types';
 import { bindActionCreators } from 'redux';
 import * as editorInternal from '../../../features/editor-internal/actions';
 
+export const initialValue = `function hello(name: string) {
+	return \`hello \${name} !\`;
+}
+`;
+
 export const editorRef = createRef<MonacoEditor>();
 
 export const handleChange: ChangeHandler = (val, ev) => {};

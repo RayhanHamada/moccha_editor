@@ -10,6 +10,7 @@ import {
 	MonacoWraperProps,
 	mapStateToProps,
 	mapDispatchToProps,
+	initialValue,
 } from './logics';
 
 import './index.scss';
@@ -18,7 +19,7 @@ const MonacoWrapper = (props: MonacoWraperProps) => {
 	return (
 		<div id="monaco-wrapper" className="ml-10">
 			<MonacoEditor
-				height={400}
+				height={350}
 				width={900}
 				theme="vs-dark"
 				language={props.language}
@@ -26,6 +27,7 @@ const MonacoWrapper = (props: MonacoWraperProps) => {
 				ref={editorRef}
 				editorWillMount={editorWillMount}
 				editorDidMount={editorDidMount}
+				defaultValue={initialValue}
 			/>
 		</div>
 	);
