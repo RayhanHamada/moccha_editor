@@ -80,4 +80,10 @@ steps:
         3. client will send their sdp to other client and receive others sdp for p2p communication
 
 
-
+supported languages (currently):
+    - Typescript
+    - Javascript
+    - CPP
+    - C
+    - Python
+    - Ruby

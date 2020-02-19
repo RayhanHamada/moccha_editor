@@ -1,11 +1,10 @@
-
 declare namespace AppFeatures {
-    interface EditorInternal {
-        // code related
-        isRunning: boolean
+	interface EditorInternal {
+		// code related
+		isRunning: boolean;
 
-        // editor related
-        language: AppGlobalTypes.SupportedLanguage;
-        consoleOutput: string;
-    }
+		// editor related
+		language: AppGlobalTypes.SupportedLanguage;
+		consoleOutput: string;
+	}
 }
