@@ -34,6 +34,7 @@
 		"rxjs": "^6.5.4",
 		"styled-components": "^5.0.1",
 		"tailwindcss": "^1.1.4",
+		"terminal-in-react": "^4.3.1",
 		"tslib": "^1.10.0",
 		"typeit": "^6.1.1",
 		"typesafe-actions": "^5.1.0",
