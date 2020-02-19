@@ -1,7 +1,8 @@
-import React, { createRef } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 
 import ClearConsoleButton from '../toolbox/ClearConsole';
-import { TerminalProps } from './logics';
+import { TerminalProps, mapStateToProps, mapDispatchToProps } from './logics';
 
 import './index.scss';
 
@@ -12,11 +13,11 @@ const TerminalWrapper = (props: TerminalProps) => {
 			<textarea
 				name="console"
 				id="console"
-				value={'test123'}
+				value={props.consoleOutput}
 				disabled
 			></textarea>
 		</div>
 	);
 };
 
-export default TerminalWrapper;
+export default connect(mapStateToProps, mapDispatchToProps)(TerminalWrapper);

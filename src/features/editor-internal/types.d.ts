@@ -6,6 +6,6 @@ declare namespace AppFeatures {
 
         // editor related
         language: AppGlobalTypes.SupportedLanguage;
-
+        consoleOutput: string;
     }
 }
