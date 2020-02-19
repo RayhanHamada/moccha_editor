@@ -19,8 +19,8 @@ const MonacoWrapper = (props: MonacoWraperProps) => {
 	return (
 		<div id="monaco-wrapper" className="ml-10">
 			<MonacoEditor
-				height={350}
-				width={900}
+				height={380}
+				width={850}
 				theme="vs-dark"
 				language={props.language}
 				options={options}

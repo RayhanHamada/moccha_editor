@@ -2,10 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { EditorProps, mapStateToProps, mapDispatchToProps } from './logics';
+import MonacoWrapper from '../../components/editor-page/monaco-wrapper';
+import TerminalWrapper from '../../components/editor-page/terminal';
+import ToolBox from '../../components/editor-page/toolbox';
 
 import './index.scss';
-import MonacoWrapper from '../../components/editor-page/monaco-wrapper';
-import ToolBox from '../../components/editor-page/toolbox';
 
 const EditorPage = (props: EditorProps) => {
 	window.onunload = window.onbeforeunload = window.onpopstate = function() {
@@ -21,7 +22,7 @@ const EditorPage = (props: EditorProps) => {
 				<MonacoWrapper />
 			</div>
 			<div className="comm-panel border border-black">
-				<p>Panel 2</p>
+				<TerminalWrapper />
 			</div>
 		</div>
 	);
