@@ -12,7 +12,8 @@ describe("editor internal's", function() {
 			mockState = undefined as any;
 		});
 
-		it('should able to set language', () => {
+		// * passed
+		it.skip('should able to set language', () => {
 			// set mock state
 			mockState = {
 				isRunning: false,

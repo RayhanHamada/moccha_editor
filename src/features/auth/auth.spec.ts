@@ -25,7 +25,8 @@ describe("Auth's", function() {
 			mockState = undefined as any;
 		});
 
-		it('should set username', () => {
+		// * passed
+		it.skip('should set username', () => {
 			mockState = {
 				username: '',
 				roomKey: '',
@@ -45,7 +46,8 @@ describe("Auth's", function() {
 			expect(output).deep.equal(expectedValue);
 		});
 
-		it('should set room key', () => {
+		// * passed
+		it.skip('should set room key', () => {
 			mockState = {
 				username: '',
 				roomKey: '',
@@ -65,7 +67,8 @@ describe("Auth's", function() {
 			expect(output).deep.equal(expectedValue);
 		});
 
-		it('should set authenticate to true', () => {
+		// * passed
+		it.skip('should set authenticate to true', () => {
 			mockState = {
 				username: '',
 				roomKey: '',
@@ -84,6 +87,7 @@ describe("Auth's", function() {
 			expect(output).deep.equal(expectedValue);
 		});
 
+		// * passed
 		it('should set authenticate to false', () => {
 			mockState = {
 				username: '',
@@ -123,7 +127,8 @@ describe("Auth's", function() {
 			});
 		});
 
-		it('fetchRoomKey$ should output auth/AUTHENTICATE action', done => {
+		// * passed
+		it.skip('fetchRoomKey$ should output auth/AUTHENTICATE action', done => {
 			const action$ = ActionsObservable.of<MyTypes.RootAction>(
 				getRoomKey.request()
 			);
@@ -138,7 +143,8 @@ describe("Auth's", function() {
 			});
 		});
 
-		it('deauthenticate$ should output auth/SET_ROOM', done => {
+		// * passed
+		it.skip('deauthenticate$ should output auth/SET_ROOM', done => {
 			// make mock state
 			const mockState: DeepPartial<MyTypes.RootState> = {
 				authReducer: {

@@ -7,8 +7,7 @@ import {
 } from './auth';
 import { clearRoomKeys } from './api.util';
 
-// skipped, already run test and all passed
-describe.skip('Auth API Interface', function() {
+describe('Auth API Interface', function() {
 	this.timeout(15000);
 
 	this.afterAll(done => {
@@ -18,21 +17,24 @@ describe.skip('Auth API Interface', function() {
 		});
 	});
 
-	it('should get to auth endpoint', done => {
+	// * passed
+	it.skip('should get to auth endpoint', done => {
 		getAuthEndpoint().then(val => {
 			expect(val).exist;
 			done();
 		});
 	});
 
-	it('should get room key', done => {
+	// * passed
+	it.skip('should get room key', done => {
 		getRoomKey().then(val => {
 			expect(val, `the keys: ${val}`).exist;
 			done();
 		});
 	});
 
-	it('should check for key existence', done => {
+	// * passed
+	it.skip('should check for key existence', done => {
 		getRoomKey().then(roomKey => {
 			checkRoomExistence(roomKey).then(exists => {
 				expect(exists, `roomKey is ${roomKey}`).to.be.true;
@@ -41,7 +43,8 @@ describe.skip('Auth API Interface', function() {
 		});
 	});
 
-	it('should delete specific key', done => {
+	// * passed
+	it.skip('should delete specific key', done => {
 		// create room key on server
 		getRoomKey().then(key => {
 			// then check room existence if exists

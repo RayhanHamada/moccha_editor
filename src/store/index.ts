@@ -4,27 +4,44 @@ import { routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory, History } from 'history';
 import { createEpicMiddleware } from 'redux-observable';
 
-import { MyTypes } from './app-custom-types';
 import createRootReducer from './rootReducer';
+import { MyTypes } from './app-custom-types';
 import rootEpic from './root-epic';
 
+/*
+ * history object used for routing
+ */
 export const history: History = createBrowserHistory();
 
+/*
+ * epic middleware (from redux-observable)
+ */
 const epicMiddleware = createEpicMiddleware<
 	MyTypes.RootAction,
 	MyTypes.RootAction,
 	MyTypes.RootState
 >();
 
+/*
+ * applied middleware
+ */
 const appliedMiddleware = applyMiddleware(
 	epicMiddleware,
 	routerMiddleware(history)
 );
+
+/*
+ * compose middleware with store, if in development mode, compose it with redux devtools,
+ * if not, then compose it normally
+ */
 const composeWith =
 	process.env.NODE_ENV === 'development'
 		? composeWithDevTools(appliedMiddleware)
 		: compose(appliedMiddleware);
 
+/*
+ * function for configuring store
+ */
 export const configureStore = (preloadedState: Partial<MyTypes.RootState>) =>
 	createStore(
 		createRootReducer(history),
@@ -32,10 +49,17 @@ export const configureStore = (preloadedState: Partial<MyTypes.RootState>) =>
 		composeWith
 	);
 
+/*
+ * create store for this app, override the object with something if
+ * you want to provide initial value for app state
+ */
 const store = configureStore(
 	/*override this parameter if you desire different initial state for your store */ {}
 );
 
+/*
+ * this epic middleware should be run AFTER store is created
+ */
 epicMiddleware.run(rootEpic);
 
 export default store;
