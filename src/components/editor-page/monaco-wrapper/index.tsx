@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 import React from 'react';
 
 import {
-	editorRef,
-	editorWillMount,
-	editorDidMount,
-	options,
 	MonacoWraperProps,
-	mapStateToProps,
 	mapDispatchToProps,
+	mapStateToProps,
 	initialValue,
+	editorRef,
+	options,
+	// editorWillMount,
+	// editorDidMount,
 } from './logics';
 
 import './index.scss';
@@ -22,12 +22,12 @@ const MonacoWrapper = (props: MonacoWraperProps) => {
 				height={380}
 				width={850}
 				theme="vs-dark"
-				language={props.language}
+				language={props.languageName}
 				options={options}
 				ref={editorRef}
-				editorWillMount={editorWillMount}
-				editorDidMount={editorDidMount}
 				defaultValue={initialValue}
+				// editorWillMount={editorWillMount}
+				// editorDidMount={editorDidMount}
 			/>
 		</div>
 	);

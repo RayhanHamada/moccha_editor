@@ -1,66 +1,44 @@
+/*
+ * namespace for all app-related types
+ */
+
 declare namespace AppGlobalTypes {
-    type SupportedLanguage =
-    //#region 
-		| 'abap'
-		| 'apex'
-		| 'azcli'
-		| 'bat'
-		| 'cameligo'
-		| 'clojure'
-		| 'coffee'
-		| 'cpp'
-		| 'csharp'
-		| 'csp'
-		| 'css'
-		| 'dockerfile'
-		| 'fsharp'
-		| 'go'
-		| 'graphql'
-		| 'handlebars'
-		| 'html'
-		| 'ini'
-		| 'java'
-		| 'javascript'
-		| 'json'
-		| 'kotlin'
-		| 'less'
-		| 'lua'
-		| 'markdown'
-		| 'mips'
-		| 'msdax'
-		| 'mysql'
-		| 'objective-c'
-		| 'pascal'
-		| 'pascaligo'
-		| 'perl'
-		| 'pgsql'
-		| 'php'
-		| 'postiats'
-		| 'powerquery'
-		| 'powershell'
-		| 'pug'
-		| 'python'
-		| 'r'
-		| 'razor'
-		| 'redis'
-		| 'redshift'
-		| 'restructuredtext'
-		| 'ruby'
-		| 'rust'
-		| 'sb'
-		| 'scheme'
-		| 'scss'
-		| 'shell'
-		| 'solidity'
-		| 'sophia'
-		| 'sql'
-		| 'st'
-		| 'swift'
-		| 'tcl'
-		| 'twig'
+	/*
+	 * supported languages by monaco editor (not all)
+	 * for full set of supported languages,
+	 * see https://github.com/microsoft/monaco-editor-webpack-plugin/blob/master/src/languages.ts
+	 */
+	type SupportedLanguageName =
 		| 'typescript'
-		| 'vb'
-		| 'xml'
-        | 'yaml';
-        //#endregion
+		| 'javascript'
+		| 'cpp'
+		| 'c'
+		| 'python'
+		| 'ruby';
+
+	/*
+	 * this language interface used for specify language the editor use
+	 * and for submission API call
+	 */
+
+	interface Language {
+		/*
+		 * this property for specifying language the editor deals with,
+		 * see https://github.com/microsoft/monaco-editor-webpack-plugin/blob/master/src/languages.ts
+		 */
+		nameInEditor: SupportedLanguageName;
+
+		/*
+		 * properties from https://api.judge0.com/languages/all (GET) API call
+		 */
+
+		//* name for select component UI
+		name: string;
+
+		//* version
+		version: string;
+
+		//* specify id of a language used for call submission API
+		id: number;
+	}
 }

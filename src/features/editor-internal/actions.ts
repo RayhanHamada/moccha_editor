@@ -1,8 +1,8 @@
-import { createAction, createAsyncAction } from 'typesafe-actions';
+import { createAction } from 'typesafe-actions';
 
 export const setLanguage = createAction(
 	'ed-internal/SET_LANG',
-	(lang: AppGlobalTypes.SupportedLanguage) => lang
+	(lang: AppGlobalTypes.Language) => lang
 )();
 
 export const setConsoleOutput = createAction(
