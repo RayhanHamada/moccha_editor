@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import ClearConsoleButton from '../toolbox/ClearConsole';
+import ClearConsoleButton from '../toolbox/ClearConsoleButton';
 import { TerminalProps, mapStateToProps, mapDispatchToProps } from './logics';
 
 import './index.scss';
