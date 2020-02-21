@@ -16,7 +16,7 @@ describe('Judge0 API', function() {
 	});
 
 	// * passed
-	it.skip('fetchSubmissionResult should return output', done => {
+	it('fetchSubmissionResult should return output', done => {
 		const languageID = 74;
 		const sourceCode = `console.log('hello world')`;
 		const expectedValue = 'hello world\n';
@@ -30,7 +30,8 @@ describe('Judge0 API', function() {
 				 * fetch submission result
 				 */
 				fetchSubmissionResult(token).then(output => {
-					expect(output).to.be.equal(expectedValue);
+					expect(output.stdout).to.be.equal(expectedValue);
+					expect(output.status.description).to.be.equal('Accepted');
 					done();
 				});
 			}, 6000);

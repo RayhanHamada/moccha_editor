@@ -9,6 +9,7 @@ import {
 	initialValue,
 	editorRef,
 	options,
+	handleChange,
 	// editorWillMount,
 	// editorDidMount,
 } from './logics';
@@ -26,6 +27,7 @@ const MonacoWrapper = (props: MonacoWraperProps) => {
 				options={options}
 				ref={editorRef}
 				defaultValue={initialValue}
+				onChange={handleChange}
 				// editorWillMount={editorWillMount}
 				// editorDidMount={editorDidMount}
 			/>

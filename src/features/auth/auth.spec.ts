@@ -88,7 +88,7 @@ describe("Auth's", function() {
 		});
 
 		// * passed
-		it('should set authenticate to false', () => {
+		it.skip('should set authenticate to false', () => {
 			mockState = {
 				username: '',
 				roomKey: '',

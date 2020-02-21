@@ -3,6 +3,7 @@ import { supportedLanguages } from '../../globals';
 
 const initState: AppFeatures.EditorInternal = {
 	consoleOutput: 'Wello There !',
+	currentlySavedCode: '',
 	isRunning: false,
 
 	/*
@@ -13,7 +14,7 @@ const initState: AppFeatures.EditorInternal = {
 	) as AppGlobalTypes.Language,
 };
 
-export default createReducer(initState)
+const editorInternalReducer = createReducer(initState)
 	.handleType('ed-internal/SET_LANG', (state, action) => ({
 		...state,
 		currentLanguage: action.payload,
@@ -21,5 +22,12 @@ export default createReducer(initState)
 
 	.handleType('ed-internal/SET_CONSOLE_OUTPUT', (state, action) => ({
 		...state,
-		consoleText: action.payload,
+		consoleOutput: action.payload,
+	}))
+
+	.handleType('ed-internal/SAVE_CODE', (state, action) => ({
+		...state,
+		currentlySavedCode: action.payload,
 	}));
+
+export default editorInternalReducer;

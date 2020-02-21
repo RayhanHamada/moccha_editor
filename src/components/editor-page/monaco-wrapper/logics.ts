@@ -1,13 +1,15 @@
 import { createRef } from 'react';
 import { bindActionCreators } from 'redux';
 import MonacoEditor, {
-	// ChangeHandler,
+	ChangeHandler,
 	// EditorWillMount,
 	// EditorDidMount,
 	EditorConstructionOptions,
 } from 'react-monaco-editor';
 
 import { MyTypes } from '../../../store/app-custom-types';
+import store from '../../../store';
+import { incomingCodeChanges } from '../../../features/editor-internal/actions';
 
 export const initialValue = `function hello(name: string) {
 	return \`hello \${name} !\`;
@@ -19,7 +21,9 @@ export const initialValue = `function hello(name: string) {
  */
 export const editorRef = createRef<MonacoEditor>();
 
-// export const handleChange: ChangeHandler = (val, ev) => {};
+export const handleChange: ChangeHandler = (val, ev) => {
+	store.dispatch(incomingCodeChanges(val));
+};
 
 // export const editorDidMount: EditorDidMount = editor => {};
 

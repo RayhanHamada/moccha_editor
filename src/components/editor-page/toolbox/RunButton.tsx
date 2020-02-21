@@ -1,8 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { MyTypes } from '../../../store/app-custom-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+
+import { MyTypes } from '../../../store/app-custom-types';
+import * as edInActions from '../../../features/editor-internal/actions'
+import { editorRef } from '../monaco-wrapper/logics';
 
 const Button = styled.button`
 	/* &::after */
@@ -28,7 +31,9 @@ Button.defaultProps = {
 const mapStateToProps = ({}: MyTypes.RootState) => ({});
 
 const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
-	bindActionCreators({}, dispatch);
+	bindActionCreators({
+		saveCode: edInActions.saveCode
+	}, dispatch);
 
 type RunButtonProps = ReturnType<typeof mapStateToProps> &
 	ReturnType<typeof mapDispatchToProps>;

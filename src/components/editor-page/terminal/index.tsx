@@ -14,8 +14,8 @@ const TerminalWrapper = (props: TerminalProps) => {
 				name="console"
 				id="console"
 				value={props.consoleOutput}
-				disabled
-			></textarea>
+				readOnly
+			/>
 		</div>
 	);
 };

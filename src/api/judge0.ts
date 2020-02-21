@@ -28,11 +28,10 @@ export const fetchSubmissionToken = (langID: number, code: string) =>
  * @query       -
  * @param       token
  * @desc        get submission result
- * @return      object => stdout
+ * @return      SubmissionResult (see api.d.ts)
  */
 
 export const fetchSubmissionResult = (token: string) =>
 	axios
 		.get(`${BASE_API_URL}/submissions/${token}`)
-		.then(res => res.data.stdout)
-		.catch(err => err);
+		.then(res => res.data as AppAPI.SubmissionResult);

@@ -1,7 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { MyTypes } from '../../../store/app-custom-types';
 import { bindActionCreators } from 'redux';
+
+import { MyTypes } from '../../../store/app-custom-types';
+import * as edinActions from '../../../features/editor-internal/actions';
+import { connect } from 'react-redux';
 
 const Button = styled.button`
 	&:hover {
@@ -19,14 +22,19 @@ Button.defaultProps = {
 const mapStateToProps = ({}: MyTypes.RootState) => ({});
 
 const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
-	bindActionCreators({}, dispatch);
+	bindActionCreators(
+		{
+			setConsoleText: edinActions.setConsoleOutput,
+		},
+		dispatch
+	);
 
 type ClearConsoleButtonProps = ReturnType<typeof mapStateToProps> &
 	ReturnType<typeof mapDispatchToProps>;
 
 const ClearConsoleButton = (props: ClearConsoleButtonProps) => {
 	return (
-		<Button>
+		<Button onClick={() => props.setConsoleText('')}>
 			<i className="fa fa-terminal fa-2x" id="console-logo"></i>
 			<span className="ml-1" id="clear-console-text">
 				Clear Console
@@ -35,4 +43,4 @@ const ClearConsoleButton = (props: ClearConsoleButtonProps) => {
 	);
 };
 
-export default ClearConsoleButton;
+export default connect(mapStateToProps, mapDispatchToProps)(ClearConsoleButton);
