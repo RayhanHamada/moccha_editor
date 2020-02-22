@@ -6,7 +6,6 @@ import {
 	MonacoWraperProps,
 	mapDispatchToProps,
 	mapStateToProps,
-	initialValue,
 	editorRef,
 	options,
 	handleChange,
@@ -26,7 +25,7 @@ const MonacoWrapper = (props: MonacoWraperProps) => {
 				language={props.languageName}
 				options={options}
 				ref={editorRef}
-				defaultValue={initialValue}
+				defaultValue={props.editorInitialValue}
 				onChange={handleChange}
 				// editorWillMount={editorWillMount}
 				// editorDidMount={editorDidMount}

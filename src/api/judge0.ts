@@ -19,8 +19,7 @@ export const fetchSubmissionToken = (langID: number, code: string) =>
 			language_id: langID,
 			source_code: code,
 		})
-		.then(res => res.data.token)
-		.catch(err => err);
+		.then(res => res.data.token as string);
 
 /*
  * @name        fetchSubmissionResult

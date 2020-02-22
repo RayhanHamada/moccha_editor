@@ -1,23 +1,34 @@
-import { createAction } from 'typesafe-actions';
+import { createAction, createAsyncAction } from 'typesafe-actions';
 
 export const setLanguage = createAction(
-	'ed-internal/SET_LANG',
+	'edin/SET_LANG',
 	(lang: AppGlobalTypes.Language) => lang
 )();
 
-export const setConsoleOutput = createAction(
-	'ed-internal/SET_CONSOLE_OUTPUT',
-	(value: string) => value
-)();
+export const clearConsole = createAction('edin/CLEAR_CONSOLE')();
 
 export const saveCode = createAction(
-	'ed-internal/SAVE_CODE',
+	'edin/SAVE_CODE',
 	(code: string) => code
 )();
+
+export const fetchSubmissionToken = createAsyncAction(
+	'edin/FETCH_SUBMISSION_TOKEN',
+	'edin/GOT_SUBMISSION_TOKEN',
+	'edin/FAIL_SUBMISSION_TOKEN'
+)<undefined, string, Error>();
 
 export const incomingCodeChanges = createAction(
-	'ed-internal/INCOMING_CODE_CHANGES',
+	'edin/INCOMING_CODE_CHANGES',
 	(code: string) => code
 )();
 
-export const runCode = createAction('ed-internal/RUN_CODE')();
+export const runCode = createAction('edin/RUN_CODE')();
+
+export const doneRunning = createAction('edin/DONE_RUNNING')();
+
+export const fetchSubmissionResult = createAsyncAction(
+	'edin/FETCH_SUBMISSION_RESULT',
+	'edin/GOT_SUBMISSION_RESULT',
+	'edin/FAIL_SUBMISSION_RESULT'
+)<string, AppAPI.SubmissionResult, Error>();

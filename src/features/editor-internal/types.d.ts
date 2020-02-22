@@ -6,6 +6,7 @@ declare namespace AppFeatures {
 
 		isRunning: boolean;
 		currentlySavedCode: string;
+		token: string;
 
 		/*
 		 * editor related

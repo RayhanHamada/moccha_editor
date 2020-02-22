@@ -4,8 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { MyTypes } from '../../../store/app-custom-types';
-import * as edInActions from '../../../features/editor-internal/actions'
-import { editorRef } from '../monaco-wrapper/logics';
+import * as edInActions from '../../../features/editor-internal/actions';
 
 const Button = styled.button`
 	/* &::after */
@@ -28,18 +27,31 @@ Button.defaultProps = {
 	),
 };
 
-const mapStateToProps = ({}: MyTypes.RootState) => ({});
+const mapStateToProps = ({ editorInternalReducer }: MyTypes.RootState) => ({
+	isRunning: editorInternalReducer.isRunning,
+});
 
 const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
-	bindActionCreators({
-		saveCode: edInActions.saveCode
-	}, dispatch);
+	bindActionCreators(
+		{
+			saveCode: edInActions.saveCode,
+			runCode: edInActions.runCode,
+			requestToken: edInActions.fetchSubmissionToken.request,
+		},
+		dispatch
+	);
 
 type RunButtonProps = ReturnType<typeof mapStateToProps> &
 	ReturnType<typeof mapDispatchToProps>;
 
 const RunButton = (props: RunButtonProps) => {
-	return <Button />;
+	return (
+		<Button
+			onClick={() => {
+				if (!props.isRunning) props.requestToken();
+			}}
+		/>
+	);
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RunButton);

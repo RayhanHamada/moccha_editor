@@ -11,11 +11,6 @@ import { MyTypes } from '../../../store/app-custom-types';
 import store from '../../../store';
 import { incomingCodeChanges } from '../../../features/editor-internal/actions';
 
-export const initialValue = `function hello(name: string) {
-	return \`hello \${name} !\`;
-}
-`;
-
 /*
  * props for monaco-editor
  */
@@ -39,6 +34,7 @@ export const mapStateToProps = ({
 	editorInternalReducer,
 }: MyTypes.RootState) => ({
 	languageName: editorInternalReducer.currentLanguage.nameInEditor,
+	editorInitialValue: editorInternalReducer.currentlySavedCode,
 });
 
 export const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>

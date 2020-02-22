@@ -12,7 +12,7 @@ export const fetchRoomKey$: MyTypes.AppEpic = action$ =>
 		mergeMap(() =>
 			from(getRoomKeyAPI()).pipe(
 				map(roomKey => {
-					console.log(roomKey);
+					// console.log(roomKey);
 					return getRoomKey.success({ roomKey });
 				}),
 				mergeMap(val => [val, authenticate()] as MyTypes.RootAction[])
