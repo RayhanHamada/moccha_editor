@@ -8,7 +8,7 @@ const initialState: AppFeatures.Auth = {
 	loadingMsg: '',
 };
 
-const roomReducer = createReducer(initialState)
+const roomReducer = createReducer({ ...initialState } as AppFeatures.Auth)
 	.handleType('auth/SET_USERNAME', (state, action) => {
 		return {
 			...state,
