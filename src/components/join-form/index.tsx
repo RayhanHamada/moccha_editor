@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import { JoinFormProps, mapStateToProps, mapDispatchToProps } from './logics';
@@ -16,12 +16,18 @@ const JoinForm = (props: JoinFormProps) => {
 		if (props.username !== '') {
 			// fetch the keys, and then authenticate the user
 			props.fetchRoomKey();
-			history.push(routes.editor);
 			return;
 		}
 
 		alert('Username cannot be empty');
+		return;
 	};
+
+	useEffect(() => {
+		if (props.authenticated) {
+			history.push(routes.editor);
+		}
+	}, [props.authenticated]);
 
 	return (
 		<form

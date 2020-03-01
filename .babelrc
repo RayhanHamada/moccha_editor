@@ -1,4 +1,4 @@
 {
-  "presets": ["@babel/env", "@babel/react", "@babel/typescript"],
-  "plugins": ["@babel/plugin-proposal-optional-chaining"]
+	"presets": ["@babel/env", "@babel/react", "@babel/typescript"],
+	"plugins": ["@babel/plugin-proposal-optional-chaining", "emotion"]
 }

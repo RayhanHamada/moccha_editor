@@ -4,6 +4,8 @@ const initialState: AppFeatures.Auth = {
 	username: '',
 	roomKey: '',
 	authenticated: false,
+	isLoading: false,
+	loadingMsg: '',
 };
 
 const roomReducer = createReducer(initialState)
@@ -29,9 +31,17 @@ const roomReducer = createReducer(initialState)
 		authenticated: false,
 	}))
 
+	.handleType('auth/FETCH_ROOM_KEY', state => ({
+		...state,
+		isLoading: true,
+		loadingMsg: 'Fetching key, please wait...',
+	}))
+
 	.handleType('auth/GOT_ROOM_KEY', (state, action) => ({
 		...state,
 		roomKey: action.payload.roomKey,
+		isLoading: false,
+		loadingMsg: '',
 	}));
 
 export default roomReducer;

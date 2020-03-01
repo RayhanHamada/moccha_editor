@@ -1,13 +1,24 @@
 import React from 'react';
 
+import { MyTypes } from '../../store/app-custom-types';
+import * as authActions from '../../features/auth/actions';
+
+import BannerDesc from '../../components/misc/BannerDesc';
+import Spinner from '../../components/misc/Spinner';
+import JoinForm from '../../components/join-form/';
 import Typer from '../../components/misc/Typer';
 
-import JoinForm from '../../components/join-form/';
-
 import './index.scss';
-import BannerDesc from '../../components/misc/BannerDesc';
+import { connect } from 'react-redux';
 
-const LoginPage = () => {
+const mapStateToProps = ({ authReducer }: MyTypes.RootState) => ({
+	isLoading: authReducer.isLoading,
+	loadingMsg: authReducer.loadingMsg,
+});
+
+type LoginPageProps = ReturnType<typeof mapStateToProps>;
+
+const LoginPage = (props: LoginPageProps) => {
 	return (
 		<div className="flex flex-row w-screen h-screen" id="wrapper-login">
 			<div className="banner bg-gray-800 flex flex-col">
@@ -26,10 +37,14 @@ const LoginPage = () => {
 					Fill The Guest Book First !
 				</span>
 				<JoinForm />
+				{props.isLoading ? <Spinner /> : <p></p>}
+				<span className="loading-msg self-center">{props.loadingMsg}</span>
 				<div className="flex-row mt-auto self-center pb-1">
 					<i
 						className="fa fa-github fa-3x ml-3"
-						onClick={() => window.open('https://github.com/RayhanHamada/moccha_editor')}
+						onClick={() =>
+							window.open('https://github.com/RayhanHamada/moccha_editor')
+						}
 					></i>
 				</div>
 			</div>
@@ -37,4 +52,4 @@ const LoginPage = () => {
 	);
 };
 
-export default LoginPage;
+export default connect(mapStateToProps, null)(LoginPage);
