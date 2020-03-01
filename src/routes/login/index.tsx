@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { MyTypes } from '../../store/app-custom-types';
-import * as authActions from '../../features/auth/actions';
 
 import BannerDesc from '../../components/misc/BannerDesc';
 import Spinner from '../../components/misc/Spinner';

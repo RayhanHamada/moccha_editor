@@ -18,6 +18,7 @@ const SelectLanguage = styled.select`
 	background: transparent;
 	border-radius: 7%;
 `;
+
 /*
  * set SelectLanguage default props
  */

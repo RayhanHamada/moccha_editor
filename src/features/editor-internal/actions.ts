@@ -32,3 +32,5 @@ export const fetchSubmissionResult = createAsyncAction(
 	'edin/GOT_SUBMISSION_RESULT',
 	'edin/FAIL_SUBMISSION_RESULT'
 )<string, AppAPI.SubmissionResult, Error>();
+
+export const reset = createAction('edin/RESET')();

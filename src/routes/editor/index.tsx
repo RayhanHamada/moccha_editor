@@ -9,7 +9,7 @@ import ToolBox from '../../components/editor-page/toolbox';
 import './index.scss';
 
 const EditorPage = (props: EditorProps) => {
-	window.onunload = window.onbeforeunload = window.onpopstate = function() {
+	window.onbeforeunload = window.onpopstate = function() {
 		props.deauthenticate();
 	};
 
