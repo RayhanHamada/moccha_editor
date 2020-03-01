@@ -1,7 +1,18 @@
 import { expect } from 'chai';
+import { Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { StateObservable, ActionsObservable } from 'redux-observable';
 
+import {
+	setLanguage,
+	fetchSubmissionToken,
+	incomingCodeChanges,
+	saveCode,
+} from './actions';
+import { MyTypes } from '../../store/app-custom-types';
 import { supportedLanguages } from '../../globals';
-import { setLanguage, fetchSubmissionToken } from './actions';
+import { DeepPartial } from 'redux';
+import { saveCode$ } from './epics';
 import reducer from './reducer';
 
 describe("editor internal's", function() {
@@ -88,12 +99,44 @@ describe("editor internal's", function() {
 			/*
 			 * set consoleOutput
 			 */
-			expectedValue = "\n> Code is Running\n";
+			expectedValue = '\n> Code is Running\n';
 			output = reducer(mockState, action);
 
 			actualValue = output.consoleOutput;
 
 			expect(actualValue).to.be.equal(expectedValue);
+		});
+	});
+
+	describe('epics', function() {
+		this.timeout(5000);
+
+		let state$: StateObservable<MyTypes.RootState>;
+
+		// * passed
+		it.skip('saveCode', done => {
+			// * mock state
+			const mockState: DeepPartial<MyTypes.RootState> = {
+				editorInternalReducer: {
+					currentlySavedCode: '',
+				},
+			};
+
+			// * set state stream
+			state$ = new StateObservable(
+				new Subject(),
+				mockState as MyTypes.RootState
+			);
+
+			const code = 'test-code';
+			const expectedValue = saveCode(code);
+			const action$ = ActionsObservable.of(incomingCodeChanges(code));
+			const $output = saveCode$(action$, state$, null);
+
+			$output.toPromise().then(action => {
+				expect(action).to.be.deep.equal(expectedValue);
+				done();
+			});
 		});
 	});
 });

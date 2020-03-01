@@ -16,7 +16,7 @@ describe('Judge0 API', function() {
 	});
 
 	// * passed
-	it('fetchSubmissionResult should return output', done => {
+	it.skip('fetchSubmissionResult should return output', done => {
 		const languageID = 74;
 		const sourceCode = `console.log('hello world')`;
 		const expectedValue = 'hello world\n';

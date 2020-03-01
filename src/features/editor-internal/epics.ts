@@ -1,15 +1,11 @@
-import { map, debounceTime, mapTo, mergeMap, delay } from 'rxjs/operators';
+import { map, debounceTime, mergeMap, delay } from 'rxjs/operators';
 import { PayloadAction } from 'typesafe-actions';
 import { ofType } from 'redux-observable';
 import { from } from 'rxjs';
 
+import { fetchSubmissionToken, fetchSubmissionResult } from './actions';
 import { MyTypes } from '../../store/app-custom-types';
-import { saveCode, doneRunning } from './actions';
-import {
-	setConsoleOutput,
-	fetchSubmissionToken,
-	fetchSubmissionResult,
-} from './actions';
+import { saveCode } from './actions';
 import {
 	fetchSubmissionToken as fetchSubTokenAPI,
 	fetchSubmissionResult as fetchSubResAPI,
