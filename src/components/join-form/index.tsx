@@ -1,12 +1,36 @@
+import { bindActionCreators } from 'redux';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { JoinFormProps, mapStateToProps, mapDispatchToProps } from './logics';
+import { MyTypes } from '../../store/app-custom-types';
+
+import * as authActions from '../../features/auth/actions';
 import routes from '../../routes/routes-names';
-import FormButton from './FormButton';
 import { history } from '../../store';
 
+import FormButton from './FormButton';
+
 import './index.scss';
+
+const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
+	bindActionCreators(
+		{
+			setUsername: authActions.setUsername,
+			setRoom: authActions.setRoom,
+			authenticate: authActions.authenticate,
+			fetchRoomKey: authActions.getRoomKey.request,
+		},
+		dispatch
+	);
+
+const mapStateToProps = ({ authReducer }: MyTypes.RootState) => ({
+	username: authReducer.username,
+	roomKey: authReducer.roomKey,
+	authenticated: authReducer.authenticated,
+});
+
+type JoinFormProps = ReturnType<typeof mapDispatchToProps> &
+	ReturnType<typeof mapStateToProps>;
 
 const JoinForm = (props: JoinFormProps) => {
 	const createRoom = (ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {

@@ -1,16 +1,33 @@
-import React from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import React from 'react';
 
-import { EditorProps, mapStateToProps, mapDispatchToProps } from './logics';
+import { MyTypes } from '../../store/app-custom-types';
+
+import * as edinActions from '../../features/editor-internal/actions';
+import * as authActions from '../../features/auth/actions';
+
 import MonacoWrapper from '../../components/editor-page/monaco-wrapper';
 import TerminalWrapper from '../../components/editor-page/terminal';
 import ToolBox from '../../components/editor-page/toolbox';
 
 import './index.scss';
 
+export const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
+	bindActionCreators(
+		{
+			deauthenticate: authActions.deauthenticate,
+			reset: edinActions.reset,
+		},
+		dispatch
+	);
+
+export type EditorProps = ReturnType<typeof mapDispatchToProps>;
+
 const EditorPage = (props: EditorProps) => {
 	window.onbeforeunload = window.onpopstate = function() {
 		props.deauthenticate();
+		props.reset();
 	};
 
 	return (
@@ -28,4 +45,4 @@ const EditorPage = (props: EditorProps) => {
 	);
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditorPage);
+export default connect(null, mapDispatchToProps)(EditorPage);

@@ -14,7 +14,7 @@ const App = (props: AppProps) => {
 			<Route
 				path="/editor"
 				render={() =>
-					true ? <EditorPage /> : <div>You&rsquo;re not authenticated</div>
+					props.authenticated ? <EditorPage /> : <div>You&rsquo;re not authenticated</div>
 				}
 			/>
 		</Switch>

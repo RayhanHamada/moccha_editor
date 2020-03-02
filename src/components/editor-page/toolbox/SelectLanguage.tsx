@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { setLanguage } from '../../../features/editor-internal/actions';
 import { MyTypes } from '../../../store/app-custom-types';
+
+import { setLanguage } from '../../../features/editor-internal/actions';
 import { supportedLanguages } from '../../../globals';
-import { editorRef } from '../monaco-wrapper/logics';
 import store from '../../../store';
 
 const Option = styled.option`
@@ -48,14 +48,9 @@ SelectLanguage.defaultProps = {
 		) as AppGlobalTypes.Language;
 
 		/*
-		 * dispatch to store
+		 * dispatch language change to store
 		 */
 		store.dispatch<MyTypes.RootAction>(setLanguage(language));
-
-		/*
-		 * update the editor after dispatch setLanguage action
-		 */
-		editorRef.current?.forceUpdate(() => console.log(`editor updated !`));
 	},
 };
 

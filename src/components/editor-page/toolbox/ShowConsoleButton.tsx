@@ -1,7 +1,8 @@
-import React from 'react';
 import styled from 'styled-components';
-import { MyTypes } from '../../../store/app-custom-types';
 import { bindActionCreators } from 'redux';
+import React from 'react';
+
+import { MyTypes } from '../../../store/app-custom-types';
 
 const Button = styled.button`
 	&:hover {

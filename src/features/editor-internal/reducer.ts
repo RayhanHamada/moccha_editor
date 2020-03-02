@@ -85,6 +85,8 @@ const editorInternalReducer = createReducer(initState)
 			consoleOutput: `${state.consoleOutput}\n${stdout}${stderr}${compOut}${message}${time}`,
 			isRunning: false,
 		};
-	});
+	})
+
+	.handleType('edin/RESET', () => initState);
 
 export default editorInternalReducer;

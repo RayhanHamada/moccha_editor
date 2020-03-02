@@ -1,10 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { MyTypes } from '../../../store/app-custom-types';
+
 import ClearConsoleButton from '../toolbox/ClearConsoleButton';
-import { TerminalProps, mapStateToProps, mapDispatchToProps } from './logics';
 
 import './index.scss';
+
+const mapStateToProps = ({ editorInternalReducer }: MyTypes.RootState) => ({
+	consoleOutput: editorInternalReducer.consoleOutput,
+});
+
+export type TerminalProps = ReturnType<typeof mapStateToProps>;
 
 const TerminalWrapper = (props: TerminalProps) => {
 	return (
@@ -20,4 +27,4 @@ const TerminalWrapper = (props: TerminalProps) => {
 	);
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(TerminalWrapper);
+export default connect(mapStateToProps)(TerminalWrapper);

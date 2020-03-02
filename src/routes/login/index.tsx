@@ -1,3 +1,4 @@
+import { connect } from 'react-redux';
 import React from 'react';
 
 import { MyTypes } from '../../store/app-custom-types';
@@ -8,7 +9,6 @@ import JoinForm from '../../components/join-form/';
 import Typer from '../../components/misc/Typer';
 
 import './index.scss';
-import { connect } from 'react-redux';
 
 const mapStateToProps = ({ authReducer }: MyTypes.RootState) => ({
 	isLoading: authReducer.isLoading,
@@ -51,4 +51,4 @@ const LoginPage = (props: LoginPageProps) => {
 	);
 };
 
-export default connect(mapStateToProps, null)(LoginPage);
+export default connect(mapStateToProps)(LoginPage);
