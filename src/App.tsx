@@ -6,7 +6,6 @@ import { MyTypes } from './store/app-custom-types';
 
 import EditorPage from './routes/editor/';
 import LoginPage from './routes/login/';
-import {  } from "./services";
 
 export const mapStateToProps = ({ authReducer }: MyTypes.RootState) => ({
 	authenticated: authReducer.authenticated,
