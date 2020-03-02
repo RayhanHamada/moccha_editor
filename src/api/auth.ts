@@ -1,10 +1,12 @@
 import axios from 'axios';
 
-const GET_AUTH_ENDPOINT = `${process.env.BASE_SERVER_URL}/api/auth`;
-const GET_ROOM_KEY = `${process.env.BASE_SERVER_URL}/api/auth/getRoomKey`;
-const CHECK_ROOM_EXISTENCE = `${process.env.BASE_SERVER_URL}/api/auth/checkRoomExistence`;
-const GET_ROOM_KEYS = `${process.env.BASE_SERVER_URL}/api/auth/getRoomKeys`;
-const DELETE_ROOM_KEY = `${process.env.BASE_SERVER_URL}/api/auth/deleteRoomKey`;
+import { BASE_SERVER_URL } from './constant';
+
+const GET_AUTH_ENDPOINT = `${BASE_SERVER_URL}/api/auth`;
+const GET_ROOM_KEY = `${BASE_SERVER_URL}/api/auth/getRoomKey`;
+const CHECK_ROOM_EXISTENCE = `${BASE_SERVER_URL}/api/auth/checkRoomExistence`;
+const GET_ROOM_KEYS = `${BASE_SERVER_URL}/api/auth/getRoomKeys`;
+const DELETE_ROOM_KEY = `${BASE_SERVER_URL}/api/auth/deleteRoomKey`;
 
 export const getAuthEndpoint = () =>
 	axios.get(GET_AUTH_ENDPOINT).then(res => res.data as string);
