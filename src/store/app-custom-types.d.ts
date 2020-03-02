@@ -28,5 +28,11 @@ declare namespace MyTypes {
 	/*
 	 * specify custom Epic type, (from redux-observable)
 	 */
-	type AppEpic = Epic<RootAction, RootAction, RootState>;
+	type AppEpic = Epic<RootAction, RootAction, RootState, Services>;
+
+	/*
+	 * specify App Service type
+	 */
+
+	type Services = typeof import('../services').default;
 }

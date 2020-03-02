@@ -1,8 +1,10 @@
-import { mergeMap, map } from 'rxjs/operators';
+import { mergeMap, map, tap } from 'rxjs/operators';
+import { PayloadAction } from 'typesafe-actions';
 import { ofType } from 'redux-observable';
 import { from } from 'rxjs';
 
 import { MyTypes } from '../../store/app-custom-types';
+
 import { getRoomKey as getRoomKeyAPI, deleteRoomKey } from '../../api/auth';
 import { getRoomKey, authenticate, setUsername, setRoom } from './actions';
 

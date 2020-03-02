@@ -4,8 +4,10 @@ import { routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory, History } from 'history';
 import { createEpicMiddleware } from 'redux-observable';
 
-import createRootReducer from './rootReducer';
 import { MyTypes } from './app-custom-types';
+
+import createRootReducer from './rootReducer';
+import services from '../services';
 import rootEpic from './root-epic';
 
 /*
@@ -19,8 +21,11 @@ export const history: History = createBrowserHistory();
 const epicMiddleware = createEpicMiddleware<
 	MyTypes.RootAction,
 	MyTypes.RootAction,
-	MyTypes.RootState
->();
+	MyTypes.RootState,
+	MyTypes.Services
+>({
+	dependencies: services,
+});
 
 /*
  * applied middleware

@@ -6,6 +6,7 @@ import { MyTypes } from '../../store/app-custom-types';
 
 import * as authActions from '../../features/auth/actions';
 import routes from '../../routes/routes-names';
+import socket from '../../services/socket';
 import { history } from '../../store';
 
 import FormButton from './FormButton';
@@ -50,6 +51,7 @@ const JoinForm = (props: JoinFormProps) => {
 	useEffect(() => {
 		if (props.authenticated) {
 			history.push(routes.editor);
+			socket.emit('master_enter', props.roomKey)
 		}
 	}, [props.authenticated]);
 
