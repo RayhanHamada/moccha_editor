@@ -1,5 +1,4 @@
-import { mergeMap, map, tap } from 'rxjs/operators';
-import { PayloadAction } from 'typesafe-actions';
+import { mergeMap, map } from 'rxjs/operators';
 import { ofType } from 'redux-observable';
 import { from } from 'rxjs';
 

@@ -15,9 +15,11 @@ import './index.scss';
 /*
  * props for monaco-editor
  */
-const handleChange: ChangeHandler = val => {
-	store.dispatch(incomingCodeChanges(val));
-};
+
+
+// const editorDidMount: EditorDidMount = (editor) => {
+// 	editor.
+// }
 
 const options: EditorConstructionOptions = {
 	autoClosingBrackets: 'languageDefined',
@@ -25,14 +27,19 @@ const options: EditorConstructionOptions = {
 	fontSize: 13,
 };
 
-const mapStateToProps = ({ editorInternalReducer }: MyTypes.RootState) => ({
+const mapStateToProps = ({ editorInternalReducer, authReducer }: MyTypes.RootState) => ({
 	lang: editorInternalReducer.currentLanguage,
 	editorInitialValue: editorInternalReducer.currentlySavedCode,
+	roomKey: authReducer.roomKey
 });
 
 type MonacoWraperProps = ReturnType<typeof mapStateToProps>;
 
 const MonacoWrapper = (props: MonacoWraperProps) => {
+	const handleChange: ChangeHandler = (val, ev) => {
+		store.dispatch(incomingCodeChanges(val));
+	};
+
 	/*
 	 * ref for monaco editor
 	 */
@@ -56,6 +63,7 @@ const MonacoWrapper = (props: MonacoWraperProps) => {
 				ref={editorRef}
 				defaultValue={props.editorInitialValue}
 				onChange={handleChange}
+				// editorDidMount={}
 			/>
 		</div>
 	);
