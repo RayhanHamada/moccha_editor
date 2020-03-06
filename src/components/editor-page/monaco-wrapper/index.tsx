@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import MonacoEditor, {
 	ChangeHandler,
 	EditorConstructionOptions,
+	EditorDidMount,
 } from 'react-monaco-editor';
 
 import { MyTypes } from '../../../store/app-custom-types';
@@ -15,22 +16,19 @@ import './index.scss';
 /*
  * props for monaco-editor
  */
-
-
-// const editorDidMount: EditorDidMount = (editor) => {
-// 	editor.
-// }
-
 const options: EditorConstructionOptions = {
 	autoClosingBrackets: 'languageDefined',
 	acceptSuggestionOnEnter: 'smart',
 	fontSize: 13,
 };
 
-const mapStateToProps = ({ editorInternalReducer, authReducer }: MyTypes.RootState) => ({
+const mapStateToProps = ({
+	editorInternalReducer,
+	authReducer,
+}: MyTypes.RootState) => ({
 	lang: editorInternalReducer.currentLanguage,
 	editorInitialValue: editorInternalReducer.currentlySavedCode,
-	roomKey: authReducer.roomKey
+	roomKey: authReducer.roomKey,
 });
 
 type MonacoWraperProps = ReturnType<typeof mapStateToProps>;
@@ -43,13 +41,13 @@ const MonacoWrapper = (props: MonacoWraperProps) => {
 	/*
 	 * ref for monaco editor
 	 */
-	const editorRef = createRef<MonacoEditor>();
+	let editorRef: MonacoEditor;
 
 	useEffect(() => {
 		/*
 		 * if the current language is changed, update the editor.
 		 */
-		editorRef.current?.forceUpdate(() => console.log('editor is updated !'));
+		editorRef?.forceUpdate(() => console.log('editor is updated !'));
 	}, [props.lang]);
 
 	return (
@@ -60,7 +58,7 @@ const MonacoWrapper = (props: MonacoWraperProps) => {
 				theme="vs-dark"
 				language={props.lang.nameInEditor}
 				options={options}
-				ref={editorRef}
+				ref={el => (editorRef = el as MonacoEditor)}
 				defaultValue={props.editorInitialValue}
 				onChange={handleChange}
 				// editorDidMount={}
