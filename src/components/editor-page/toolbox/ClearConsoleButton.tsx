@@ -34,7 +34,12 @@ type ClearConsoleButtonProps = ReturnType<typeof mapStateToProps> &
 
 const ClearConsoleButton = (props: ClearConsoleButtonProps) => {
 	return (
-		<Button onClick={props.resetConsole}>
+		<Button
+			onClick={ev => {
+				ev.persist();
+				props.resetConsole();
+			}}
+		>
 			<i className="fa fa-terminal fa-2x" id="console-logo"></i>
 			<span className="ml-1" id="clear-console-text">
 				Clear Console

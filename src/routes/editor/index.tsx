@@ -6,6 +6,7 @@ import { MyTypes } from '../../store/app-custom-types';
 
 import * as edinActions from '../../features/editor-internal/actions';
 import * as authActions from '../../features/auth/actions';
+import { history } from '../../store';
 
 import MonacoWrapper from '../../components/editor-page/monaco-wrapper';
 import TerminalWrapper from '../../components/editor-page/terminal';
@@ -25,9 +26,10 @@ export const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
 export type EditorProps = ReturnType<typeof mapDispatchToProps>;
 
 const EditorPage = (props: EditorProps) => {
-	window.onbeforeunload = window.onpopstate = function() {
+	window.onpopstate = function() {
 		props.deauthenticate();
 		props.reset();
+		history.replace('/');
 	};
 
 	return (
