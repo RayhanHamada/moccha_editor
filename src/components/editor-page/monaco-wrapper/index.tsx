@@ -34,7 +34,7 @@ const mapStateToProps = ({
 type MonacoWraperProps = ReturnType<typeof mapStateToProps>;
 
 const MonacoWrapper = (props: MonacoWraperProps) => {
-	const handleChange: ChangeHandler = (val, ev) => {
+	const handleChange: ChangeHandler = val => {
 		store.dispatch(incomingCodeChanges(val));
 	};
 
