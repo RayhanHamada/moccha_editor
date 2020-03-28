@@ -15,6 +15,7 @@
 	"author": "",
 	"license": "MIT",
 	"dependencies": {
+		"@convergencelabs/monaco-collab-ext": "^0.3.0",
 		"@emotion/core": "^10.0.28",
 		"axios": "^0.19.2",
 		"connected-react-router": "^6.7.0",

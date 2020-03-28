@@ -1,5 +1,5 @@
-// import socket from './socket';
+import socketio from './socketIO';
 
 export default {
-	
+	socketio,
 };

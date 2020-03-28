@@ -13,14 +13,13 @@ import reducer from './reducer';
 import {
 	setRoom,
 	setUsername,
-	authenticate,
 	deauthenticate,
 	getRoomKey,
 } from './actions';
 
 describe("Auth's", function() {
 	describe('reducer', () => {
-		let mockState: AppFeatures.Auth;
+		let mockState: Partial<AppFeatures.Auth>;
 		this.beforeEach(() => {
 			mockState = undefined as any;
 		});
@@ -33,7 +32,7 @@ describe("Auth's", function() {
 				authenticated: false,
 			};
 
-			const expectedValue: AppFeatures.Auth = {
+			const expectedValue: Partial<AppFeatures.Auth> = {
 				username: 'test-username',
 				roomKey: '',
 				authenticated: false,
@@ -54,7 +53,7 @@ describe("Auth's", function() {
 				authenticated: false,
 			};
 
-			const expectedValue: AppFeatures.Auth = {
+			const expectedValue: Partial<AppFeatures.Auth> = {
 				username: '',
 				roomKey: 'test-key',
 				authenticated: false,
@@ -66,47 +65,6 @@ describe("Auth's", function() {
 
 			expect(output).deep.equal(expectedValue);
 		});
-
-		// * passed
-		it.skip('should set authenticate to true', () => {
-			mockState = {
-				username: '',
-				roomKey: '',
-				authenticated: false,
-			};
-
-			const expectedValue: AppFeatures.Auth = {
-				username: '',
-				roomKey: '',
-				authenticated: true,
-			};
-
-			// dispatch action to reducer
-			const output = reducer(mockState, authenticate());
-
-			expect(output).deep.equal(expectedValue);
-		});
-
-		// * passed
-		it.skip('should set authenticate to false', () => {
-			mockState = {
-				username: '',
-				roomKey: '',
-				authenticated: true,
-			};
-
-			const expectedValue: AppFeatures.Auth = {
-				username: '',
-				roomKey: '',
-				authenticated: false,
-			};
-
-			// dispatch action to reducer
-			const output = reducer(mockState, deauthenticate());
-
-			expect(output).deep.equal(expectedValue);
-		});
-	});
 
 	describe.skip('epics', function() {
 		this.timeout(100000);

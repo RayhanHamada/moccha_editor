@@ -5,6 +5,11 @@ export const setLanguage = createAction(
 	(lang: AppGlobalTypes.Language) => lang
 )();
 
+export const watchLangChange = createAction(
+	'edin/WATCH_LANG_CHANGE',
+	(watch: boolean) => watch
+)();
+
 export const clearConsole = createAction('edin/CLEAR_CONSOLE')();
 
 export const saveCode = createAction(

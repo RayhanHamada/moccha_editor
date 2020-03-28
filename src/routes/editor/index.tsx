@@ -13,6 +13,7 @@ import TerminalWrapper from '../../components/editor-page/terminal';
 import ToolBox from '../../components/editor-page/toolbox';
 
 import './index.scss';
+import { printDevLog } from '../../utils';
 
 export const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
 	bindActionCreators(
@@ -28,6 +29,7 @@ export type EditorProps = ReturnType<typeof mapDispatchToProps>;
 const EditorPage = (props: EditorProps) => {
 	window.onpopstate = function() {
 		props.deauthenticate();
+		printDevLog('deauthenticated !')
 		props.reset();
 		history.replace('/');
 	};

@@ -7,6 +7,7 @@ declare namespace AppFeatures {
 		isRunning: boolean;
 		currentlySavedCode: string;
 		token: string;
+		watchLangChangeFromSocket: boolean;
 
 		/*
 		 * editor related

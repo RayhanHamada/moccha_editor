@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { MyTypes } from '../../store/app-custom-types';
 

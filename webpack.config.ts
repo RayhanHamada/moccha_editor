@@ -1,9 +1,9 @@
-import path from 'path';
-import HTMLWebpackPlugin from 'html-webpack-plugin';
-import TerserWebpackPlugin from 'terser-webpack-plugin';
-import Dotenv from 'dotenv-webpack';
-import { Configuration } from 'webpack';
 import MonacoWebpackPlugin from 'monaco-editor-webpack-plugin';
+import TerserWebpackPlugin from 'terser-webpack-plugin';
+import HTMLWebpackPlugin from 'html-webpack-plugin';
+import { Configuration } from 'webpack';
+import Dotenv from 'dotenv-webpack';
+import path from 'path';
 
 const isProd = process.env.NODE_ENV === 'production';
 const entryPath = './src/index.tsx';
@@ -44,6 +44,9 @@ export default {
 		],
 	},
 	plugins: [
+		/* 
+		* no need to specify env-cmd in dev mode in package.json
+		*/
 		new Dotenv({
 			path: isProd ? './prod.env' : './dev.env',
 		}),

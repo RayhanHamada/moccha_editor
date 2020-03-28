@@ -2,7 +2,7 @@
  * namespace for all app-related types
  */
 
-declare namespace AppGlobalTypes {
+declare namespace AGT {
 	/*
 	 * supported languages by monaco editor (not all)
 	 * for full set of supported languages,
@@ -41,4 +41,22 @@ declare namespace AppGlobalTypes {
 		//* specify id of a language used for call submission API
 		id: number;
 	}
+
+	/*
+	 * for monaco editor's EditorContentManager
+	 */
+	type TextChange = Partial<{
+		idx: number;
+		len: number;
+		text: string;
+	}>;
+
+	/*
+	 * for components props types that use react-redux's connect HOC
+	 * (we use it very much)
+	 */
+	type Props<
+		_MapStateToProps extends (...args: any[]) => any,
+		_MapDispatchToProps extends (...args: any[]) => any
+	> = ReturnType<_MapStateToProps> & ReturnType<_MapDispatchToProps>;
 }

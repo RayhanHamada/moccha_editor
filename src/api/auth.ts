@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { BASE_SERVER_URL } from './constant';
+import { serverUrl as BASE_SERVER_URL } from '../globals';
 
 const GET_AUTH_ENDPOINT = `${BASE_SERVER_URL}/api/auth`;
 const GET_ROOM_KEY = `${BASE_SERVER_URL}/api/auth/getRoomKey`;

@@ -2,7 +2,9 @@
  * currently supported languages
  */
 
-export const supportedLanguages: AppGlobalTypes.Language[] = [
+import { isDev } from './utils';
+
+export const supportedLanguages: AGT.Language[] = [
 	{
 		nameInEditor: 'typescript',
 		name: 'Typescript',
@@ -46,3 +48,9 @@ export const supportedLanguages: AppGlobalTypes.Language[] = [
 		version: '2.7.0',
 	},
 ];
+
+
+
+export const serverUrl = isDev
+	? (process.env.MOCK_BASE_SERVER_URL as string)
+	: (process.env.BASE_SERVER_URL as string);

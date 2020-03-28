@@ -18,7 +18,12 @@ const initState: AppFeatures.EditorInternal = {
 	 */
 	currentLanguage: supportedLanguages.find(
 		val => val.id === 74
-	) as AppGlobalTypes.Language,
+	) as AGT.Language,
+
+	/*
+	 * listen to language change from socket
+	 */
+	watchLangChangeFromSocket: true,
 };
 
 const editorInternalReducer = createReducer(initState)
@@ -29,6 +34,11 @@ const editorInternalReducer = createReducer(initState)
 	.handleType('edin/SET_LANG', (state, action) => ({
 		...state,
 		currentLanguage: action.payload,
+	}))
+
+	.handleType('edin/WATCH_LANG_CHANGE', (state, action) => ({
+		...state,
+		watchLangChangeFromSocket: action.payload,
 	}))
 
 	/*

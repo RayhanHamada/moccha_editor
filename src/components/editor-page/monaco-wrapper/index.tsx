@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
+import { EditorContentManager } from '@convergencelabs/monaco-collab-ext';
 import { connect } from 'react-redux';
 import MonacoEditor, {
 	ChangeHandler,
 	EditorConstructionOptions,
-	EditorDidMount,
 } from 'react-monaco-editor';
+import { editor } from 'monaco-editor';
 
 import { MyTypes } from '../../../store/app-custom-types';
 
@@ -12,6 +13,8 @@ import { incomingCodeChanges } from '../../../features/editor-internal/actions';
 import store from '../../../store';
 
 import './index.scss';
+import socket from '../../../services/socketIO';
+import { printDevLog } from '../../../utils';
 
 /*
  * props for monaco-editor
@@ -33,15 +36,22 @@ const mapStateToProps = ({
 
 type MonacoWraperProps = ReturnType<typeof mapStateToProps>;
 
+let editorRef: MonacoEditor;
+
+/*
+ * additional code for managing code change
+ */
+
+let shouldWatchChange = true;
+
 const MonacoWrapper = (props: MonacoWraperProps) => {
-	const handleChange: ChangeHandler = val => {
+	const handleChange: ChangeHandler = (val, ev) => {
 		store.dispatch(incomingCodeChanges(val));
 	};
 
 	/*
 	 * ref for monaco editor
 	 */
-	let editorRef: MonacoEditor;
 
 	useEffect(() => {
 		/*
@@ -49,6 +59,83 @@ const MonacoWrapper = (props: MonacoWraperProps) => {
 		 */
 		editorRef?.forceUpdate(() => console.log('editor is updated !'));
 	}, [props.lang]);
+
+	useEffect(() => {
+		/*
+		 * if mounted, bind editor to ChangeEditorManager
+		 */
+
+		const ecm = new EditorContentManager({
+			editor: editorRef.editor as editor.IStandaloneCodeEditor,
+			onInsert: function(idx, text) {
+				const insertion: AGT.TextChange = {
+					idx,
+					text,
+				};
+
+				socket.emit('text-insertion', props.roomKey, JSON.stringify(insertion));
+				printDevLog(`trigger insert`);
+			},
+			onDelete: function(idx, len) {
+				const deletion: AGT.TextChange = {
+					idx,
+					len,
+				};
+
+				socket.emit('text-deletion', props.roomKey, JSON.stringify(deletion));
+				printDevLog(`trigger delete`);
+			},
+			onReplace: function(idx, len, text) {
+				const replacement: AGT.TextChange = {
+					idx,
+					len,
+					text,
+				};
+
+				socket.emit(
+					'text-replacement',
+					props.roomKey,
+					JSON.stringify(replacement)
+				);
+				printDevLog(`trigger replace`);
+			},
+		});
+
+		socket.on('text-insertion', (insertion: string) => {
+			const { idx, text }: AGT.TextChange = JSON.parse(insertion);
+
+			shouldWatchChange = false;
+			ecm.insert(idx as number, text as string);
+			shouldWatchChange = true;
+			printDevLog('receive insert')
+		});
+
+		socket.on('text-deletion', (deletion: string) => {
+			const { idx, len }: AGT.TextChange = JSON.parse(deletion);
+
+			shouldWatchChange = false;
+			ecm.delete(idx as number, len as number);
+			shouldWatchChange = true;
+			printDevLog('receive insert')
+		});
+
+		socket.on('text-replacement', (replacement: string) => {
+			const { idx, len, text }: AGT.TextChange = JSON.parse(
+				replacement
+			);
+
+			shouldWatchChange = false;
+			ecm.replace(idx as number, len as number, text as string);
+			shouldWatchChange = true;
+			printDevLog('receive insert')
+		});
+
+		return () => {
+			socket.off('text-insertion');
+			socket.off('text-deletion');
+			socket.off('text-replacement');
+		}
+	}, []);
 
 	return (
 		<div id="monaco-wrapper" className="ml-10">

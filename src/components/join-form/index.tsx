@@ -1,5 +1,5 @@
+import React, { useEffect, EventHandler } from 'react';
 import { bindActionCreators } from 'redux';
-import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import { MyTypes } from '../../store/app-custom-types';
@@ -17,8 +17,8 @@ const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
 		{
 			setUsername: authActions.setUsername,
 			setRoom: authActions.setRoom,
-			authenticate: authActions.authenticate,
 			fetchRoomKey: authActions.getRoomKey.request,
+			reqRoomExistence: authActions.checkRoomExistence.request,
 		},
 		dispatch
 	);
@@ -29,24 +29,54 @@ const mapStateToProps = ({ authReducer }: MyTypes.RootState) => ({
 	authenticated: authReducer.authenticated,
 });
 
-type JoinFormProps = ReturnType<typeof mapDispatchToProps> &
-	ReturnType<typeof mapStateToProps>;
+type JoinFormProps = ReturnType<typeof mapStateToProps> &
+	ReturnType<typeof mapDispatchToProps>;
 
 const JoinForm = (props: JoinFormProps) => {
-	const createRoom = (ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-		// ev.persist()
+	/*
+	 * event for create room button
+	 */
+	const createRoom: EventHandler<React.MouseEvent<
+		HTMLButtonElement,
+		MouseEvent
+	>> = ev => {
 		ev.preventDefault();
 
 		if (props.username !== '') {
-			// fetch the keys, and then authenticate the user
+			/*
+			 * fetch the keys, and then authenticate the user
+			 */
 			props.fetchRoomKey();
 			return;
 		}
 
 		alert('Username cannot be empty');
-		return;
 	};
 
+	/*
+	 * event for join room button
+	 */
+	const joinRoom: EventHandler<React.MouseEvent<
+		HTMLButtonElement,
+		MouseEvent
+	>> = e => {
+		e.preventDefault();
+
+		/*
+		 * to join the room, username and roomKey shouldn't be empty string
+		 * and roomKey should be exists on database
+		 */
+		if (props.username !== '' && props.roomKey !== '') {
+			props.reqRoomExistence();
+			return;
+		}
+
+		alert('username cannot be empty !');
+	};
+
+	/*
+	 * if user is authenticated, then navigate to /editor page
+	 */
 	useEffect(() => {
 		if (props.authenticated) {
 			history.push(routes.editor);
@@ -86,7 +116,7 @@ const JoinForm = (props: JoinFormProps) => {
 				></input>
 			</div>
 			<small className="mb-4">*the random string is required</small>
-			<FormButton>Join The Room</FormButton>
+			<FormButton onClick={joinRoom}>Join The Room</FormButton>
 			<br />
 		</form>
 	);

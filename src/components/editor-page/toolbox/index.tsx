@@ -18,7 +18,7 @@ const ToolBox = (props: ToolBoxProps) => {
 	return (
 		<div id="tool-box" className="flex flex-row items-center">
 			<RunButton />
-			<SelectLanguage defaultValue={props.langId} />
+			<SelectLanguage value={props.langId} />
 		</div>
 	);
 };
