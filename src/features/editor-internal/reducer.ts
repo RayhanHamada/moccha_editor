@@ -97,6 +97,8 @@ const editorInternalReducer = createReducer(initState)
 		};
 	})
 
-	.handleType('edin/RESET', () => initState);
+	.handleType('edin/RESET', () => ({
+		...initState,
+	}));
 
 export default editorInternalReducer;

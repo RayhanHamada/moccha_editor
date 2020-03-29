@@ -2,7 +2,7 @@ import { createAction, createAsyncAction } from 'typesafe-actions';
 
 export const setLanguage = createAction(
 	'edin/SET_LANG',
-	(lang: AppGlobalTypes.Language) => lang
+	(lang: AGT.Language) => lang
 )();
 
 export const watchLangChange = createAction(
@@ -38,4 +38,4 @@ export const fetchSubmissionResult = createAsyncAction(
 	'edin/FAIL_SUBMISSION_RESULT'
 )<string, AppAPI.SubmissionResult, Error>();
 
-export const reset = createAction('edin/RESET')();
+export const resetEdin = createAction('edin/RESET')();

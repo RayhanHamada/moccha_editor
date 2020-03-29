@@ -1,4 +1,4 @@
-import { mergeMap, map, mapTo } from 'rxjs/operators';
+import { mergeMap, map } from 'rxjs/operators';
 import { ofType } from 'redux-observable';
 import { from } from 'rxjs';
 
@@ -6,18 +6,19 @@ import { MyTypes } from '../../store/app-custom-types';
 
 import {
 	getRoomKey as getRoomKeyAPI,
-	deleteRoomKey,
-	checkRoomExistence,
+	deleteRoomKey as deleteRoomKeyAPI,
+	checkRoomExistence as checkRoomExistenceAPI,
 } from '../../api/auth';
 import {
 	getRoomKey,
 	setUsername,
-	setRoom,
+	setRoomKey,
 	authenticate,
 	setIsRM,
 	getRoomExistence,
 } from './actions';
 import { printDevLog } from '../../utils';
+import { resetEdin } from '../editor-internal/actions';
 
 /*
  * triggered in case of client creating a room
@@ -52,14 +53,13 @@ export const reqRoomExistence$: MyTypes.AppEpic = (action$, state$) =>
 			 */
 			const { roomKey } = state$.value.authReducer;
 
-			return from(checkRoomExistence(roomKey)).pipe(
+			/*
+			 * just return getRoomExistence.success
+			 */
+			return from(checkRoomExistenceAPI(roomKey)).pipe(
 				map(res => {
-					if (res) {
-						printDevLog(`is room exists : ${res}`);
-						return getRoomExistence.success(res);
-					}
-
-					return getRoomExistence.failure(res);
+					printDevLog(`is room exists : ${res}`);
+					return getRoomExistence.success(res);
 				})
 			);
 		})
@@ -78,9 +78,46 @@ export const onRoomKeyExist$: MyTypes.AppEpic = action$ =>
 		/*
 		 * if so then set authenticated to true
 		 */
-		mapTo(authenticate())
+		map(action => {
+			/*
+			 * if we're intended to join a room
+			 */
+			if (action.type === 'auth/SUCCESS_ROOM_EXISTENCE') {
+				/*
+				 * and the room is exists, then authenticate
+				 */
+				if (action.payload) {
+					return authenticate();
+				}
+
+				/*
+				 * if not, then return cancel to join the room
+				 */
+				return getRoomExistence.cancel();
+			}
+
+			/*
+			 * after we're intended to create a room
+			 */
+			return authenticate();
+		})
 	);
 
+/*
+ * if getRoomExistence.cancel invoked, then just show the alert that the room not exists
+ */
+export const alertRoomNotExists$: MyTypes.AppEpic = action$ =>
+	action$.pipe(
+		ofType('auth/CANCEL_ROOM'),
+		mergeMap(() => {
+			alert('The Room is not exists');
+			return [];
+		})
+	);
+
+/*
+ * reset username, roomKey, isRM
+ */
 export const clearAfterExit$: MyTypes.AppEpic = (
 	action$,
 	state$,
@@ -97,7 +134,7 @@ export const clearAfterExit$: MyTypes.AppEpic = (
 			/*
 			 * notice other client that this client is leaving the room.
 			 */
-			socketio.emit('player-leave-room', roomKey, isRM);
+			socketio.emit('player-leave', roomKey, isRM);
 			/*
 			 * check if this client is room master, if so then delete roomKey
 			 * in database, and make other client in the room leaves the room.
@@ -109,21 +146,26 @@ export const clearAfterExit$: MyTypes.AppEpic = (
 				/*
 				 * delete roomKey on the database
 				 */
-				printDevLog('should execute delete');
-				return from(deleteRoomKey(roomKey)).pipe(
+				printDevLog('should execute delete room document');
+				return from(deleteRoomKeyAPI(roomKey)).pipe(
 					mergeMap(() => {
 						/*
 						 * and make isRM to be false, and reset room and username
 						 */
-						return [setIsRM(false), setRoom(''), setUsername('')];
+						return [
+							setIsRM(false),
+							setRoomKey(''),
+							setUsername(''),
+							resetEdin(),
+						];
 					})
 				);
 			}
 
 			/*
-			 * if not, simply reset roomKey and username, and
+			 * if not, simply reset roomKey and username, and reset editor internal state
 			 */
-			return [setRoom(''), setUsername('')];
+			return [setRoomKey(''), setUsername(''), resetEdin()];
 		})
 	);
 
@@ -145,6 +187,6 @@ export const socketEmitPlayerJoin$: MyTypes.AppEpic = (
 			printDevLog(`isRM on player join: ${isRM}`);
 			socketio.emit('player-join', roomKey, username, isRM);
 			printDevLog(`emitted player-join`);
-			return setRoom(roomKey);
+			return setRoomKey(roomKey);
 		})
 	);

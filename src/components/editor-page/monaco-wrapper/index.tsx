@@ -1,20 +1,20 @@
 import React, { useEffect } from 'react';
 import { EditorContentManager } from '@convergencelabs/monaco-collab-ext';
 import { connect } from 'react-redux';
+import { editor } from 'monaco-editor';
 import MonacoEditor, {
 	ChangeHandler,
 	EditorConstructionOptions,
 } from 'react-monaco-editor';
-import { editor } from 'monaco-editor';
 
 import { MyTypes } from '../../../store/app-custom-types';
 
 import { incomingCodeChanges } from '../../../features/editor-internal/actions';
+import socket from '../../../services/socketIO';
+import { printDevLog } from '../../../utils';
 import store from '../../../store';
 
 import './index.scss';
-import socket from '../../../services/socketIO';
-import { printDevLog } from '../../../utils';
 
 /*
  * props for monaco-editor
@@ -107,7 +107,7 @@ const MonacoWrapper = (props: MonacoWraperProps) => {
 			shouldWatchChange = false;
 			ecm.insert(idx as number, text as string);
 			shouldWatchChange = true;
-			printDevLog('receive insert')
+			printDevLog('receive insert');
 		});
 
 		socket.on('text-deletion', (deletion: string) => {
@@ -116,25 +116,26 @@ const MonacoWrapper = (props: MonacoWraperProps) => {
 			shouldWatchChange = false;
 			ecm.delete(idx as number, len as number);
 			shouldWatchChange = true;
-			printDevLog('receive insert')
+			printDevLog('receive delete');
 		});
 
 		socket.on('text-replacement', (replacement: string) => {
-			const { idx, len, text }: AGT.TextChange = JSON.parse(
-				replacement
-			);
+			const { idx, len, text }: AGT.TextChange = JSON.parse(replacement);
 
 			shouldWatchChange = false;
 			ecm.replace(idx as number, len as number, text as string);
 			shouldWatchChange = true;
-			printDevLog('receive insert')
+			printDevLog('receive replace');
 		});
 
 		return () => {
+			/*
+			 * when component will unmount, turn off these socket listener
+			 */
 			socket.off('text-insertion');
 			socket.off('text-deletion');
 			socket.off('text-replacement');
-		}
+		};
 	}, []);
 
 	return (

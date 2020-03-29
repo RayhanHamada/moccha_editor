@@ -12,12 +12,12 @@ const initialState: AppFeatures.Auth = {
 const roomReducer = createReducer({ ...initialState } as AppFeatures.Auth)
 	.handleType('auth/SET_USERNAME', (state, action) => ({
 		...state,
-		username: action.payload.username,
+		username: action.payload,
 	}))
 
-	.handleType('auth/SET_ROOM', (state, action) => ({
+	.handleType('auth/SET_ROOM_KEY', (state, action) => ({
 		...state,
-		roomKey: action.payload.roomKey,
+		roomKey: action.payload,
 	}))
 
 	.handleType('auth/SET_IS_RM', (state, action) => ({
@@ -50,6 +50,12 @@ const roomReducer = createReducer({ ...initialState } as AppFeatures.Auth)
 		loadingMsg: '',
 	}))
 
+	.handleType('auth/CANCEL_ROOM', state => ({
+		...state,
+		isLoading: false,
+		loadingMsg: '',
+	}))
+
 	/*
 	 * should show loading loop and loading message while app get the roomKey
 	 */
@@ -73,6 +79,10 @@ const roomReducer = createReducer({ ...initialState } as AppFeatures.Auth)
 		 * they're the room master, set isRM is true
 		 */
 		isRM: true,
+	}))
+
+	.handleType('auth/RESET', () => ({
+		...initialState,
 	}));
 
 export default roomReducer;

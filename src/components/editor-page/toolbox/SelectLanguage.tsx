@@ -8,6 +8,8 @@ import { supportedLanguages } from '../../../globals';
 import socket from '../../../services/socketIO';
 import store from '../../../store';
 
+import { printDevLog } from '../../../utils';
+
 const Option = styled.option`
 	background: #1e1e1e;
 	color: #e41749;
@@ -73,7 +75,8 @@ SelectLanguage.defaultProps = {
 		 */
 		const { roomKey } = store.getState().authReducer;
 
-		socket.emit('change-language', roomKey, language.id);
+		socket.emit('cl', roomKey, language.id);
+		printDevLog('change-language emitted');
 	},
 };
 

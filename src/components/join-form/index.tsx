@@ -16,7 +16,7 @@ const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
 	bindActionCreators(
 		{
 			setUsername: authActions.setUsername,
-			setRoom: authActions.setRoom,
+			setRoomKey: authActions.setRoomKey,
 			fetchRoomKey: authActions.getRoomKey.request,
 			reqRoomExistence: authActions.checkRoomExistence.request,
 		},
@@ -71,7 +71,7 @@ const JoinForm = (props: JoinFormProps) => {
 			return;
 		}
 
-		alert('username cannot be empty !');
+		alert('username and room key cannot be empty !');
 	};
 
 	/*
@@ -112,7 +112,7 @@ const JoinForm = (props: JoinFormProps) => {
 					id="form-room"
 					type="text"
 					placeholder={`Like "bfd5b1a2-0be0......."`}
-					onChange={ev => props.setRoom(ev.target.value)}
+					onChange={ev => props.setRoomKey(ev.target.value)}
 				></input>
 			</div>
 			<small className="mb-4">*the random string is required</small>
