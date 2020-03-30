@@ -17,7 +17,7 @@ const initState: AppFeatures.EditorInternal = {
 	 * see https://api.judge0.com/languages/all
 	 */
 	currentLanguage: supportedLanguages.find(
-		val => val.id === 74
+		lang => lang.id === 74
 	) as AGT.Language,
 
 	/*
