@@ -38,4 +38,9 @@ export const fetchSubmissionResult = createAsyncAction(
 	'edin/FAIL_SUBMISSION_RESULT'
 )<string, AppAPI.SubmissionResult, Error>();
 
+export const editorFreeze = createAction('edin/EDITOR_FREEZE')();
+export const editorUnfreeze = createAction('edin/EDITOR_UNFREEZE')();
+
+export const refreshEditor = createAction('edin/REFRESH_EDITOR')();
+
 export const resetEdin = createAction('edin/RESET')();

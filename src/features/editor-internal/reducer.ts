@@ -24,6 +24,13 @@ const initState: AppFeatures.EditorInternal = {
 	 * listen to language change from socket
 	 */
 	watchLangChangeFromSocket: true,
+
+	/*
+	 * whether the editor is in freeze state (read-only state)
+	 */
+	shouldFreeze: false,
+
+	refreshCount: 0,
 };
 
 const editorInternalReducer = createReducer(initState)
@@ -96,6 +103,21 @@ const editorInternalReducer = createReducer(initState)
 			isRunning: false,
 		};
 	})
+
+	.handleType('edin/EDITOR_FREEZE', state => ({
+		...state,
+		shouldFreeze: true,
+	}))
+
+	.handleType('edin/EDITOR_UNFREEZE', state => ({
+		...state,
+		shouldFreeze: false,
+	}))
+
+	.handleType('edin/REFRESH_EDITOR', state => ({
+		...state,
+		refreshCount: state.refreshCount + 1,
+	}))
 
 	.handleType('edin/RESET', () => ({
 		...initState,

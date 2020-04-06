@@ -172,7 +172,7 @@ export const clearAfterExit$: MyTypes.AppEpic = (
 /*
  * make socket emit player-join event (whether for creating or joining a room)
  */
-export const socketEmitPlayerJoin$: MyTypes.AppEpic = (
+export const socketEmitWeJoin$: MyTypes.AppEpic = (
 	action$,
 	_state$,
 	{ socketio }
@@ -182,9 +182,9 @@ export const socketEmitPlayerJoin$: MyTypes.AppEpic = (
 		map(() => {
 			const { roomKey, isRM, username } = _state$.value.authReducer;
 			/*
-			 * value param for emit: roomKey and isRM (is room master)
+			 * value param for emit: roomKey, username and isRM (is room master)
 			 */
-			printDevLog(`isRM on player join: ${isRM}`);
+			printDevLog(`this player is rm ? ${isRM}`);
 			socketio.emit('player-join', roomKey, username, isRM);
 			printDevLog(`emitted player-join`);
 			return setRoomKey(roomKey);

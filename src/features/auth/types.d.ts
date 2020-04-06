@@ -21,5 +21,7 @@ declare namespace AppFeatures {
 		* is this user is room master
 		*/
 		isRM: boolean;
+
+		copied: boolean;
 	}
 }

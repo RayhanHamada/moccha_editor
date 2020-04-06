@@ -16,9 +16,9 @@ export type AppProps = ReturnType<typeof mapStateToProps>;
 const App = (props: AppProps) => {
 	return (
 		<Switch>
-			<Route exact={true} path="/" render={() => <LoginPage />} />
+			<Route exact path="/" render={() => <LoginPage />} />
 			<Route
-				path="/editor"
+				path="/"
 				render={() =>
 					props.authenticated ? (
 						<EditorPage />

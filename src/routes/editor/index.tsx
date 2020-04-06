@@ -12,6 +12,7 @@ import routes from '../routes-names';
 
 import MonacoWrapper from '../../components/editor-page/monaco-wrapper';
 import TerminalWrapper from '../../components/editor-page/terminal';
+import PlayerList from '../../components/editor-page/player-list';
 import ToolBox from '../../components/editor-page/toolbox';
 
 import './index.scss';
@@ -21,12 +22,15 @@ const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
 		{
 			deauthenticate: authActions.deauthenticate,
 			resetEdin: edinActions.resetEdin,
+			setCopied: authActions.setCopied,
 		},
 		dispatch
 	);
 
 const mapStateToProps = ({ authReducer }: MyTypes.RootState) => ({
 	authenticated: authReducer.authenticated,
+	copied: authReducer.copied,
+	roomKey: authReducer.roomKey
 });
 type EditorProps = ReturnType<typeof mapDispatchToProps> &
 	ReturnType<typeof mapStateToProps>;
@@ -54,15 +58,43 @@ const EditorPage = (props: EditorProps) => {
 		}
 	}, [props.authenticated]);
 
+	const copyText = (ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+		ev.preventDefault();
+		navigator.clipboard.writeText(props.roomKey);
+		ev.currentTarget.blur();
+		props.setCopied(true);
+		setTimeout(() => {
+			props.setCopied(false);
+		}, 1000);
+	};
+
 	return (
 		<div id="wrapper-editor" className="w-screen h-screen flex flex-row">
 			<div className="code-panel flex-col">
-				<p className="text-2xl opacity-75 pl-10 mb-1">Moccha Text Editor</p>
+				<div className="flex-row w-100">
+					<span className="text-2xl opacity-75 pl-10 mb-1 mr-20">
+						Moccha Text Editor
+					</span>
+					<span className="opacity-75 px-2">Your Room Key:</span>
+					<button
+						className="bg-transparent border border-black"
+						onClick={copyText}
+					>
+						<i className="fa fa-copy"></i>
+						<span className="opacity-75 px-2">{props.roomKey}</span>
+					</button>
+					{props.copied ? (
+						<span className="opacity-75 px-2">Copied !</span>
+					) : (
+						<small className="opacity-75 px-2">Click to copy</small>
+					)}
+				</div>
 				<hr style={{ borderColor: 'black' }} />
 				<ToolBox />
 				<MonacoWrapper />
+				<PlayerList />
 			</div>
-			<div className="comm-panel border border-black">
+			<div className="console-panel border border-black">
 				<TerminalWrapper />
 			</div>
 		</div>

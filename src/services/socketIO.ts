@@ -1,16 +1,18 @@
 import socketio from 'socket.io-client';
 
 import { serverUrl, supportedLanguages } from '../globals';
-import { resetAuth, deauthenticate } from '../features/auth/actions';
+import { deauthenticate } from '../features/auth/actions';
 import store, { history } from '../store';
 import {
 	watchLangChange,
 	setLanguage,
-	resetEdin,
+	editorFreeze,
+	saveCode,
+	refreshEditor,
 } from '../features/editor-internal/actions';
 
 import { printDevLog } from '../utils';
-import routes from '../routes/routes-names';
+import { addPlayer } from '../features/player-manager/actions';
 
 /*
  * make socket connection to server
@@ -50,8 +52,27 @@ socket.on('cl', (langID: number) => {
 /*
  * for when a player join a room
  */
-socket.on('player-join', (playerName: string) => {
+socket.on('player-join', (playerName: string, clientID: string) => {
 	printDevLog(`a player with name ${playerName} joined`);
+
+	/*
+	 * push new player's name to players
+	 */
+	store.dispatch(
+		addPlayer({
+			name: playerName,
+			socketID: clientID,
+		})
+	);
+
+	/* 
+	TODO: make this happen
+	* and dispatch editorFreeze (this may happen for at least 3 seconds),
+	* so the joined player's editor content could be 
+	* synchronized with our editor's content thru 
+	* socket emit from epics
+	*/
+	store.dispatch(editorFreeze());
 });
 
 /*
@@ -71,6 +92,21 @@ socket.on('player-leave', (isRM: boolean) => {
 	/* 
 	TODO: make a player noticer
 	*/
+});
+
+/*
+ * when RM sent us(the recently joined player) for content synchronization
+ */
+socket.on('content_sync', (code: string) => {
+	/*
+	 * dispatch edin/SAVE_CODE action
+	 */
+	store.dispatch(saveCode(code));
+
+	/*
+	 * refresh the editor with updated value
+	 */
+	store.dispatch(refreshEditor());
 });
 
 export default socket;

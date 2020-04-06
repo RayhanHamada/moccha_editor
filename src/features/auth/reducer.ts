@@ -7,6 +7,7 @@ const initialState: AppFeatures.Auth = {
 	isLoading: false,
 	loadingMsg: '',
 	isRM: false,
+	copied: false,
 };
 
 const roomReducer = createReducer({ ...initialState } as AppFeatures.Auth)
@@ -79,6 +80,11 @@ const roomReducer = createReducer({ ...initialState } as AppFeatures.Auth)
 		 * they're the room master, set isRM is true
 		 */
 		isRM: true,
+	}))
+
+	.handleType('auth/SET_COPIED', (state, action) => ({
+		...state,
+		copied: action.payload,
 	}))
 
 	.handleType('auth/RESET', () => ({

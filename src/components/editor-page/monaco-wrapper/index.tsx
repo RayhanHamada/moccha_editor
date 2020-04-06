@@ -32,6 +32,9 @@ const mapStateToProps = ({
 	lang: editorInternalReducer.currentLanguage,
 	editorInitialValue: editorInternalReducer.currentlySavedCode,
 	roomKey: authReducer.roomKey,
+	shouldFreeze: editorInternalReducer.shouldFreeze,
+	refreshCount: editorInternalReducer.refreshCount,
+	savedCode: editorInternalReducer.currentlySavedCode,
 });
 
 type MonacoWraperProps = ReturnType<typeof mapStateToProps>;
@@ -60,11 +63,17 @@ const MonacoWrapper = (props: MonacoWraperProps) => {
 		editorRef?.forceUpdate(() => console.log('editor is updated !'));
 	}, [props.lang]);
 
+	/*
+	 * triggered everytime a new user join the room
+	 */
+	useEffect(() => {
+		editorRef.editor?.setValue(props.savedCode);
+	}, [props.refreshCount]);
+
 	useEffect(() => {
 		/*
 		 * if mounted, bind editor to ChangeEditorManager
 		 */
-
 		const ecm = new EditorContentManager({
 			editor: editorRef.editor as editor.IStandaloneCodeEditor,
 			onInsert: function(idx, text) {
@@ -101,6 +110,9 @@ const MonacoWrapper = (props: MonacoWraperProps) => {
 			},
 		});
 
+		/*
+		 * listening for any code change from server socket
+		 */
 		socket.on('text-insertion', (insertion: string) => {
 			const { idx, text }: AGT.TextChange = JSON.parse(insertion);
 
@@ -138,8 +150,17 @@ const MonacoWrapper = (props: MonacoWraperProps) => {
 		};
 	}, []);
 
+	/*
+	 * freeze the editor for 3 second
+	 */
+	useEffect(() => {
+		editorRef.editor?.updateOptions({
+			readOnly: props.shouldFreeze,
+		});
+	}, [props.shouldFreeze]);
+
 	return (
-		<div id="monaco-wrapper" className="ml-10">
+		<div id="monaco-wrapper" className="ml-10 mb-8">
 			<MonacoEditor
 				height={380}
 				width={850}

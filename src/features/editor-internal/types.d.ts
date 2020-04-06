@@ -12,11 +12,21 @@ declare namespace AppFeatures {
 		/*
 		 * editor related
 		 */
-		currentLanguage: AppGlobalTypes.Language;
+		currentLanguage: AGT.Language;
 
 		/*
 		 * consoleRelated
 		 */
 		consoleOutput: string;
+
+		/*
+		 * whether the editor is in freeze state (read only state)
+		 */
+		shouldFreeze: boolean;
+
+		/* 
+		* refreshCount
+		*/
+		refreshCount: number;
 	}
 }
