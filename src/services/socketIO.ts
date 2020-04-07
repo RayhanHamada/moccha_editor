@@ -65,13 +65,12 @@ socket.on('player-join', (playerName: string, clientID: string) => {
 		})
 	);
 
-	/* 
-	TODO: make this happen
-	* and dispatch editorFreeze (this may happen for at least 3 seconds),
-	* so the joined player's editor content could be 
-	* synchronized with our editor's content thru 
-	* socket emit from epics
-	*/
+	/*
+	 * and dispatch editorFreeze (this may happen for at least 3 seconds),
+	 * so the joined player's editor content could be
+	 * synchronized with our editor's content thru
+	 * socket emit from epics
+	 */
 	store.dispatch(editorFreeze());
 });
 
@@ -97,7 +96,7 @@ socket.on('player-leave', (isRM: boolean) => {
 /*
  * when RM sent us(the recently joined player) for content synchronization
  */
-socket.on('content_sync', (code: string) => {
+socket.on('content_sync', (code: string, currLangID: number) => {
 	/*
 	 * dispatch edin/SAVE_CODE action
 	 */
@@ -107,6 +106,20 @@ socket.on('content_sync', (code: string) => {
 	 * refresh the editor with updated value
 	 */
 	store.dispatch(refreshEditor());
+
+	/*
+	 * find language based on the currLangID
+	 */
+	const lang = supportedLanguages.find(
+		lang => lang.id === currLangID
+	) as AGT.Language;
+
+	/*
+	 * make SelectLanguage to not listen for a while
+	 */
+	store.dispatch(watchLangChange(false));
+	store.dispatch(setLanguage(lang));
+	store.dispatch(watchLangChange(true));
 });
 
 export default socket;

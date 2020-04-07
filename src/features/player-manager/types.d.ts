@@ -23,6 +23,6 @@ declare namespace AppFeatures {
 
 	interface Player {
 		name: string;
-		socketID: string
+		socketID?: string
 	}
 }

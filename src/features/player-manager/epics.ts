@@ -12,14 +12,27 @@ export const freezeEditor: MyTypes.AppEpic = (action$, state$, { socketio }) =>
 		 */
 		tap(() => {
 			const { isRM, roomKey } = state$.value.authReducer;
-			const { currentlySavedCode } = state$.value.editorInternalReducer;
+			const {
+				currentlySavedCode,
+				currentLanguage,
+			} = state$.value.editorInternalReducer;
+
+			/*
+			 * get language ID to be sent
+			 */
+			const langID = currentLanguage.id;
 
 			/*
 			 * get recently joined player
 			 */
 			const { players } = state$.value.playerManagerReducer;
-			const lastPlayer = players[players.length - 1];
+			const recentPlayerSocketID = players[players.length - 1].socketID;
 
+			/*
+			 * if we're the RM, then it's our responsibility to
+			 * make the recently joined player synchronize their
+			 * state
+			 */
 			if (isRM) {
 				/*
 				 * emit content_sync
@@ -27,12 +40,20 @@ export const freezeEditor: MyTypes.AppEpic = (action$, state$, { socketio }) =>
 				socketio.emit(
 					'content_sync',
 					roomKey,
-					lastPlayer.socketID,
-					currentlySavedCode
+					recentPlayerSocketID,
+					currentlySavedCode,
+					langID
 				);
 				printDevLog(`socket should emit content_synchronize`);
 			}
 		}),
+		/*
+		 * delay it for at least 3 seconds
+		 */
 		delay(3000),
+
+		/*
+		 * unfreeze the editor, back to normal
+		 */
 		mapTo(editorUnfreeze())
 	);

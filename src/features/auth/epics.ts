@@ -19,11 +19,12 @@ import {
 } from './actions';
 import { printDevLog } from '../../utils';
 import { resetEdin } from '../editor-internal/actions';
+import { addPlayer } from '../player-manager/actions';
 
 /*
  * triggered in case of client creating a room
  */
-export const fetchRoomKey$: MyTypes.AppEpic = action$ =>
+export const fetchRoomKey$: MyTypes.AppEpic = (action$, state$, { socketio }) =>
 	action$.pipe(
 		ofType('auth/FETCH_ROOM_KEY'),
 		mergeMap(() =>
@@ -31,11 +32,17 @@ export const fetchRoomKey$: MyTypes.AppEpic = action$ =>
 			 * get roomKey from the server
 			 */
 			from(getRoomKeyAPI()).pipe(
-				map(roomKey => {
+				mergeMap(roomKey => {
 					/*
-					 * when it's done, dispatch GOT_ROOM_KEY action and joinRoom
+					 * when it's done, dispatch GOT_ROOM_KEY and ADD_PLAYER so our
+					 * name will appears in joined friends list
 					 */
-					return getRoomKey.success({ roomKey });
+
+					const { username } = state$.value.authReducer;
+					return [
+						getRoomKey.success({ roomKey }),
+						addPlayer({ name: username, socketID: socketio.id }),
+					];
 				})
 			)
 		)
@@ -75,6 +82,7 @@ export const onRoomKeyExist$: MyTypes.AppEpic = action$ =>
 		 * or JOIN_ROOM (in case of client joining a room)
 		 */
 		ofType('auth/GOT_ROOM_KEY', 'auth/SUCCESS_ROOM_EXISTENCE'),
+
 		/*
 		 * if so then set authenticated to true
 		 */
