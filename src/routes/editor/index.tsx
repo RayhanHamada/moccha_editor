@@ -30,14 +30,25 @@ const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
 const mapStateToProps = ({ authReducer }: MyTypes.RootState) => ({
 	authenticated: authReducer.authenticated,
 	copied: authReducer.copied,
-	roomKey: authReducer.roomKey
+	roomKey: authReducer.roomKey,
 });
 type EditorProps = ReturnType<typeof mapDispatchToProps> &
 	ReturnType<typeof mapStateToProps>;
 
 const EditorPage = (props: EditorProps) => {
 	/*
-	 * when user go back to login page, do deauth, reset editor internal state, and replace route with '/'
+	 * when user go back to login page, leave page, or refresh page, then
+	 * do deauth, reset editor internal state, and replace route with routes.home
+	 */
+	window.onbeforeunload = function() {
+		props.deauthenticate();
+		printDevLog('deauthenticated !');
+		props.resetEdin();
+		history.replace(routes.home);
+	};
+
+	/*
+	 * do the same as above
 	 */
 	window.onpopstate = function() {
 		props.deauthenticate();
