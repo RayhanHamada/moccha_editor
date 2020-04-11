@@ -23,3 +23,6 @@ A live-collaboration code editor that i casually built using  React, Redux and o
  9. socket-io, for sending code changes and editor state to other connected client.
  10. Webpack and webpack-dev-server to manage project build and development server
  11. Styled-Component, Tailwindcss
+
+## Demo
+https://mocchaeditor.netlify.com/
