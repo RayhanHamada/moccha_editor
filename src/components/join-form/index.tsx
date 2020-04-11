@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { MyTypes } from '../../store/app-custom-types';
 
 import * as authActions from '../../features/auth/actions';
+import * as pmAction from '../../features/player-manager/actions';
+
 import routes from '../../routes/routes-names';
 import { history } from '../../store';
 
@@ -19,6 +21,7 @@ const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
 			setRoomKey: authActions.setRoomKey,
 			fetchRoomKey: authActions.getRoomKey.request,
 			reqRoomExistence: authActions.checkRoomExistence.request,
+			setMyUsername: pmAction.setMyUsername,
 		},
 		dispatch
 	);
@@ -74,6 +77,28 @@ const JoinForm = (props: JoinFormProps) => {
 		alert('username and room key cannot be empty !');
 	};
 
+	const onChangeUsername = (ev: React.ChangeEvent<HTMLInputElement>) => {
+		const { value } = ev.target;
+		/*
+		 * set auth's username
+		 */
+		props.setUsername(value);
+
+		/*
+		 * set playerManager's me.name
+		 */
+		props.setMyUsername(value);
+	};
+
+	const onChangeRoom = (ev: React.ChangeEvent<HTMLInputElement>) => {
+		const { value } = ev.target;
+
+		/*
+		 * set room Key
+		 */
+		props.setRoomKey(value);
+	};
+
 	/*
 	 * if user is authenticated, then navigate to /editor page
 	 */
@@ -94,7 +119,7 @@ const JoinForm = (props: JoinFormProps) => {
 					id="form-username"
 					type="text"
 					placeholder="Enter Your Username Here"
-					onChange={ev => props.setUsername(ev.target.value)}
+					onChange={onChangeUsername}
 				></input>
 			</div>
 			<small className="mb-10">*username is required </small>
@@ -112,7 +137,7 @@ const JoinForm = (props: JoinFormProps) => {
 					id="form-room"
 					type="text"
 					placeholder={`Like "bfd5b1a2-0be0......."`}
-					onChange={ev => props.setRoomKey(ev.target.value)}
+					onChange={onChangeRoom}
 				></input>
 			</div>
 			<small className="mb-4">*the random string is required</small>

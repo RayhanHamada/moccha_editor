@@ -4,6 +4,8 @@ import { from } from 'rxjs';
 
 import { MyTypes } from '../../store/app-custom-types';
 
+import { printDevLog } from '../../utils';
+import { resetEdin } from '../editor-internal/actions';
 import {
 	getRoomKey as getRoomKeyAPI,
 	deleteRoomKey as deleteRoomKeyAPI,
@@ -17,9 +19,12 @@ import {
 	setIsRM,
 	getRoomExistence,
 } from './actions';
-import { printDevLog } from '../../utils';
-import { resetEdin } from '../editor-internal/actions';
-import { addPlayer } from '../player-manager/actions';
+import {
+	addPlayer,
+	setRoomMaster,
+	setMyUsername,
+	clearPlayers,
+} from '../player-manager/actions';
 
 /*
  * triggered in case of client creating a room
@@ -39,9 +44,15 @@ export const fetchRoomKey$: MyTypes.AppEpic = (action$, state$, { socketio }) =>
 					 */
 
 					const { username } = state$.value.authReducer;
+					const me: AppFeatures.Player = {
+						name: username,
+						socketID: socketio.id,
+					};
+
 					return [
 						getRoomKey.success({ roomKey }),
-						addPlayer({ name: username, socketID: socketio.id }),
+						addPlayer(me),
+						setRoomMaster(me),
 					];
 				})
 			)
@@ -86,28 +97,28 @@ export const onRoomKeyExist$: MyTypes.AppEpic = action$ =>
 		/*
 		 * if so then set authenticated to true
 		 */
-		map(action => {
+		mergeMap(action => {
 			/*
 			 * if we're intended to join a room
 			 */
 			if (action.type === 'auth/SUCCESS_ROOM_EXISTENCE') {
 				/*
-				 * and the room is exists, then authenticate
+				 * and the room is exists, then trigger SET_MY_DATA and AUTHENTICATE action
 				 */
 				if (action.payload) {
-					return authenticate();
+					return [authenticate()];
 				}
 
 				/*
 				 * if not, then return cancel to join the room
 				 */
-				return getRoomExistence.cancel();
+				return [getRoomExistence.cancel()];
 			}
 
 			/*
 			 * after we're intended to create a room
 			 */
-			return authenticate();
+			return [authenticate()];
 		})
 	);
 
@@ -140,9 +151,19 @@ export const clearAfterExit$: MyTypes.AppEpic = (
 			const { isRM, roomKey } = state$.value.authReducer;
 
 			/*
+			 * get our data
+			 */
+			const { me } = state$.value.playerManagerReducer;
+			const stringifiedMe = JSON.stringify(me);
+
+			/*
+			 * get our data
+			 */
+
+			/*
 			 * notice other client that this client is leaving the room.
 			 */
-			socketio.emit('player-leave', roomKey, isRM);
+			socketio.emit('player_leave', roomKey, isRM, stringifiedMe);
 			/*
 			 * check if this client is room master, if so then delete roomKey
 			 * in database, and make other client in the room leaves the room.
@@ -158,13 +179,15 @@ export const clearAfterExit$: MyTypes.AppEpic = (
 				return from(deleteRoomKeyAPI(roomKey)).pipe(
 					mergeMap(() => {
 						/*
-						 * and make isRM to be false, and reset room and username
+						 * and make isRM to be false, and reset room and username,
+						 * and clear player list
 						 */
 						return [
 							setIsRM(false),
 							setRoomKey(''),
 							setUsername(''),
 							resetEdin(),
+							clearPlayers(),
 						];
 					})
 				);
@@ -173,7 +196,13 @@ export const clearAfterExit$: MyTypes.AppEpic = (
 			/*
 			 * if not, simply reset roomKey and username, and reset editor internal state
 			 */
-			return [setRoomKey(''), setUsername(''), resetEdin()];
+			return [
+				setRoomKey(''),
+				setUsername(''),
+				resetEdin(),
+				setMyUsername(''),
+				clearPlayers(),
+			];
 		})
 	);
 

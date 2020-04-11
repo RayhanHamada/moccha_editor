@@ -29,6 +29,12 @@ export const freezeEditor: MyTypes.AppEpic = (action$, state$, { socketio }) =>
 			const recentPlayerSocketID = players[players.length - 1].socketID;
 
 			/*
+			 * stringify every non (string | primitives types)
+			 */
+
+			const stringifiedPlayers: string = JSON.stringify(players);
+
+			/*
 			 * if we're the RM, then it's our responsibility to
 			 * make the recently joined player synchronize their
 			 * state
@@ -38,11 +44,12 @@ export const freezeEditor: MyTypes.AppEpic = (action$, state$, { socketio }) =>
 				 * emit content_sync
 				 */
 				socketio.emit(
-					'content_sync',
+					'editor_sync',
 					roomKey,
 					recentPlayerSocketID,
 					currentlySavedCode,
-					langID
+					langID,
+					stringifiedPlayers
 				);
 				printDevLog(`socket should emit content_synchronize`);
 			}

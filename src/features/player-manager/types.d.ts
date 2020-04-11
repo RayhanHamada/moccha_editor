@@ -1,9 +1,14 @@
 declare namespace AppFeatures {
 	interface PlayerManager {
 		/*
+		 * our data
+		 */
+		me: Player;
+
+		/*
 		 * the room master name
 		 */
-		roomMaster: string;
+		roomMaster: Player;
 
 		/*
 		 * players name
@@ -15,14 +20,14 @@ declare namespace AppFeatures {
 		 */
 		isPlayerOtwRoom: boolean;
 
-		/* 
-		* the recent joined player ID
-		*/
+		/*
+		 * the recent joined player ID
+		 */
 		recentJoinedPlayer: Player;
 	}
 
 	interface Player {
 		name: string;
-		socketID?: string
+		socketID?: string;
 	}
 }

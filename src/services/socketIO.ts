@@ -12,12 +12,33 @@ import {
 } from '../features/editor-internal/actions';
 
 import { printDevLog } from '../utils';
-import { addPlayer } from '../features/player-manager/actions';
+import {
+	addPlayer,
+	setPlayers,
+	setMySocketID,
+	removePlayer,
+} from '../features/player-manager/actions';
 
 /*
  * make socket connection to server
  */
 const socket = socketio(serverUrl);
+
+/*
+ * on connected,
+ */
+socket.on('connect', () => {
+	/*
+	 * get socket session id
+	 */
+	const socketID = socket.id;
+	printDevLog(`my socket id is ${socketID}`);
+
+	/*
+	 * set it to reducer
+	 */
+	store.dispatch(setMySocketID(socketID));
+});
 
 /*
  * listener for language change
@@ -77,7 +98,7 @@ socket.on('player-join', (playerName: string, clientID: string) => {
 /*
  * for when a player leave a room,
  */
-socket.on('player-leave', (isRM: boolean) => {
+socket.on('player_leave', (isRM: boolean, thatPlayerData: string) => {
 	/*
 	 * if the player that leave is RM, then deauthenticate
 	 */
@@ -88,38 +109,51 @@ socket.on('player-leave', (isRM: boolean) => {
 		return;
 	}
 
-	/* 
-	TODO: make a player noticer
-	*/
+	/*
+	 * remove leaving player from player list
+	 */
+	const thatPlayer = JSON.parse(thatPlayerData) as AppFeatures.Player;
+	store.dispatch(removePlayer(thatPlayer));
+	printDevLog(`should dispatch removePlayer`);
 });
 
 /*
- * when RM sent us(the recently joined player) for content synchronization
+ * on RM sent us(the recently joined player) for editor state synchronization
  */
-socket.on('content_sync', (code: string, currLangID: number) => {
-	/*
-	 * dispatch edin/SAVE_CODE action
-	 */
-	store.dispatch(saveCode(code));
+socket.on(
+	'editor_sync',
+	(code: string, currLangID: number, stringifiedPlayers: string) => {
+		/*
+		 * dispatch edin/SAVE_CODE action
+		 */
+		store.dispatch(saveCode(code));
 
-	/*
-	 * refresh the editor with updated value
-	 */
-	store.dispatch(refreshEditor());
+		/*
+		 * refresh the editor with updated value
+		 */
+		store.dispatch(refreshEditor());
 
-	/*
-	 * find language based on the currLangID
-	 */
-	const lang = supportedLanguages.find(
-		lang => lang.id === currLangID
-	) as AGT.Language;
+		/*
+		 * find language based on the currLangID
+		 */
+		const lang = supportedLanguages.find(
+			lang => lang.id === currLangID
+		) as AGT.Language;
 
-	/*
-	 * make SelectLanguage to not listen for a while
-	 */
-	store.dispatch(watchLangChange(false));
-	store.dispatch(setLanguage(lang));
-	store.dispatch(watchLangChange(true));
-});
+		/*
+		 * make SelectLanguage to not listen for a while
+		 */
+		store.dispatch(watchLangChange(false));
+		store.dispatch(setLanguage(lang));
+		store.dispatch(watchLangChange(true));
+
+		/*
+		 * set all joined players
+		 */
+		const players = JSON.parse(stringifiedPlayers) as AppFeatures.Player[];
+
+		store.dispatch(setPlayers(players));
+	}
+);
 
 export default socket;
