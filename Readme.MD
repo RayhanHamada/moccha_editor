@@ -1,6 +1,6 @@
 # Moccha-Editor (Front-end)
 
-    A live-collaboration code editor that i casually built using  React, Redux and other specific libraries and technologies 
+A live-collaboration code editor that i casually built using  React, Redux and other specific libraries and technologies 
 
 ## Features
     1. Live-Collaboration code editing
