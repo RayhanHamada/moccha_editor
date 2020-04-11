@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"scripts": {
 		"dev": "webpack-dev-server --color --progress",
-		"build": "/node_modules/.bin/webpack --color --progress",
+		"build": "./node_modules/.bin/webpack --color --progress",
 		"serve": "serve build",
 		"lint:ts": "eslint src/**/*.{ts,tsx} --fix",
 		"pretty": "prettier src/**/* --config ./.prettierrc --fix",
@@ -41,8 +41,7 @@
 		"typeit": "^6.5.1",
 		"typesafe-actions": "^5.1.0",
 		"utility-types": "^3.10.0",
-		"uuid": "^3.4.0",
-		"webpack": "^4.42.1"
+		"uuid": "^3.4.0"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.8.6",
