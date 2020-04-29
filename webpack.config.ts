@@ -11,7 +11,9 @@ const prodOutput = path.resolve(__dirname, 'build');
 
 export default {
 	mode: isProd ? 'production' : 'development',
-	entry: entryPath,
+	entry: {
+		entryPath,
+	},
 	output: {
 		path: prodOutput,
 		filename: '[name].[hash].js',
@@ -74,13 +76,7 @@ export default {
 		? {}
 		: {
 				minimize: true,
-				minimizer: [
-					new TerserWebpackPlugin({
-						terserOptions: {
-							compress: true,
-						},
-					}),
-				],
+				minimizer: [new TerserWebpackPlugin()],
 		  },
 
 	// only specified if the environment is in development mode
