@@ -24,9 +24,9 @@ declare namespace AppFeatures {
 		 */
 		shouldFreeze: boolean;
 
-		/* 
-		* refreshCount
-		*/
+		/*
+		 * refreshCount
+		 */
 		refreshCount: number;
 	}
 }

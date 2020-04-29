@@ -49,8 +49,6 @@ export const supportedLanguages: AGT.Language[] = [
 	},
 ];
 
-
-
 export const serverUrl = isDev
 	? (process.env.MOCK_BASE_SERVER_URL as string)
 	: (process.env.BASE_SERVER_URL as string);

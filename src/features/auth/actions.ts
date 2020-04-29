@@ -63,6 +63,9 @@ export const getRoomKey = createAsyncAction(
 	'auth/FAIL_FETCH_ROOM_KEY'
 )<undefined, { roomKey: string }, undefined>();
 
-export const setCopied = createAction('auth/SET_COPIED', (copied: boolean) => copied)();
+export const setCopied = createAction(
+	'auth/SET_COPIED',
+	(copied: boolean) => copied
+)();
 
 export const resetAuth = createAction('auth/RESET')();

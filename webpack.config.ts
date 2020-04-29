@@ -44,9 +44,9 @@ export default {
 		],
 	},
 	plugins: [
-		/* 
-		* no need to specify env-cmd in dev mode in package.json
-		*/
+		/*
+		 * no need to specify env-cmd in dev mode in package.json
+		 */
 		new Dotenv({
 			path: isProd ? './prod.env' : './dev.env',
 		}),
@@ -73,6 +73,7 @@ export default {
 	optimization: !isProd
 		? {}
 		: {
+				minimize: true,
 				minimizer: [new TerserWebpackPlugin()],
 		  },
 

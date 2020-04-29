@@ -11,7 +11,7 @@ const style = css`
 const Spinner = () => {
 	return (
 		<div className="spinner-wrapper">
-			<ClipLoader css={style} size={35} loading={true} color={"#454545"} />
+			<ClipLoader css={style} size={35} loading={true} color={'#454545'} />
 		</div>
 	);
 };

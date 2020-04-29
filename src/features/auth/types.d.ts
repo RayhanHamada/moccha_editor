@@ -17,9 +17,9 @@ declare namespace AppFeatures {
 		isLoading: boolean;
 		loadingMsg: string;
 
-		/* 
-		* is this user is room master
-		*/
+		/*
+		 * is this user is room master
+		 */
 		isRM: boolean;
 
 		copied: boolean;

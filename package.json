@@ -8,7 +8,7 @@
 		"build": "node_modules/.bin/webpack --color --progress",
 		"serve": "serve build",
 		"lint:ts": "eslint src/**/*.{ts,tsx} --fix",
-		"pretty": "prettier src/**/* --config ./.prettierrc --fix",
+		"pretty": "prettier src/**/* --config ./.prettierrc --write",
 		"test": "env-cmd -e test ts-mocha src/**/*.spec.ts"
 	},
 	"keywords": [],

@@ -6,16 +6,10 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import { MyTypes } from '../../store/app-custom-types';
-import { fetchRoomKey$, deauthenticate$ } from './epics';
+import { fetchRoomKey$, clearAfterExit$ } from './epics';
 import { clearRoomKeys } from '../../api/api.util';
-import { mockState } from '../mock-state';
 import reducer from './reducer';
-import {
-	setRoom,
-	setUsername,
-	deauthenticate,
-	getRoomKey,
-} from './actions';
+import { setUsername, getRoomKey, setRoomKey } from './actions';
 
 describe("Auth's", function() {
 	describe('reducer', () => {
@@ -61,79 +55,78 @@ describe("Auth's", function() {
 
 			const roomKey = 'test-key';
 			// dispatch action to reducer
-			const output = reducer(mockState, setRoom(roomKey));
+			const output = reducer(mockState, setRoomKey(roomKey));
 
 			expect(output).deep.equal(expectedValue);
 		});
 
-	describe.skip('epics', function() {
-		this.timeout(100000);
+		describe.skip('epics', function() {
+			this.timeout(100000);
 
-		let state$: StateObservable<MyTypes.RootState>;
+			let state$: StateObservable<MyTypes.RootState>;
 
-		this.beforeEach(() => {
-			state$ = new StateObservable<MyTypes.RootState>(
-				new Subject(),
-				mockState as MyTypes.RootState
-			);
-		});
-
-		this.afterEach(done => {
-			clearRoomKeys().then(res => {
-				console.log(`clear room keys on server: ${res.data}`);
-				done();
+			this.beforeEach(() => {
+				state$ = new StateObservable<MyTypes.RootState>(
+					new Subject(),
+					mockState as MyTypes.RootState
+				);
 			});
-		});
 
-		// * passed
-		it.skip('fetchRoomKey$ should output auth/AUTHENTICATE action', done => {
-			const action$ = ActionsObservable.of<MyTypes.RootAction>(
-				getRoomKey.request()
-			);
-
-			const expectActType: MyTypes.RootAction['type'] = 'auth/AUTHENTICATE';
-
-			const output$ = fetchRoomKey$(action$, state$, null);
-
-			output$.toPromise().then(action => {
-				expect(action.type).equal(expectActType);
-				done();
+			this.afterEach(done => {
+				clearRoomKeys().then(res => {
+					console.log(`clear room keys on server: ${res.data}`);
+					done();
+				});
 			});
-		});
 
-		// * passed
-		it.skip('deauthenticate$ should output auth/SET_ROOM', done => {
-			// make mock state
-			const mockState: DeepPartial<MyTypes.RootState> = {
-				authReducer: {
-					username: 'test-username',
-					roomKey: 'test-roomkey',
-					authenticated: true,
-				},
-			};
-			// make state's stream
-			state$ = new StateObservable<MyTypes.RootState>(
-				new Subject(),
-				mockState as MyTypes.RootState
-			);
+			// * passed
+			it.skip('fetchRoomKey$ should output auth/AUTHENTICATE action', done => {
+				const action$ = ActionsObservable.of<MyTypes.RootAction>(
+					getRoomKey.request()
+				);
 
-			// action stream
-			const action$: ActionsObservable<MyTypes.RootAction> = ActionsObservable.of(
-				{ type: 'auth/DEAUTHENTICATE' }
-			);
+				const expectActType: MyTypes.RootAction['type'] = 'auth/AUTHENTICATE';
 
-			const expectedAct: MyTypes.RootAction = {
-				type: 'auth/SET_ROOM',
-				payload: {
-					roomKey: '',
-				},
-			};
+				const output$ = fetchRoomKey$(action$, state$, undefined as any);
 
-			const output$ = deauthenticate$(action$, state$, null);
+				output$.toPromise().then(action => {
+					expect(action.type).equal(expectActType);
+					done();
+				});
+			});
 
-			output$.toPromise().then(action => {
-				expect(action).to.be.deep.equal(expectedAct);
-				done();
+			// * passed
+			it.skip('deauthenticate$ should output auth/SET_ROOM', done => {
+				// make mock state
+				const mockState: DeepPartial<MyTypes.RootState> = {
+					authReducer: {
+						username: 'test-username',
+						roomKey: 'test-roomkey',
+						authenticated: true,
+					},
+				};
+				// make state's stream
+				state$ = new StateObservable<MyTypes.RootState>(
+					new Subject(),
+					mockState as MyTypes.RootState
+				);
+
+				// action stream
+				const action$: ActionsObservable<MyTypes.RootAction> = ActionsObservable.of(
+					{ type: 'auth/DEAUTHENTICATE' }
+				);
+
+				const expectedAct: MyTypes.RootAction = {
+					type: 'auth/SET_ROOM_KEY',
+					payload: '',
+				};
+
+				const output$ = clearAfterExit$(action$, state$, undefined as any);
+
+				output$.toPromise().then(action => {
+					expect(action).to.equal(expectedAct);
+					done();
+				});
 			});
 		});
 	});
