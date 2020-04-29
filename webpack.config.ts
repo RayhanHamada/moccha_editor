@@ -74,7 +74,13 @@ export default {
 		? {}
 		: {
 				minimize: true,
-				minimizer: [new TerserWebpackPlugin()],
+				minimizer: [
+					new TerserWebpackPlugin({
+						terserOptions: {
+							compress: true,
+						},
+					}),
+				],
 		  },
 
 	// only specified if the environment is in development mode

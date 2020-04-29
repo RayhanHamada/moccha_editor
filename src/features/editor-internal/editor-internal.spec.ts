@@ -1,6 +1,5 @@
 import { expect } from 'chai';
 import { Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { StateObservable, ActionsObservable } from 'redux-observable';
 
 import {

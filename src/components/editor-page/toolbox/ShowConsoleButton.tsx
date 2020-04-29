@@ -17,15 +17,7 @@ Button.defaultProps = {
 	id: 'show-console',
 };
 
-const mapStateToProps = ({}: MyTypes.RootState) => ({});
-
-const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
-	bindActionCreators({}, dispatch);
-
-type ShowConsoleButtonProps = ReturnType<typeof mapStateToProps> &
-	ReturnType<typeof mapDispatchToProps>;
-
-const ShowConsoleButton = (props: ShowConsoleButtonProps) => {
+const ShowConsoleButton = () => {
 	return (
 		<Button>
 			<i className="fa fa-terminal fa-2x" id="console-logo"></i>
