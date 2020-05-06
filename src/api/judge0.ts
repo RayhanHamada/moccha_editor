@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const BASE_API_URL = 'https://api.judge0.com';
 
-/*
+/**
  * @name    fetchSubmissionToken
  * @method  POST
  * @query   language_id => specify what language this source code is in
@@ -22,7 +22,7 @@ export const fetchSubmissionToken = (langID: number, code: string) =>
 		})
 		.then(res => res.data.token as string);
 
-/*
+/**
  * @name        fetchSubmissionResult
  * @method      GET
  * @query       -

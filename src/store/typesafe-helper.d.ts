@@ -1,6 +1,6 @@
 import { StateType, ActionType } from 'typesafe-actions';
 
-/*
+/**
  * this is type helper for typesafe-action module
  */
 declare module 'typesafe-actions' {

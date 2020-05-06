@@ -19,12 +19,12 @@ import {
 	removePlayer,
 } from '../features/player-manager/actions';
 
-/*
+/**
  * make socket connection to server
  */
 const socket = socketio(serverUrl);
 
-/*
+/**
  * on connected,
  */
 socket.on('connect', () => {
@@ -40,7 +40,7 @@ socket.on('connect', () => {
 	store.dispatch(setMySocketID(socketID));
 });
 
-/*
+/**
  * listener for language change
  */
 socket.on('cl', (langID: number) => {
@@ -70,7 +70,7 @@ socket.on('cl', (langID: number) => {
 	store.dispatch(watchLangChange(true));
 });
 
-/*
+/**
  * for when a player join a room
  */
 socket.on('player-join', (playerName: string, clientID: string) => {
@@ -95,7 +95,7 @@ socket.on('player-join', (playerName: string, clientID: string) => {
 	store.dispatch(editorFreeze());
 });
 
-/*
+/**
  * for when a player leave a room,
  */
 socket.on('player_leave', (isRM: boolean, thatPlayerData: string) => {
@@ -117,7 +117,7 @@ socket.on('player_leave', (isRM: boolean, thatPlayerData: string) => {
 	printDevLog(`should dispatch removePlayer`);
 });
 
-/*
+/**
  * on RM sent us(the recently joined player) for editor state synchronization
  */
 socket.on(

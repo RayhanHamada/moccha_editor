@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { serverUrl as BASE_SERVER_URL } from '../globals';
 
-/*
+/**
  * auth api version used
  */
 const apiVersion = 'v1';

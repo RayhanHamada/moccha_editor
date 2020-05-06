@@ -26,7 +26,7 @@ import {
 	clearPlayers,
 } from '../player-manager/actions';
 
-/*
+/**
  * triggered in case of client creating a room
  */
 export const fetchRoomKey$: MyTypes.AppEpic = (action$, state$, { socketio }) =>
@@ -59,7 +59,7 @@ export const fetchRoomKey$: MyTypes.AppEpic = (action$, state$, { socketio }) =>
 		)
 	);
 
-/*
+/**
  * triggered in case of client joining a room
  */
 export const reqRoomExistence$: MyTypes.AppEpic = (action$, state$) =>
@@ -83,7 +83,7 @@ export const reqRoomExistence$: MyTypes.AppEpic = (action$, state$) =>
 		})
 	);
 
-/*
+/**
  * trigerred when client either create a room or join a room
  */
 export const onRoomKeyExist$: MyTypes.AppEpic = action$ =>
@@ -122,7 +122,7 @@ export const onRoomKeyExist$: MyTypes.AppEpic = action$ =>
 		})
 	);
 
-/*
+/**
  * if getRoomExistence.cancel invoked, then just show the alert that the room not exists
  */
 export const alertRoomNotExists$: MyTypes.AppEpic = action$ =>
@@ -134,7 +134,7 @@ export const alertRoomNotExists$: MyTypes.AppEpic = action$ =>
 		})
 	);
 
-/*
+/**
  * reset username, roomKey, isRM
  */
 export const clearAfterExit$: MyTypes.AppEpic = (
@@ -206,7 +206,7 @@ export const clearAfterExit$: MyTypes.AppEpic = (
 		})
 	);
 
-/*
+/**
  * make socket emit player-join event (whether for creating or joining a room)
  */
 export const socketEmitWeJoin$: MyTypes.AppEpic = (

@@ -16,7 +16,7 @@ import store from '../../../store';
 
 import './index.scss';
 
-/*
+/**
  * props for monaco-editor
  */
 const options: EditorConstructionOptions = {
@@ -41,7 +41,7 @@ type MonacoWraperProps = ReturnType<typeof mapStateToProps>;
 
 let editorRef: MonacoEditor;
 
-/*
+/**
  * additional code for managing code change
  */
 

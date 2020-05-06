@@ -1,6 +1,6 @@
 import { createAction, createAsyncAction } from 'typesafe-actions';
 
-/*
+/**
  * set client's username
  */
 export const setUsername = createAction(
@@ -8,7 +8,7 @@ export const setUsername = createAction(
 	(username: string) => username
 )();
 
-/*
+/**
  * set the room
  */
 export const setRoomKey = createAction(
@@ -16,7 +16,7 @@ export const setRoomKey = createAction(
 	(roomKey: string) => roomKey
 )();
 
-/*
+/**
  * for checking existence of a room on the database
  */
 export const checkRoomExistence = createAsyncAction(
@@ -25,7 +25,7 @@ export const checkRoomExistence = createAsyncAction(
 	'auth/FAILED_ROOM_EXISTENCE'
 )<undefined, boolean, Error>();
 
-/*
+/**
  *  for get room existence
  */
 export const getRoomExistence = createAsyncAction(
@@ -35,7 +35,7 @@ export const getRoomExistence = createAsyncAction(
 	'auth/CANCEL_ROOM'
 )<string, boolean, undefined, undefined>();
 
-/*
+/**
  * to set isRM
  */
 export const setIsRM = createAction(
@@ -43,18 +43,18 @@ export const setIsRM = createAction(
 	(isRM: boolean) => isRM
 )();
 
-/*
+/**
  * for authenticate user
  */
 
 export const authenticate = createAction('auth/AUTHENTICATE')();
 
-/*
+/**
  * deauthenticate
  */
 export const deauthenticate = createAction('auth/DEAUTHENTICATE')();
 
-/*
+/**
  * get the room key from the server
  */
 export const getRoomKey = createAsyncAction(

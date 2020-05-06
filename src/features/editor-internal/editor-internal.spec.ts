@@ -36,6 +36,9 @@ describe("editor internal's", function() {
 				consoleOutput: '',
 				currentlySavedCode: '',
 				token: '',
+				shouldFreeze: false,
+				refreshCount: 0,
+				watchLangChangeFromSocket: false,
 			};
 
 			const expectedLanguage = supportedLanguages[1];
@@ -58,6 +61,9 @@ describe("editor internal's", function() {
 				consoleOutput: '',
 				currentlySavedCode: '',
 				token: '',
+				shouldFreeze: false,
+				refreshCount: 0,
+				watchLangChangeFromSocket: false,
 			};
 
 			/*
@@ -83,6 +89,9 @@ describe("editor internal's", function() {
 				consoleOutput: '',
 				currentlySavedCode: '',
 				token: '',
+				shouldFreeze: false,
+				refreshCount: 0,
+				watchLangChangeFromSocket: false,
 			};
 
 			/*
@@ -130,7 +139,7 @@ describe("editor internal's", function() {
 			const code = 'test-code';
 			const expectedValue = saveCode(code);
 			const action$ = ActionsObservable.of(incomingCodeChanges(code));
-			const $output = saveCode$(action$, state$, null);
+			const $output = saveCode$(action$, state$, undefined as any);
 
 			$output.toPromise().then(action => {
 				expect(action).to.be.deep.equal(expectedValue);

@@ -22,7 +22,7 @@ const SelectLanguage = styled.select`
 	border-radius: 7%;
 `;
 
-/*
+/**
  * set SelectLanguage default props
  */
 SelectLanguage.defaultProps = {

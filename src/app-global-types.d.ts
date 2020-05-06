@@ -1,4 +1,4 @@
-/*
+/**
  * namespace for all app-related types
  */
 

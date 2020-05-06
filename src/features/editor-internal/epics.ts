@@ -11,7 +11,7 @@ import {
 	fetchSubmissionResult as fetchSubResAPI,
 } from '../../api/judge0';
 
-/*
+/**
  * for saving code from editor every 2000 each time editor's onChange event
  * is triggered
  */
@@ -38,7 +38,7 @@ export const saveCode$: MyTypes.AppEpic = action$ =>
 		})
 	);
 
-/*
+/**
  * get submission token from https://api.judge0.com
  */
 export const fetchSubmissionToken$: MyTypes.AppEpic = (action$, state$) =>
@@ -65,7 +65,7 @@ export const fetchSubmissionToken$: MyTypes.AppEpic = (action$, state$) =>
 		})
 	);
 
-/*
+/**
  *  get submission result from https://api.judge0.com
  */
 export const fetchSubmissionResult$: MyTypes.AppEpic = action$ =>
