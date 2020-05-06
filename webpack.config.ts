@@ -7,7 +7,7 @@ import path from 'path';
 
 const isProd = process.env.NODE_ENV === 'production';
 const entryPath = './src/index.tsx';
-const prodOutput = path.resolve(__dirname, 'build');
+const prodOutput = path.resolve(__dirname, 'dist');
 
 export default {
 	mode: isProd ? 'production' : 'development',
