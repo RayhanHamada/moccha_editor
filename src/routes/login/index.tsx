@@ -41,6 +41,7 @@ const LoginPage = (props: LoginPageProps) => {
 				<div className="flex-row mt-auto self-center pb-1">
 					<i
 						className="fa fa-github fa-3x ml-3"
+						id="my-github-icon"
 						onClick={() =>
 							window.open('https://github.com/RayhanHamada/moccha_editor')
 						}
