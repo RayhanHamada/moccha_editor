@@ -55,7 +55,7 @@ export default {
 		new HTMLWebpackPlugin({
 			title: 'React with Webpack and Typescript Support Boilerplate',
 			template: './src/index.html',
-			favicon: 'assets/mocha_icon.png'
+			favicon: 'assets/mocha_icon.png',
 		}),
 		new MonacoWebpackPlugin({
 			languages: [
