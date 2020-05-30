@@ -2,7 +2,7 @@ import { ActionType, StateType } from 'typesafe-actions';
 import { Epic } from 'redux-observable';
 import { Dispatch } from 'redux';
 
-declare namespace MyTypes {
+export namespace MyTypes {
 	/*
 	 * root of all action in this app
 	 */
