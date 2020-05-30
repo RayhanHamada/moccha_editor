@@ -23,9 +23,9 @@ declare namespace AppFeatures {
 		isRM: boolean;
 
 		copied: boolean;
-    }
-    
-    export interface EditorInternal {
+	}
+
+	export interface EditorInternal {
 		/*
 		 * code execution related
 		 */
@@ -54,9 +54,9 @@ declare namespace AppFeatures {
 		 * refreshCount
 		 */
 		refreshCount: number;
-    }
-    
-    interface PlayerManager {
+	}
+
+	interface PlayerManager {
 		/*
 		 * our data
 		 */

@@ -103,7 +103,7 @@ export const onRoomKeyExist$: MyTypes.AppEpic = action$ =>
 			 */
 			if (action.type === 'auth/SUCCESS_ROOM_EXISTENCE') {
 				/*
-				 * and the room is exists, 
+				 * and the room is exists,
 				 */
 				if (action.payload) {
 					// * then trigger SET_MY_POINTER and AUTHENTICATE action
