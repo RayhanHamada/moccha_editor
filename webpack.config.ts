@@ -72,7 +72,7 @@ export default {
 			],
 		}),
 		new BundleAnalyzerPlugin({
-			openAnalyzer: true,
+			openAnalyzer: !isProd,
 		}),
 	],
 
