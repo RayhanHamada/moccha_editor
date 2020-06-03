@@ -3,6 +3,7 @@ import TerserWebpackPlugin from 'terser-webpack-plugin';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
 import { Configuration } from 'webpack';
 import Dotenv from 'dotenv-webpack';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import path from 'path';
 
 const isProd = process.env.NODE_ENV === 'production';
@@ -69,6 +70,9 @@ export default {
 				'json',
 				'kotlin',
 			],
+		}),
+		new BundleAnalyzerPlugin({
+			openAnalyzer: true,
 		}),
 	],
 

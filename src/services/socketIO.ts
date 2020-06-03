@@ -18,6 +18,7 @@ import {
 	setMySocketID,
 	removePlayer,
 } from '../features/player-manager/actions';
+import routes from '../routes/routes-names';
 
 /**
  * make socket connection to server
@@ -104,7 +105,7 @@ socket.on('player_leave', (isRM: boolean, thatPlayerData: string) => {
 	 */
 	if (isRM) {
 		store.dispatch(deauthenticate());
-		history.replace('/');
+		history.replace(routes.home);
 		alert('You were leaving because room Master is leaving the Room');
 		return;
 	}

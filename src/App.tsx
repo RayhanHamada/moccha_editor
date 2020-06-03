@@ -6,6 +6,7 @@ import { MyTypes } from './store/app-custom-types';
 
 import EditorPage from './routes/editor/';
 import LoginPage from './routes/login/';
+import routes from './routes/routes-names';
 
 export const mapStateToProps = ({ authReducer }: MyTypes.RootState) => ({
 	authenticated: authReducer.authenticated,
@@ -16,11 +17,11 @@ export type AppProps = ReturnType<typeof mapStateToProps>;
 const App = (props: AppProps) => {
 	return (
 		<Switch>
-			<Route exact path="/" render={() => <LoginPage />} />
+			<Route exact path={routes.home} render={() => <LoginPage />} />
 			<Route
-				path="/"
+				path={routes.editor}
 				render={() =>
-					props.authenticated ? (
+					true ? (
 						<EditorPage />
 					) : (
 						<div>You&rsquo;re not authenticated</div>
