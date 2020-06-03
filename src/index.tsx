@@ -17,3 +17,5 @@ ReactDOM.render(
 	</Provider>,
 	document.getElementById('app')
 );
+
+console.log(process.env.BASE_SERVER_URL);
