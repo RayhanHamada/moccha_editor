@@ -6,8 +6,8 @@
 	"scripts": {
 		"dev": "./node_modules/.bin/cross-env NODE_ENV=development ./node_modules/.bin/webpack-dev-server --color --progress",
 		"build": "./node_modules/.bin/cross-env NODE_ENV=production ./node_modules/.bin/webpack --color --progress",
-		"lint:ts": "./node_modules/.bin/eslint src/**/*.{ts,tsx} --fix",
-		"pretty": "./node_modules/.bin/prettier src/**/* --config ./.prettierrc --write",
+		"lint": "./node_modules/.bin/eslint src/**/*.{ts,tsx} --fix",
+		"fmt": "./node_modules/.bin/prettier src/**/* --config ./.prettierrc --write",
 		"test": "env-cmd -e test ts-mocha src/**/*.spec.ts"
 	},
 	"keywords": [],
