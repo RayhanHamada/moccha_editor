@@ -4,13 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"dev": "./node_modules/.bin/env-cmd -e dev ./node_modules/.bin/webpack-dev-server --color --progress",
-		"build:local": "./node_modules/.bin/env-cmd -e prod ./node_modules/.bin/webpack --color --progress",
-		"lint:ts": "./node_modules/.bin/eslint src/**/*.{ts,tsx} --fix",
-		"fmt": "./node_modules/.bin/prettier src/**/* --config ./.prettierrc --write",
-		"test": "env-cmd -e test ts-mocha src/**/*.spec.ts",
-		"tidy": "npm run lint:ts && npm run fmt",
-		"copyden": "./node_modules/.bin/copyden ./netlify-deploy/package.json ./package.json --asDep"
+		"build": "./node_modules/.bin/env-cmd -e production ./node_modules/.bin/webpack --color --progress"
 	},
 	"keywords": [],
 	"author": {
@@ -44,9 +38,7 @@
 		"styled-components": "^5.0.1",
 		"tailwindcss": "^1.2.0",
 		"typeit": "^6.5.1",
-		"typesafe-actions": "^5.1.0"
-	},
-	"devDependencies": {
+		"typesafe-actions": "^5.1.0",
 		"@babel/core": "^7.8.6",
 		"@babel/plugin-proposal-optional-chaining": "^7.8.3",
 		"@babel/preset-env": "^7.8.6",
