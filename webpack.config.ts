@@ -1,13 +1,19 @@
+import path from 'path';
+
 import MonacoWebpackPlugin from 'monaco-editor-webpack-plugin';
 import TerserWebpackPlugin from 'terser-webpack-plugin';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
 import { Configuration } from 'webpack';
-import Dotenv from 'dotenv-webpack';
-import path from 'path';
+import DotenvCmd from 'dotenv-cmd-webpack';
+
+import env from './.env-cmdrc.json';
 
 const isProd = process.env.NODE_ENV === 'production';
-const entryPath = './src/index.tsx';
-const prodOutput = path.resolve(__dirname, 'dist');
+const entryPath = process.env.WEBPACK_ENTRY_PATH;
+const prodOutput = path.resolve(
+	__dirname,
+	process.env.WEBPACK_OUTPUT_PATH as string
+);
 
 export default {
 	mode: isProd ? 'production' : 'development',
@@ -49,9 +55,13 @@ export default {
 		/*
 		 * no need to specify env-cmd in dev mode in package.json
 		 */
-		new Dotenv({
-			path: isProd ? './prod.env' : './dev.env',
-		}),
+		isProd
+			? null
+			: DotenvCmd({
+					envObject: env,
+					env: 'dev',
+					debug: true,
+			  }),
 		new HTMLWebpackPlugin({
 			title: 'React with Webpack and Typescript Support Boilerplate',
 			template: './src/index.html',
