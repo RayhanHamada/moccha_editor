@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"build": "./node_modules/.bin/env-cmd -e production ./node_modules/.bin/webpack --color --progress"
+		"build": "./node_modules/.bin/cross-env NODE_ENV=production WEBPACK_ENTRY_PATH=./../src/index.ts WEBPACK_OUTPUT_PATH=./dist ./node_modules/.bin/webpack --color --progress"
 	},
 	"keywords": [],
 	"author": {
