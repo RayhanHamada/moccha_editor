@@ -7,7 +7,7 @@ const isProd = process.env.NODE_ENV === 'production';
 const entryPath = process.env.WEBPACK_ENTRY_PATH;
 const prodOutput = path.resolve(__dirname, process.env.WEBPACK_OUTPUT_PATH);
 
-export default {
+module.exports = {
 	mode: isProd ? 'production' : 'development',
 	entry: {
 		entryPath,
