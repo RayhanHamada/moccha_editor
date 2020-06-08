@@ -2,5 +2,5 @@ node_modules/
 build/
 dev.env
 prod.env
-.env-cmdrc.json
+./.env-cmdrc.*
 /netlify.toml
