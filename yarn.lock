@@ -2887,9 +2887,10 @@ copy-descriptor@^0.1.0:
   resolved "https://registry.yarnpkg.com/copy-descriptor/-/copy-descriptor-0.1.1.tgz#676f6eb3c39997c2ee1ac3a924fd6124748f578d"
   integrity sha1-Z29us8OZl8LuGsOpJP1hJHSPV40=
 
-"copydencies@https://github.com/RayhanHamada/copydencies.git":
+copydencies@^1.0.4:
   version "1.0.4"
-  resolved "https://github.com/RayhanHamada/copydencies.git#ff7ea08c96badbf65958d48615db9e8d6213c898"
+  resolved "https://registry.yarnpkg.com/copydencies/-/copydencies-1.0.4.tgz#f6b440ff2db260c8fb95f05a33facc24e2178518"
+  integrity sha512-ptHuRYbELlVCSLo4I5C2++Fv4gARLh3+LgOa5FTpD1QIccoL6PVieRbuyKw7h/9pqLEn4VcgmjmsbxIXdcsp+Q==
   dependencies:
     meow "^7.0.1"
 
@@ -3384,9 +3385,10 @@ domutils@^1.5.1:
     dom-serializer "0"
     domelementtype "1"
 
-"dotenv-cmd-webpack@https://github.com/RayhanHamada/dotenv-cmd-webpack.git":
+dotenv-cmd-webpack@^1.0.0:
   version "1.0.0"
-  resolved "https://github.com/RayhanHamada/dotenv-cmd-webpack.git#85e56acd0a67727158831b0f02b2ab8a9f26321f"
+  resolved "https://registry.yarnpkg.com/dotenv-cmd-webpack/-/dotenv-cmd-webpack-1.0.0.tgz#ca66ea8a77b5f206cf9972ae030eb617c352d2f1"
+  integrity sha512-X7m9ABJcMlGIT2P25QWwGVn5jCElnhbUPzv1QtykVNl0x8naT01duks+SYIJtZSwOft24bXfIITSfhOoiPzX1g==
   dependencies:
     dotenv "^8.2.0"
     webpack "^4.43.0"

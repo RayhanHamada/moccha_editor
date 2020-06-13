@@ -6,13 +6,11 @@ import HTMLWebpackPlugin from 'html-webpack-plugin';
 import { Configuration } from 'webpack';
 import DotenvCmd from 'dotenv-cmd-webpack';
 
-import env from './.env-cmdrc.json';
-
 const isProd = process.env.NODE_ENV === 'production';
-const entryPath = process.env.WEBPACK_ENTRY_PATH;
+const entryPath = process.env.WEBPACK_ENTRY_PATH || './src/index.tsx';
 const prodOutput = path.resolve(
 	__dirname,
-	process.env.WEBPACK_OUTPUT_PATH as string
+	process.env.WEBPACK_OUTPUT_PATH || './dist'
 );
 
 export default {
@@ -58,7 +56,7 @@ export default {
 		isProd
 			? null
 			: DotenvCmd({
-					envObject: env,
+					filePath: './.env-cmdrc.json',
 					env: 'dev',
 					debug: true,
 			  }),
