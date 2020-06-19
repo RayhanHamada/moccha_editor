@@ -7,11 +7,8 @@ import { Configuration } from 'webpack';
 import DotenvCmd from 'dotenv-cmd-webpack';
 
 const isProd = process.env.NODE_ENV === 'production';
-const entryPath = process.env.WEBPACK_ENTRY_PATH || './src/index.tsx';
-const prodOutput = path.resolve(
-	__dirname,
-	process.env.WEBPACK_OUTPUT_PATH || './dist'
-);
+const entryPath = './src/index.tsx';
+const prodOutput = path.resolve(__dirname, './dist');
 
 export default {
 	mode: isProd ? 'production' : 'development',
@@ -53,13 +50,11 @@ export default {
 		/*
 		 * no need to specify env-cmd in dev mode in package.json
 		 */
-		isProd
-			? null
-			: DotenvCmd({
-					filePath: './.env-cmdrc.json',
-					env: 'dev',
-					debug: true,
-			  }),
+		DotenvCmd({
+			filePath: './.env-cmdrc.json',
+			env: isProd ? 'dev' : 'prod',
+			debug: true,
+		}),
 		new HTMLWebpackPlugin({
 			title: 'React with Webpack and Typescript Support Boilerplate',
 			template: './src/index.html',
