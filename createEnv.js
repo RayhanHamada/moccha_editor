@@ -4,10 +4,6 @@ const { makeEnvInJson } = require('dotenv-file-maker');
 /**
  * convert all devDependencies to dependency
  */
-if (process.env.NODE_ENV === 'production') {
-    
-}
-
 (async () => {
 	await depToDep.convert('./package.json', 'toDep', [/^@types\//]).catch(() => {
 		console.error('failed to convert ./package.json');
