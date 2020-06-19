@@ -3242,6 +3242,10 @@ delegates@^1.0.0:
   resolved "https://registry.yarnpkg.com/delegates/-/delegates-1.0.0.tgz#84c6e159b81904fdca59a0ef44cd870d31250f9a"
   integrity sha1-hMbhWbgZBP3KWaDvRM2HDTElD5o=
 
+"dep-to-dep@https://github.com/RayhanHamada/dep-to-dep.git":
+  version "1.2.0"
+  resolved "https://github.com/RayhanHamada/dep-to-dep.git#71808a50328686d9f9d6eb30ffeeb13918f6e1a7"
+
 depd@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/depd/-/depd-1.1.2.tgz#9bcd52e14c097763e749b274c4346ed2e560b5a9"
@@ -3400,6 +3404,10 @@ dotenv-defaults@^1.0.2:
   integrity sha512-6fPRo9o/3MxKvmRZBD3oNFdxODdhJtIy1zcJeUSCs6HCy4tarUpd+G67UTU9tF6OWXeSPqsm4fPAB+2eY9Rt9Q==
   dependencies:
     dotenv "^6.2.0"
+
+"dotenv-file-maker@https://github.com/RayhanHamada/dotenv-file-maker.git":
+  version "1.0.0"
+  resolved "https://github.com/RayhanHamada/dotenv-file-maker.git#4f3c090d14ecd3eca03d3417c13ae46eca4ba873"
 
 dotenv-webpack@^1.7.0:
   version "1.8.0"
