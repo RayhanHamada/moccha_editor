@@ -6,7 +6,7 @@ const fs = require('fs');
 	const envObj = {
 		prod: envs.reduce((prev, curr) => ({
 			...prev,
-			[curr]: JSON.stringify(process.env[curr]),
+			[curr]: process.env[curr],
 		}), {}),
 	};
 
