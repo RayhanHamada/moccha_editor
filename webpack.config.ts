@@ -52,7 +52,7 @@ export default {
 		 */
 		DotenvCmd({
 			filePath: './.env-cmdrc.json',
-			env: isProd ? 'dev' : 'prod',
+			env: isProd ? 'prod' : 'dev',
 			debug: true,
 		}),
 		new HTMLWebpackPlugin({
