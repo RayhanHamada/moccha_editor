@@ -6,7 +6,7 @@
 	"scripts": {
 		"preinstall": "node ./netlify-preinstall.js",
 		"dev": "./node_modules/.bin/env-cmd -e dev ./node_modules/.bin/webpack-dev-server --color --progress",
-		"build:netlify": "node ./netlify-prebuild && ./node_modules/.bin/env-cmd -e prod ./node_modules/.bin/webpack --color --progress",
+		"build:netlify": "node ./netlify-prebuild && ./node_modules/.bin/cross-env NODE_ENV=production ./node_modules/.bin/webpack --color --progress",
 		"build:local": "./node_modules/.bin/env-cmd -e prod ./node_modules/.bin/webpack --color --progress",
 		"lint:ts": "./node_modules/.bin/eslint src/**/*.{ts,tsx} --fix",
 		"fmt": "./node_modules/.bin/prettier src/**/* --config ./.prettierrc --write",
