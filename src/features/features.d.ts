@@ -76,15 +76,11 @@ declare namespace AppFeatures {
 		 * indicate whether another player is attempting to join the room
 		 */
 		isPlayerOtwRoom: boolean;
-
-		/*
-		 * the recent joined player ID
-		 */
-		recentJoinedPlayer: Player;
 	}
 
 	interface Player {
 		name: string;
 		socketID?: string;
+		cursorColor: string;
 	}
 }

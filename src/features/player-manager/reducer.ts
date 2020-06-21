@@ -1,20 +1,19 @@
 import { createReducer } from 'typesafe-actions';
+import randomColor from 'randomcolor';
 
 const initialState: AppFeatures.PlayerManager = {
 	me: {
 		name: '',
 		socketID: '',
+		cursorColor: randomColor(),
 	},
 	roomMaster: {
 		name: '',
 		socketID: '',
+		cursorColor: '',
 	},
 	players: [],
 	isPlayerOtwRoom: false,
-	recentJoinedPlayer: {
-		name: '',
-		socketID: '',
-	},
 };
 
 const playerManagerReducer = createReducer({
