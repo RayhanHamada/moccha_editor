@@ -7,7 +7,7 @@ const fs = require('fs');
 		prod: envs.reduce((prev, curr) => ({
 			...prev,
 			[curr]: JSON.stringify(process.env[curr]),
-		})),
+		}), {}),
 	};
 
 	await fs.promises.writeFile('./.env-cmdrc.json', JSON.stringify(envObj));
