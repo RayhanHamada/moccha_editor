@@ -5,7 +5,7 @@ const initialState: AppFeatures.PlayerManager = {
 	me: {
 		name: '',
 		socketID: '',
-		cursorColor: randomColor(),
+		cursorColor: '',
 	},
 	roomMaster: {
 		name: '',
@@ -32,6 +32,14 @@ const playerManagerReducer = createReducer({
 		me: {
 			...state.me,
 			socketID: action.payload,
+		},
+	}))
+
+	.handleType('pm/SET_MY_CURSOR_COLOR', state => ({
+		...state,
+		me: {
+			...state.me,
+			cursorColor: randomColor(),
 		},
 	}))
 

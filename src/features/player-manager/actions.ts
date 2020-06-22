@@ -10,6 +10,8 @@ export const setMySocketID = createAction(
 	(socketID: string) => socketID
 )();
 
+export const setMyCursorColor = createAction('pm/SET_MY_CURSOR_COLOR')();
+
 export const addPlayer = createAction(
 	'pm/ADD_PLAYER',
 	(player: AppFeatures.Player) => player
