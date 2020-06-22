@@ -29,13 +29,13 @@ const socket = socketio(serverUrl);
  * on connected,
  */
 socket.on('connect', () => {
-	/*
+	/**
 	 * get socket session id
 	 */
 	const socketID = socket.id;
 	printDevLog(`my socket id is ${socketID}`);
 
-	/*
+	/**
 	 * set it to reducer
 	 */
 	store.dispatch(setMySocketID(socketID));
@@ -46,26 +46,26 @@ socket.on('connect', () => {
  */
 socket.on('cl', (langID: number) => {
 	printDevLog('on change-language triggered !');
-	/*
+	/**
 	 * find language in supportedLanguages that id === langID
 	 */
 	const language = supportedLanguages.find(
 		lang => lang.id === langID
 	) as AGT.Language;
 
-	/*
+	/**
 	 * turn off SelectLanguage onChange listener for a while
 	 * so the socket inside the listener won't emit
 	 */
 	store.dispatch(watchLangChange(false));
 
-	/*
+	/**
 	 * dispatch change
 	 */
 
 	store.dispatch(setLanguage(language));
 
-	/*
+	/**
 	 * turn on the SelectLanguage's onChange listener after finish
 	 */
 	store.dispatch(watchLangChange(true));
@@ -76,14 +76,14 @@ socket.on('cl', (langID: number) => {
  *
  */
 socket.on('player-join', (player: string) => {
-	/*
+	/**
 	 * push new player's name to players
 	 */
 	const playerObj: AppFeatures.Player = JSON.parse(player);
 	printDevLog(`a player with name ${playerObj.name} joined`);
 	store.dispatch(addPlayer(playerObj));
 
-	/*
+	/**
 	 * and dispatch editorFreeze (this may happen for at least 3 seconds),
 	 * so the joined player's editor content could be
 	 * synchronized with our editor's content thru
@@ -96,7 +96,7 @@ socket.on('player-join', (player: string) => {
  * for when a player leave a room,
  */
 socket.on('player_leave', (isRM: boolean, thatPlayerData: string) => {
-	/*
+	/**
 	 * if the player that leave is RM, then deauthenticate
 	 */
 	if (isRM) {
@@ -106,7 +106,7 @@ socket.on('player_leave', (isRM: boolean, thatPlayerData: string) => {
 		return;
 	}
 
-	/*
+	/**
 	 * remove leaving player from player list
 	 */
 	const thatPlayer = JSON.parse(thatPlayerData) as AppFeatures.Player;
@@ -120,31 +120,31 @@ socket.on('player_leave', (isRM: boolean, thatPlayerData: string) => {
 socket.on(
 	'editor_sync',
 	(code: string, currLangID: number, stringifiedPlayers: string) => {
-		/*
+		/**
 		 * dispatch edin/SAVE_CODE action
 		 */
 		store.dispatch(saveCode(code));
 
-		/*
+		/**
 		 * refresh the editor with updated value
 		 */
 		store.dispatch(refreshEditor());
 
-		/*
+		/**
 		 * find language based on the currLangID
 		 */
 		const lang = supportedLanguages.find(
 			lang => lang.id === currLangID
 		) as AGT.Language;
 
-		/*
+		/**
 		 * make SelectLanguage to not listen for a while
 		 */
 		store.dispatch(watchLangChange(false));
 		store.dispatch(setLanguage(lang));
 		store.dispatch(watchLangChange(true));
 
-		/*
+		/**
 		 * set all joined players
 		 */
 		const players = JSON.parse(stringifiedPlayers) as AppFeatures.Player[];

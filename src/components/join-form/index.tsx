@@ -35,7 +35,7 @@ const mapStateToProps = ({ authReducer }: MyTypes.RootState) => ({
 type Props = AGT.Props<typeof mapStateToProps, typeof mapDispatchToProps>;
 
 const JoinForm = (props: Props) => {
-	/*
+	/**
 	 * event for create room button
 	 */
 	const createRoom: EventHandler<React.MouseEvent<
@@ -45,7 +45,7 @@ const JoinForm = (props: Props) => {
 		ev.preventDefault();
 
 		if (props.username !== '') {
-			/*
+			/**
 			 * fetch the keys, and then authenticate the user
 			 */
 			props.fetchRoomKey();
@@ -55,7 +55,7 @@ const JoinForm = (props: Props) => {
 		alert('Username cannot be empty');
 	};
 
-	/*
+	/**
 	 * event for join room button
 	 */
 	const joinRoom: EventHandler<React.MouseEvent<
@@ -64,7 +64,7 @@ const JoinForm = (props: Props) => {
 	>> = e => {
 		e.preventDefault();
 
-		/*
+		/**
 		 * to join the room, username and roomKey shouldn't be empty string
 		 * and roomKey should be exists on database
 		 */
@@ -78,12 +78,12 @@ const JoinForm = (props: Props) => {
 
 	const onChangeUsername = (ev: React.ChangeEvent<HTMLInputElement>) => {
 		const { value } = ev.target;
-		/*
+		/**
 		 * set auth's username
 		 */
 		props.setUsername(value);
 
-		/*
+		/**
 		 * set playerManager's me.name
 		 */
 		props.setMyUsername(value);
@@ -92,13 +92,13 @@ const JoinForm = (props: Props) => {
 	const onChangeRoom = (ev: React.ChangeEvent<HTMLInputElement>) => {
 		const { value } = ev.target;
 
-		/*
+		/**
 		 * set room Key
 		 */
 		props.setRoomKey(value);
 	};
 
-	/*
+	/**
 	 * if user is authenticated, then navigate to /editor page
 	 */
 	useEffect(() => {

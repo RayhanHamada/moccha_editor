@@ -26,7 +26,7 @@ export const fetchSubmissionToken = (langID: number, code: string) =>
  * @name        fetchSubmissionResult
  * @method      GET
  * @query       -
- * @param       token
+ * @param       {string} token
  * @desc        get submission result
  * @return      SubmissionResult (see api.d.ts)
  */

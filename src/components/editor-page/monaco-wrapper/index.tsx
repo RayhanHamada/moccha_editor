@@ -56,17 +56,17 @@ const MonacoWrapper = (props: Props) => {
 		store.dispatch(incomingCodeChanges(val));
 	};
 
-	/*
+	/**
 	 * ref for monaco editor
 	 */
 	useEffect(() => {
-		/*
+		/**
 		 * if the current language is changed, update the editor.
 		 */
 		editorRef?.forceUpdate(() => console.log('editor is updated !'));
 	}, [props.lang]);
 
-	/*
+	/**
 	 * triggered everytime a new user join the room
 	 */
 	useEffect(() => {
@@ -74,7 +74,7 @@ const MonacoWrapper = (props: Props) => {
 	}, [props.refreshCount]);
 
 	useEffect(() => {
-		/*
+		/**
 		 * if mounted, bind editor to ChangeEditorManager
 		 */
 		const ecm = new EditorContentManager({
@@ -113,7 +113,7 @@ const MonacoWrapper = (props: Props) => {
 			},
 		});
 
-		/*
+		/**
 		 * listening for any code change from server socket
 		 */
 		socket.on('text-insertion', (insertion: string) => {
@@ -144,7 +144,7 @@ const MonacoWrapper = (props: Props) => {
 		});
 
 		return () => {
-			/*
+			/**
 			 * when component will unmount, turn off these socket listener
 			 */
 			socket.off('text-insertion');
@@ -153,7 +153,7 @@ const MonacoWrapper = (props: Props) => {
 		};
 	}, []);
 
-	/*
+	/**
 	 * freeze the editor for 3 second
 	 */
 	useEffect(() => {

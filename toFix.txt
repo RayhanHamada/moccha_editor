@@ -1,2 +1,3 @@
 to be fixed list:
 [x] use AGT.Props for all components props parameter
+[ ] fix block comment format

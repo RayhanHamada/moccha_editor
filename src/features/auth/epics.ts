@@ -223,7 +223,7 @@ export const socketEmitWeJoin$: MyTypes.AppEpic = (
 			const { roomKey, isRM } = _state$.value.authReducer;
 			const { me } = _state$.value.playerManagerReducer;
 			const strMe = JSON.stringify(me);
-			/*
+			/**
 			 * value param for emit: roomKey, username and isRM (is room master)
 			 */
 			printDevLog(`this player is rm ? ${isRM}`);

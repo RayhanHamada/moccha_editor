@@ -57,7 +57,7 @@ const roomReducer = createReducer({ ...initialState } as AppFeatures.Auth)
 		loadingMsg: '',
 	}))
 
-	/*
+	/**
 	 * should show loading loop and loading message while app get the roomKey
 	 */
 	.handleType('auth/FETCH_ROOM_KEY', state => ({
@@ -70,12 +70,12 @@ const roomReducer = createReducer({ ...initialState } as AppFeatures.Auth)
 		...state,
 		roomKey: action.payload.roomKey,
 
-		/*
+		/**
 		 * stop showing loading loop and loading message
 		 */
 		isLoading: false,
 		loadingMsg: '',
-		/*
+		/**
 		 * because when the user got the room key means they're creating a room which means
 		 * they're the room master, set isRM is true
 		 */
@@ -85,10 +85,6 @@ const roomReducer = createReducer({ ...initialState } as AppFeatures.Auth)
 	.handleType('auth/SET_COPIED', (state, action) => ({
 		...state,
 		copied: action.payload,
-	}))
-
-	.handleType('auth/RESET', () => ({
-		...initialState,
 	}));
 
 export default roomReducer;

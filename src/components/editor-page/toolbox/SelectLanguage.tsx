@@ -36,14 +36,14 @@ SelectLanguage.defaultProps = {
 		</>
 	),
 	onChange: function(ev) {
-		/*
+		/**
 		 * get watchLangChange
 		 */
 		const {
 			watchLangChangeFromSocket,
 		} = store.getState().editorInternalReducer;
 
-		/*
+		/**
 		 * when we emit change-language from the socket, it would received by other client's
 		 * SelectLanguage's onChange listener and will be sent back to us, which will trigger
 		 * emit change-language again, and so on.
@@ -51,26 +51,26 @@ SelectLanguage.defaultProps = {
 		 */
 		if (!watchLangChangeFromSocket) return;
 
-		/*
+		/**
 		 * get option's value as language id
 		 */
 		const languageId: number = parseInt(
 			ev.target.options[ev.target.selectedIndex].value
 		);
 
-		/*
+		/**
 		 * get language value based on language id
 		 */
 		const language = supportedLanguages.find(
 			val => val.id === languageId
 		) as AGT.Language;
 
-		/*
+		/**
 		 * dispatch language change to store
 		 */
 		store.dispatch<MyTypes.RootAction>(setLanguage(language));
 
-		/*
+		/**
 		 * broadcast to another client in current room
 		 */
 		const { roomKey } = store.getState().authReducer;

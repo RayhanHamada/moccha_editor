@@ -29,7 +29,6 @@ export const removePlayer = createAction(
 
 export const clearPlayers = createAction('pm/CLEAR_PLAYERS')();
 
-
 export const setRoomMaster = createAction(
 	'pm/SET_RM',
 	(rm: AppFeatures.Player) => rm
