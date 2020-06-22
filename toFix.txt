@@ -1,2 +1,2 @@
 to be fixed list:
-[] use AGT.Props for all components props parameter
+[x] use AGT.Props for all components props parameter
