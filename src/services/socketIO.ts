@@ -73,19 +73,15 @@ socket.on('cl', (langID: number) => {
 
 /**
  * for when a player join a room
+ *
  */
-socket.on('player-join', (playerName: string, clientID: string) => {
-	printDevLog(`a player with name ${playerName} joined`);
-
+socket.on('player-join', (player: string) => {
 	/*
 	 * push new player's name to players
 	 */
-	store.dispatch(
-		addPlayer({
-			name: playerName,
-			socketID: clientID,
-		})
-	);
+	const playerObj: AppFeatures.Player = JSON.parse(player);
+	printDevLog(`a player with name ${playerObj.name} joined`);
+	store.dispatch(addPlayer(playerObj));
 
 	/*
 	 * and dispatch editorFreeze (this may happen for at least 3 seconds),

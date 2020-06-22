@@ -67,5 +67,3 @@ export const setCopied = createAction(
 	'auth/SET_COPIED',
 	(copied: boolean) => copied
 )();
-
-export const resetAuth = createAction('auth/RESET')();

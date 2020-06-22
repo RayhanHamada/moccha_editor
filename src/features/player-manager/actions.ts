@@ -27,12 +27,6 @@ export const removePlayer = createAction(
 
 export const clearPlayers = createAction('pm/CLEAR_PLAYERS')();
 
-export const otherPlayerJoin = createAction('pm/OTHER_PLAYER_JOIN')();
-
-export const setRecentJoinedPlayer = createAction(
-	'pm/SET_RECENT_PLAYER',
-	(player: AppFeatures.Player) => player
-)();
 
 export const setRoomMaster = createAction(
 	'pm/SET_RM',

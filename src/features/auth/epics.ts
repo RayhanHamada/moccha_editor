@@ -1,4 +1,5 @@
 import { mergeMap, map } from 'rxjs/operators';
+import randomColor from 'randomcolor';
 import { ofType } from 'redux-observable';
 import { from } from 'rxjs';
 
@@ -47,6 +48,7 @@ export const fetchRoomKey$: MyTypes.AppEpic = (action$, state$, { socketio }) =>
 					const me: AppFeatures.Player = {
 						name: username,
 						socketID: socketio.id,
+						cursorColor: randomColor(),
 					};
 
 					return [
@@ -218,12 +220,14 @@ export const socketEmitWeJoin$: MyTypes.AppEpic = (
 	action$.pipe(
 		ofType('auth/AUTHENTICATE'),
 		map(() => {
-			const { roomKey, isRM, username } = _state$.value.authReducer;
+			const { roomKey, isRM } = _state$.value.authReducer;
+			const { me } = _state$.value.playerManagerReducer;
+			const strMe = JSON.stringify(me);
 			/*
 			 * value param for emit: roomKey, username and isRM (is room master)
 			 */
 			printDevLog(`this player is rm ? ${isRM}`);
-			socketio.emit('player-join', roomKey, username, isRM);
+			socketio.emit('player-join', roomKey, strMe, isRM);
 			printDevLog(`emitted player-join`);
 			return setRoomKey(roomKey);
 		})
