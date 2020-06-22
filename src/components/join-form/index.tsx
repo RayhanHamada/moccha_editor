@@ -32,10 +32,9 @@ const mapStateToProps = ({ authReducer }: MyTypes.RootState) => ({
 	authenticated: authReducer.authenticated,
 });
 
-type JoinFormProps = ReturnType<typeof mapStateToProps> &
-	ReturnType<typeof mapDispatchToProps>;
+type Props = AGT.Props<typeof mapStateToProps, typeof mapDispatchToProps>;
 
-const JoinForm = (props: JoinFormProps) => {
+const JoinForm = (props: Props) => {
 	/*
 	 * event for create room button
 	 */

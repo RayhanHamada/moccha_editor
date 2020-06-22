@@ -1,3 +1,4 @@
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import React from 'react';
 
@@ -12,9 +13,12 @@ const mapStateToProps = ({ editorInternalReducer }: MyTypes.RootState) => ({
 	langId: editorInternalReducer.currentLanguage.id,
 });
 
-type ToolBoxProps = ReturnType<typeof mapStateToProps>;
+const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
+	bindActionCreators({}, dispatch);
 
-const ToolBox = (props: ToolBoxProps) => {
+type Props = AGT.Props<typeof mapStateToProps, typeof mapDispatchToProps>;
+
+const ToolBox = (props: Props) => {
 	return (
 		<div id="tool-box" className="flex flex-row items-center">
 			<RunButton />
@@ -23,4 +27,4 @@ const ToolBox = (props: ToolBoxProps) => {
 	);
 };
 
-export default connect(mapStateToProps)(ToolBox);
+export default connect(mapStateToProps, mapDispatchToProps)(ToolBox);

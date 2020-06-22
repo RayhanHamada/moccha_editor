@@ -29,10 +29,9 @@ const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
 		dispatch
 	);
 
-type ClearConsoleButtonProps = ReturnType<typeof mapStateToProps> &
-	ReturnType<typeof mapDispatchToProps>;
+type Props = AGT.Props<typeof mapStateToProps, typeof mapDispatchToProps>;
 
-const ClearConsoleButton = (props: ClearConsoleButtonProps) => {
+const ClearConsoleButton = (props: Props) => {
 	return (
 		<Button
 			onClick={ev => {

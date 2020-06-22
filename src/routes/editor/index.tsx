@@ -32,10 +32,9 @@ const mapStateToProps = ({ authReducer }: MyTypes.RootState) => ({
 	copied: authReducer.copied,
 	roomKey: authReducer.roomKey,
 });
-type EditorProps = ReturnType<typeof mapDispatchToProps> &
-	ReturnType<typeof mapStateToProps>;
+type Props = AGT.Props<typeof mapStateToProps, typeof mapDispatchToProps>;
 
-const EditorPage = (props: EditorProps) => {
+const EditorPage = (props: Props) => {
 	/*
 	 * when user go back to login page, leave page, or refresh page, then
 	 * do deauth, reset editor internal state, and replace route with routes.home

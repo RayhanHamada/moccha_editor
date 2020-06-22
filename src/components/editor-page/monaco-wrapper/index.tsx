@@ -15,6 +15,7 @@ import { printDevLog } from '../../../utils';
 import store from '../../../store';
 
 import './index.scss';
+import { bindActionCreators } from 'redux';
 
 /**
  * props for monaco-editor
@@ -37,7 +38,10 @@ const mapStateToProps = ({
 	savedCode: editorInternalReducer.currentlySavedCode,
 });
 
-type MonacoWraperProps = ReturnType<typeof mapStateToProps>;
+const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
+	bindActionCreators({}, dispatch);
+
+type Props = AGT.Props<typeof mapStateToProps, typeof mapDispatchToProps>;
 
 let editorRef: MonacoEditor;
 
@@ -47,7 +51,7 @@ let editorRef: MonacoEditor;
 
 let shouldWatchChange = true;
 
-const MonacoWrapper = (props: MonacoWraperProps) => {
+const MonacoWrapper = (props: Props) => {
 	const handleChange: ChangeHandler = (val, ev) => {
 		store.dispatch(incomingCodeChanges(val));
 	};
@@ -55,7 +59,6 @@ const MonacoWrapper = (props: MonacoWraperProps) => {
 	/*
 	 * ref for monaco editor
 	 */
-
 	useEffect(() => {
 		/*
 		 * if the current language is changed, update the editor.
@@ -176,4 +179,4 @@ const MonacoWrapper = (props: MonacoWraperProps) => {
 	);
 };
 
-export default connect(mapStateToProps)(MonacoWrapper);
+export default connect(mapStateToProps, mapDispatchToProps)(MonacoWrapper);

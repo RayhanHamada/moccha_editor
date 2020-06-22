@@ -8,25 +8,25 @@ import { MyTypes } from './store/app-custom-types';
 import EditorPage from './routes/editor/';
 import LoginPage from './routes/login/';
 import routes from './routes/routes-names';
-import { setMyCursorColor } from './features/player-manager/actions';
+import * as pmActions from './features/player-manager/actions';
 
-export const mapStateToProps = ({ authReducer }: MyTypes.RootState) => ({
+const mapStateToProps = ({ authReducer }: MyTypes.RootState) => ({
 	authenticated: authReducer.authenticated,
 });
 
-export const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
+const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
 	bindActionCreators(
 		{
-			setMyCursorColor: setMyCursorColor,
+			setMyCursorColor: pmActions.setMyCursorColor,
 		},
 		dispatch
 	);
 
-type AppProps = AGT.Props<typeof mapStateToProps, typeof mapDispatchToProps>;
+type Props = AGT.Props<typeof mapStateToProps, typeof mapDispatchToProps>;
 
-const App = (props: AppProps) => {
+const App = (props: Props) => {
 	/**
-	 * set our cursor color early when page App loaded
+	 * set our cursor color randomly when page App loaded
 	 */
 	useEffect(() => {
 		props.setMyCursorColor();

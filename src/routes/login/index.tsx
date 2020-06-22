@@ -9,15 +9,19 @@ import JoinForm from '../../components/join-form/';
 import Typer from '../../components/misc/Typer';
 
 import './index.scss';
+import { bindActionCreators } from 'redux';
 
 const mapStateToProps = ({ authReducer }: MyTypes.RootState) => ({
 	isLoading: authReducer.isLoading,
 	loadingMsg: authReducer.loadingMsg,
 });
 
-type LoginPageProps = ReturnType<typeof mapStateToProps>;
+const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
+	bindActionCreators({}, dispatch);
 
-const LoginPage = (props: LoginPageProps) => {
+type Props = AGT.Props<typeof mapStateToProps, typeof mapDispatchToProps>;
+
+const LoginPage = (props: Props) => {
 	return (
 		<div className="flex flex-row w-screen h-screen" id="wrapper-login">
 			<div className="banner bg-gray-800 flex flex-col">
