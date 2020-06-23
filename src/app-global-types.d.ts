@@ -56,7 +56,7 @@ declare namespace AGT {
 	 * (we use it very much)
 	 */
 	type Props<
-		_MapStateToProps extends (...args: any[]) => any,
-		_MapDispatchToProps extends (...args: any[]) => any
+		_MapStateToProps extends (rootState: any) => Record<string, any>,
+		_MapDispatchToProps extends (dispatch: any) => any
 	> = ReturnType<_MapStateToProps> & ReturnType<_MapDispatchToProps>;
 }

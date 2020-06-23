@@ -1,8 +1,10 @@
-import { MyTypes } from '../../store/app-custom-types';
-import { ofType } from 'redux-observable';
 import { tap, delay, mapTo } from 'rxjs/operators';
-import { printDevLog } from '../../utils';
+import { ofType } from 'redux-observable';
+
 import { editorUnfreeze } from '../editor-internal/actions';
+import { printDevLog } from '../../utils';
+
+import { MyTypes } from '../../store/app-custom-types';
 
 export const freezeEditor: MyTypes.AppEpic = (action$, state$, { socketio }) =>
 	action$.pipe(
@@ -11,7 +13,7 @@ export const freezeEditor: MyTypes.AppEpic = (action$, state$, { socketio }) =>
 		 * and if we're a room master, emit content_synchronize socket event
 		 */
 		tap(() => {
-			const { isRM, roomKey } = state$.value.authReducer;
+			const { roomKey, me } = state$.value.authReducer;
 			const {
 				currentlySavedCode,
 				currentLanguage,
@@ -39,7 +41,7 @@ export const freezeEditor: MyTypes.AppEpic = (action$, state$, { socketio }) =>
 			 * make the recently joined player synchronize their
 			 * state
 			 */
-			if (isRM) {
+			if (me.isRM) {
 				/**
 				 * emit content_sync
 				 */

@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { MyTypes } from '../../store/app-custom-types';
 
 import * as authActions from '../../features/auth/actions';
-import * as pmAction from '../../features/player-manager/actions';
 
 import routes from '../../routes/routes-names';
 import { history } from '../../store';
@@ -21,13 +20,12 @@ const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
 			setRoomKey: authActions.setRoomKey,
 			fetchRoomKey: authActions.getRoomKey.request,
 			reqRoomExistence: authActions.checkRoomExistence.request,
-			setMyUsername: pmAction.setMyUsername,
 		},
 		dispatch
 	);
 
 const mapStateToProps = ({ authReducer }: MyTypes.RootState) => ({
-	username: authReducer.username,
+	username: authReducer.me.username,
 	roomKey: authReducer.roomKey,
 	authenticated: authReducer.authenticated,
 });
@@ -82,11 +80,6 @@ const JoinForm = (props: Props) => {
 		 * set auth's username
 		 */
 		props.setUsername(value);
-
-		/**
-		 * set playerManager's me.name
-		 */
-		props.setMyUsername(value);
 	};
 
 	const onChangeRoom = (ev: React.ChangeEvent<HTMLInputElement>) => {

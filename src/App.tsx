@@ -8,7 +8,7 @@ import { MyTypes } from './store/app-custom-types';
 import EditorPage from './routes/editor/';
 import LoginPage from './routes/login/';
 import routes from './routes/routes-names';
-import * as pmActions from './features/player-manager/actions';
+import * as authActions from './features/auth/actions';
 
 const mapStateToProps = ({ authReducer }: MyTypes.RootState) => ({
 	authenticated: authReducer.authenticated,
@@ -17,7 +17,7 @@ const mapStateToProps = ({ authReducer }: MyTypes.RootState) => ({
 const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
 	bindActionCreators(
 		{
-			setMyCursorColor: pmActions.setMyCursorColor,
+			setMyCursorColor: authActions.setCursorColor,
 		},
 		dispatch
 	);

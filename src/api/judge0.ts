@@ -1,4 +1,3 @@
-// @ts-nocheck
 import axios from 'axios';
 
 const BASE_API_URL = 'https://api.judge0.com';
@@ -16,7 +15,6 @@ const BASE_API_URL = 'https://api.judge0.com';
 export const fetchSubmissionToken = (langID: number, code: string) =>
 	axios
 		.post(`${BASE_API_URL}/submissions`, {
-			// @ts-ignore
 			language_id: langID,
 			source_code: code,
 		})
