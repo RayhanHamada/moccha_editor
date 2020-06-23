@@ -21,7 +21,7 @@ const PlayerList = (props: Props) => {
 			</p>
 			{props.players.map((playa, idx) => (
 				<p key={idx}>
-					{idx + 1}. {playa.name}
+					{idx + 1}. {playa.username}
 				</p>
 			))}
 		</div>

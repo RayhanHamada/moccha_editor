@@ -16,6 +16,13 @@ export const setRoomKey = createAction(
 	(roomKey: string) => roomKey
 )();
 
+export const setSocketID = createAction(
+	'auth/SET_SOCKET_ID',
+	(socketId: string) => socketId
+)();
+
+export const setCursorColor = createAction('auth/SET_CURSOR_COLOR')();
+
 /**
  * for checking existence of a room on the database
  */

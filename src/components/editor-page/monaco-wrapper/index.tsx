@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
 import { EditorContentManager } from '@convergencelabs/monaco-collab-ext';
-import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import React, { useEffect } from 'react';
 import { editor } from 'monaco-editor';
+import { connect } from 'react-redux';
 import MonacoEditor, {
 	ChangeHandler,
 	EditorConstructionOptions,
@@ -15,7 +16,6 @@ import { printDevLog } from '../../../utils';
 import store from '../../../store';
 
 import './index.scss';
-import { bindActionCreators } from 'redux';
 
 /**
  * props for monaco-editor
@@ -45,28 +45,22 @@ type Props = AGT.Props<typeof mapStateToProps, typeof mapDispatchToProps>;
 
 let editorRef: MonacoEditor;
 
-/**
- * additional code for managing code change
- */
-
-let shouldWatchChange = true;
-
 const MonacoWrapper = (props: Props) => {
-	const handleChange: ChangeHandler = (val, ev) => {
+	const handleChange: ChangeHandler = val => {
 		store.dispatch(incomingCodeChanges(val));
 	};
 
-	/*
+	/**
 	 * ref for monaco editor
 	 */
 	useEffect(() => {
-		/*
+		/**
 		 * if the current language is changed, update the editor.
 		 */
 		editorRef?.forceUpdate(() => console.log('editor is updated !'));
 	}, [props.lang]);
 
-	/*
+	/**
 	 * triggered everytime a new user join the room
 	 */
 	useEffect(() => {
@@ -74,7 +68,7 @@ const MonacoWrapper = (props: Props) => {
 	}, [props.refreshCount]);
 
 	useEffect(() => {
-		/*
+		/**
 		 * if mounted, bind editor to ChangeEditorManager
 		 */
 		const ecm = new EditorContentManager({
@@ -113,38 +107,32 @@ const MonacoWrapper = (props: Props) => {
 			},
 		});
 
-		/*
+		/**
 		 * listening for any code change from server socket
 		 */
 		socket.on('text-insertion', (insertion: string) => {
 			const { idx, text }: AGT.TextChange = JSON.parse(insertion);
 
-			shouldWatchChange = false;
 			ecm.insert(idx as number, text as string);
-			shouldWatchChange = true;
 			printDevLog('receive insert');
 		});
 
 		socket.on('text-deletion', (deletion: string) => {
 			const { idx, len }: AGT.TextChange = JSON.parse(deletion);
 
-			shouldWatchChange = false;
 			ecm.delete(idx as number, len as number);
-			shouldWatchChange = true;
 			printDevLog('receive delete');
 		});
 
 		socket.on('text-replacement', (replacement: string) => {
 			const { idx, len, text }: AGT.TextChange = JSON.parse(replacement);
 
-			shouldWatchChange = false;
 			ecm.replace(idx as number, len as number, text as string);
-			shouldWatchChange = true;
 			printDevLog('receive replace');
 		});
 
 		return () => {
-			/*
+			/**
 			 * when component will unmount, turn off these socket listener
 			 */
 			socket.off('text-insertion');
@@ -153,7 +141,7 @@ const MonacoWrapper = (props: Props) => {
 		};
 	}, []);
 
-	/*
+	/**
 	 * freeze the editor for 3 second
 	 */
 	useEffect(() => {

@@ -17,8 +17,3 @@ ReactDOM.render(
 	</Provider>,
 	document.getElementById('app')
 );
-
-console.log(
-	`is base server is right ${(process.env.BASE_SERVER_URL as string) ===
-		'https://moccha-text-editor-backend.herokuapp.com'}`
-);

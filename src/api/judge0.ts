@@ -1,4 +1,3 @@
-// @ts-nocheck
 import axios from 'axios';
 
 const BASE_API_URL = 'https://api.judge0.com';
@@ -16,7 +15,6 @@ const BASE_API_URL = 'https://api.judge0.com';
 export const fetchSubmissionToken = (langID: number, code: string) =>
 	axios
 		.post(`${BASE_API_URL}/submissions`, {
-			// @ts-ignore
 			language_id: langID,
 			source_code: code,
 		})
@@ -26,7 +24,7 @@ export const fetchSubmissionToken = (langID: number, code: string) =>
  * @name        fetchSubmissionResult
  * @method      GET
  * @query       -
- * @param       token
+ * @param       {string} token
  * @desc        get submission result
  * @return      SubmissionResult (see api.d.ts)
  */

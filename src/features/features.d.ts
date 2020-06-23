@@ -1,86 +1,109 @@
 declare namespace AppFeatures {
 	export interface Auth {
-		/*
-		 * username
+		/**
+		 * our player data
 		 */
-		username: string;
+		me: Player;
 
-		/*
-		 * the room key, retrieved by using auth API
+		/**
+		 * the room key, retrieved by using auth API or friend share
 		 */
 		roomKey: string;
+
+		/**
+		 * determine if we're authenticated or not
+		 */
 		authenticated: boolean;
 
-		/*
+		/**
 		 * for notify user a process is ongoing
 		 */
 		isLoading: boolean;
+
+		/**
+		 * determine whether the loading icon should appears
+		 */
 		loadingMsg: string;
 
-		/*
-		 * is this user is room master
+		/**
+		 * copied
 		 */
-		isRM: boolean;
-
 		copied: boolean;
 	}
 
 	export interface EditorInternal {
-		/*
-		 * code execution related
+		/**
+		 * is the code is being ran
 		 */
-
 		isRunning: boolean;
+
+		/**
+		 * currently saved code
+		 */
 		currentlySavedCode: string;
+
+		/**
+		 * token for judge0 API
+		 */
 		token: string;
+
+		/**
+		 * to notify us if another player changing the language
+		 */
 		watchLangChangeFromSocket: boolean;
 
-		/*
+		/**
 		 * editor related
 		 */
 		currentLanguage: AGT.Language;
 
-		/*
+		/**
 		 * consoleRelated
 		 */
 		consoleOutput: string;
 
-		/*
+		/**
 		 * whether the editor is in freeze state (read only state)
 		 */
 		shouldFreeze: boolean;
 
-		/*
+		/**
 		 * refreshCount
 		 */
 		refreshCount: number;
 	}
 
 	interface PlayerManager {
-		/*
-		 * our data
-		 */
-		me: Player;
-
-		/*
-		 * the room master name
-		 */
-		roomMaster: Player;
-
-		/*
+		/**
 		 * players name
 		 */
 		players: Player[];
 
-		/*
+		/**
 		 * indicate whether another player is attempting to join the room
 		 */
 		isPlayerOtwRoom: boolean;
 	}
 
 	interface Player {
-		name: string;
-		socketID?: string;
+		/**
+		 * name of the player
+		 */
+		username: string;
+
+		/**
+		 * socketID of the player
+		 */
+		socketID: string;
+
+		/**
+		 * cursor color of the player
+		 */
 		cursorColor: string;
+
+		/**
+		 * is this player is room master
+		 */
+		isRM: boolean;
 	}
 }
