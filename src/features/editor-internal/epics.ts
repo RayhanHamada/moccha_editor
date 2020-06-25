@@ -6,10 +6,7 @@ import { from } from 'rxjs';
 import { fetchSubmissionToken, fetchSubmissionResult } from './actions';
 import { MyTypes } from '../../store/app-custom-types';
 import { saveCode } from './actions';
-import {
-	fetchSubmissionToken as fetchSubTokenAPI,
-	fetchSubmissionResult as fetchSubResAPI,
-} from '../../api/judge0';
+import { createSubmissionAPI, getSubmissionAPI } from '../../api/judge0';
 
 /**
  * for saving code from editor every 2000 each time editor's onChange event
@@ -57,7 +54,7 @@ export const fetchSubmissionToken$: MyTypes.AppEpic = (action$, state$) =>
 			 * call fetchSubmissionToken API and pipe it's value (which is the token),
 			 * and dispatch fetchSubmissionToken.success action so the token will be saved
 			 */
-			return from(fetchSubTokenAPI(languageID, srcCode)).pipe(
+			return from(createSubmissionAPI(languageID, srcCode)).pipe(
 				map(token => {
 					return fetchSubmissionToken.success(token);
 				})
@@ -87,7 +84,7 @@ export const fetchSubmissionResult$: MyTypes.AppEpic = action$ =>
 			/**
 			 * get submission result based on token value.
 			 */
-			return from(fetchSubResAPI(token)).pipe(
+			return from(getSubmissionAPI(token)).pipe(
 				/**
 				 * delay the request fetching for 2 sec in case the our
 				 * submission result still processed or queued on the server

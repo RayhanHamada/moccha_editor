@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { fetchSubmissionToken, fetchSubmissionResult } from './judge0';
+import { createSubmissionAPI, getSubmissionAPI } from './judge0';
 import { printDevLog } from '../utils';
 
 describe('Judge0 API', function() {
@@ -10,7 +10,7 @@ describe('Judge0 API', function() {
 		const languageID = 74; // use typescript language
 		const sourceCode = `console.log('hello world');`;
 
-		await fetchSubmissionToken(languageID, sourceCode).then(token => {
+		await createSubmissionAPI(languageID, sourceCode).then(token => {
 			expect(token).to.be.exist;
 			done();
 		}).catch(() => {
@@ -28,7 +28,7 @@ describe('Judge0 API', function() {
 		/**
 		 * fetch the token first
 		 */
-		fetchSubmissionToken(languageID, sourceCode).then(async token => {
+		createSubmissionAPI(languageID, sourceCode).then(async token => {
 			/**
 			 * wait atleast 6 second before requesting for submission result
 			 */
@@ -36,7 +36,7 @@ describe('Judge0 API', function() {
 				/**
 				 * fetch submission result
 				 */
-				fetchSubmissionResult(token).then(output => {
+				getSubmissionAPI(token).then(output => {
 					expect(output.stdout).to.be.equal(expectedValue);
 					expect(output.status.description).to.be.equal('Accepted');
 					done();
