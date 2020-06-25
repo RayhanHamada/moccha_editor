@@ -3,6 +3,10 @@ import axios from 'axios';
 const BASE_API_URL = 'https://api.judge0.com';
 
 /**
+ * headers options
+ */
+
+/**
  * @name    fetchSubmissionToken
  * @method  POST
  * @query   language_id => specify what language this source code is in
@@ -12,7 +16,7 @@ const BASE_API_URL = 'https://api.judge0.com';
  * @return  object => token
  */
 
-export const fetchSubmissionToken = (langID: number, code: string) =>
+export const createSubmissionAPI = (langID: number, code: string) =>
 	axios
 		.post(`${BASE_API_URL}/submissions`, {
 			language_id: langID,
@@ -29,7 +33,7 @@ export const fetchSubmissionToken = (langID: number, code: string) =>
  * @return      SubmissionResult (see api.d.ts)
  */
 
-export const fetchSubmissionResult = (token: string) =>
+export const getSubmissionAPI = (token: string) =>
 	axios
 		.get(`${BASE_API_URL}/submissions/${token}`)
 		.then(res => res.data as AppAPI.SubmissionResult);
