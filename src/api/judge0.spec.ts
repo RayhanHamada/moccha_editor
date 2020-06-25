@@ -1,22 +1,26 @@
 import { expect } from 'chai';
 import { fetchSubmissionToken, fetchSubmissionResult } from './judge0';
+import { printDevLog } from '../utils';
 
 describe('Judge0 API', function() {
-	this.timeout(10000);
+	this.timeout(15000);
 
 	// passed
-	it.skip('fetchSubmissionToken should return token', done => {
+	it('fetchSubmissionToken should return token', async done => {
 		const languageID = 74; // use typescript language
 		const sourceCode = `console.log('hello world');`;
 
-		fetchSubmissionToken(languageID, sourceCode).then(token => {
+		await fetchSubmissionToken(languageID, sourceCode).then(token => {
 			expect(token).to.be.exist;
 			done();
+		}).catch(() => {
+			printDevLog(`error when fetch submission token`)
 		});
+		done();
 	});
 
 	// passed
-	it.skip('fetchSubmissionResult should return output', done => {
+	it('fetchSubmissionResult should return output', done => {
 		const languageID = 74;
 		const sourceCode = `console.log('hello world')`;
 		const expectedValue = 'hello world\n';
@@ -25,6 +29,9 @@ describe('Judge0 API', function() {
 		 * fetch the token first
 		 */
 		fetchSubmissionToken(languageID, sourceCode).then(async token => {
+			/**
+			 * wait atleast 6 second before requesting for submission result
+			 */
 			await setTimeout(() => {
 				/**
 				 * fetch submission result

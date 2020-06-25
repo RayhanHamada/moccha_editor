@@ -8,7 +8,7 @@
 		"build:local": "./node_modules/.bin/cross-env NODE_ENV=production ./node_modules/.bin/webpack --color --progress",
 		"lint": "./node_modules/.bin/eslint ./src/**/*.{ts,tsx}",
 		"fmt": "./node_modules/.bin/prettier src/**/* --config ./.prettierrc --write",
-		"test": "env-cmd -e test ts-mocha src/**/*.spec.ts",
+		"test": "./node_modules/.bin/env-cmd -e test ts-mocha src/**/*.spec.ts",
 		"tidy": "yarn run lint:ts && yarn run fmt"
 	},
 	"keywords": [],
