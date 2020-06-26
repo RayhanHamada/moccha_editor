@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { MyTypes } from '../../store/app-custom-types';
 
 import * as authActions from '../../features/auth/actions';
-import * as pmAction from '../../features/player-manager/actions';
 
 import routes from '../../routes/routes-names';
 import { history } from '../../store';
@@ -21,22 +20,20 @@ const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
 			setRoomKey: authActions.setRoomKey,
 			fetchRoomKey: authActions.getRoomKey.request,
 			reqRoomExistence: authActions.checkRoomExistence.request,
-			setMyUsername: pmAction.setMyUsername,
 		},
 		dispatch
 	);
 
 const mapStateToProps = ({ authReducer }: MyTypes.RootState) => ({
-	username: authReducer.username,
+	username: authReducer.me.username,
 	roomKey: authReducer.roomKey,
 	authenticated: authReducer.authenticated,
 });
 
-type JoinFormProps = ReturnType<typeof mapStateToProps> &
-	ReturnType<typeof mapDispatchToProps>;
+type Props = AGT.Props<typeof mapStateToProps, typeof mapDispatchToProps>;
 
-const JoinForm = (props: JoinFormProps) => {
-	/*
+const JoinForm = (props: Props) => {
+	/**
 	 * event for create room button
 	 */
 	const createRoom: EventHandler<React.MouseEvent<
@@ -46,7 +43,7 @@ const JoinForm = (props: JoinFormProps) => {
 		ev.preventDefault();
 
 		if (props.username !== '') {
-			/*
+			/**
 			 * fetch the keys, and then authenticate the user
 			 */
 			props.fetchRoomKey();
@@ -56,7 +53,7 @@ const JoinForm = (props: JoinFormProps) => {
 		alert('Username cannot be empty');
 	};
 
-	/*
+	/**
 	 * event for join room button
 	 */
 	const joinRoom: EventHandler<React.MouseEvent<
@@ -65,7 +62,7 @@ const JoinForm = (props: JoinFormProps) => {
 	>> = e => {
 		e.preventDefault();
 
-		/*
+		/**
 		 * to join the room, username and roomKey shouldn't be empty string
 		 * and roomKey should be exists on database
 		 */
@@ -79,27 +76,22 @@ const JoinForm = (props: JoinFormProps) => {
 
 	const onChangeUsername = (ev: React.ChangeEvent<HTMLInputElement>) => {
 		const { value } = ev.target;
-		/*
+		/**
 		 * set auth's username
 		 */
 		props.setUsername(value);
-
-		/*
-		 * set playerManager's me.name
-		 */
-		props.setMyUsername(value);
 	};
 
 	const onChangeRoom = (ev: React.ChangeEvent<HTMLInputElement>) => {
 		const { value } = ev.target;
 
-		/*
+		/**
 		 * set room Key
 		 */
 		props.setRoomKey(value);
 	};
 
-	/*
+	/**
 	 * if user is authenticated, then navigate to /editor page
 	 */
 	useEffect(() => {

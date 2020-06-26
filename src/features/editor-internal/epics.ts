@@ -6,10 +6,7 @@ import { from } from 'rxjs';
 import { fetchSubmissionToken, fetchSubmissionResult } from './actions';
 import { MyTypes } from '../../store/app-custom-types';
 import { saveCode } from './actions';
-import {
-	fetchSubmissionToken as fetchSubTokenAPI,
-	fetchSubmissionResult as fetchSubResAPI,
-} from '../../api/judge0';
+import { createSubmissionAPI, getSubmissionAPI } from '../../api/judge0';
 
 /**
  * for saving code from editor every 2000 each time editor's onChange event
@@ -17,13 +14,13 @@ import {
  */
 export const saveCode$: MyTypes.AppEpic = action$ =>
 	action$.pipe(
-		/*
+		/**
 		 * detect incoming code changes action
 		 */
 		ofType('edin/INCOMING_CODE_CHANGES'),
 		debounceTime(2000),
 		map(action => {
-			/*
+			/**
 			 * get payload as source code
 			 */
 			const sourceCode = (action as PayloadAction<
@@ -31,7 +28,7 @@ export const saveCode$: MyTypes.AppEpic = action$ =>
 				string
 			>).payload;
 
-			/*
+			/**
 			 * return saveCode func to be dispatched in the store
 			 */
 			return saveCode(sourceCode);
@@ -43,21 +40,21 @@ export const saveCode$: MyTypes.AppEpic = action$ =>
  */
 export const fetchSubmissionToken$: MyTypes.AppEpic = (action$, state$) =>
 	action$.pipe(
-		/*
+		/**
 		 * detect if fetchSubmissionToken.request is dispatched
 		 */
 		ofType('edin/FETCH_SUBMISSION_TOKEN'),
 		mergeMap(() => {
-			/*
+			/**
 			 * get the language id and source code from current state of editor internal's reducer
 			 */
 			const languageID = state$.value.editorInternalReducer.currentLanguage.id;
 			const srcCode = state$.value.editorInternalReducer.currentlySavedCode;
-			/*
+			/**
 			 * call fetchSubmissionToken API and pipe it's value (which is the token),
 			 * and dispatch fetchSubmissionToken.success action so the token will be saved
 			 */
-			return from(fetchSubTokenAPI(languageID, srcCode)).pipe(
+			return from(createSubmissionAPI(languageID, srcCode)).pipe(
 				map(token => {
 					return fetchSubmissionToken.success(token);
 				})
@@ -70,13 +67,13 @@ export const fetchSubmissionToken$: MyTypes.AppEpic = (action$, state$) =>
  */
 export const fetchSubmissionResult$: MyTypes.AppEpic = action$ =>
 	action$.pipe(
-		/*
+		/**
 		 * detect for either fetchSubmissionToken.success or fetchSubmissionResult.request
 		 * actions.
 		 */
 		ofType('edin/GOT_SUBMISSION_TOKEN', 'edin/FETCH_SUBMISSION_RESULT'),
 		mergeMap(action => {
-			/*
+			/**
 			 * cast action object to Payload Action and get it's payload as token
 			 */
 			const token = (action as PayloadAction<
@@ -84,17 +81,17 @@ export const fetchSubmissionResult$: MyTypes.AppEpic = action$ =>
 				string
 			>).payload;
 
-			/*
+			/**
 			 * get submission result based on token value.
 			 */
-			return from(fetchSubResAPI(token)).pipe(
-				/*
+			return from(getSubmissionAPI(token)).pipe(
+				/**
 				 * delay the request fetching for 2 sec in case the our
 				 * submission result still processed or queued on the server
 				 */
 				delay(2000),
 				mergeMap(result => {
-					/*
+					/**
 					 * check if result is still in "Processing" status or "In Queue" status,
 					 * if so then dispatch fetchSubmission.request to run this epic again
 					 * Note for status:
@@ -105,7 +102,7 @@ export const fetchSubmissionResult$: MyTypes.AppEpic = action$ =>
 						return [fetchSubmissionResult.request(token)];
 					}
 
-					/*
+					/**
 					 * but if the status is "Accepted", then return the result to the console
 					 * Note for status:
 					 * "Accepted" has an id of 3

@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
 import { bindActionCreators } from 'redux';
+import styled from 'styled-components';
 import { connect } from 'react-redux';
+import React from 'react';
 
 import { MyTypes } from '../../../store/app-custom-types';
 import * as edInActions from '../../../features/editor-internal/actions';
@@ -41,10 +41,9 @@ const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
 		dispatch
 	);
 
-type RunButtonProps = ReturnType<typeof mapStateToProps> &
-	ReturnType<typeof mapDispatchToProps>;
+type Props = AGT.Props<typeof mapStateToProps, typeof mapDispatchToProps>;
 
-const RunButton = (props: RunButtonProps) => {
+const RunButton = (props: Props) => {
 	return (
 		<Button
 			onClick={() => {

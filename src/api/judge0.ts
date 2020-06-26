@@ -1,10 +1,26 @@
-// @ts-nocheck
 import axios from 'axios';
 
-const BASE_API_URL = 'https://api.judge0.com';
+const BASE_API_URL = 'https://judge0.p.rapidapi.com';
 
 /**
- * @name    fetchSubmissionToken
+ * headers options
+ */
+const createSubmissionHeader = {
+	'x-rapidapi-host': 'judge0.p.rapidapi.com',
+	'x-rapidapi-key': process.env['x-rapidapi-key'],
+	'content-type': 'application/json',
+	accept: 'application/json',
+	useQueryString: true,
+};
+
+const getSubmissionHeader = {
+	'x-rapidapi-host': 'judge0.p.rapidapi.com',
+	'x-rapidapi-key': process.env['x-rapidapi-key'],
+	useQueryString: true,
+};
+
+/**
+ * @name    createSubmissionAPI
  * @method  POST
  * @query   language_id => specify what language this source code is in
  *          source_code => the source_code
@@ -13,25 +29,32 @@ const BASE_API_URL = 'https://api.judge0.com';
  * @return  object => token
  */
 
-export const fetchSubmissionToken = (langID: number, code: string) =>
+export const createSubmissionAPI = (langID: number, code: string) =>
 	axios
-		.post(`${BASE_API_URL}/submissions`, {
-			// @ts-ignore
-			language_id: langID,
-			source_code: code,
-		})
+		.post(
+			`${BASE_API_URL}/submissions`,
+			{
+				language_id: langID,
+				source_code: code,
+			},
+			{
+				headers: createSubmissionHeader,
+			}
+		)
 		.then(res => res.data.token as string);
 
 /**
- * @name        fetchSubmissionResult
+ * @name        getSubmissionAPI
  * @method      GET
  * @query       -
- * @param       token
+ * @param       {string} token
  * @desc        get submission result
  * @return      SubmissionResult (see api.d.ts)
  */
 
-export const fetchSubmissionResult = (token: string) =>
+export const getSubmissionAPI = (token: string) =>
 	axios
-		.get(`${BASE_API_URL}/submissions/${token}`)
+		.get(`${BASE_API_URL}/submissions/${token}`, {
+			headers: getSubmissionHeader,
+		})
 		.then(res => res.data as AppAPI.SubmissionResult);

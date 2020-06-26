@@ -12,7 +12,7 @@ const initState: AppFeatures.EditorInternal = {
 	isRunning: false,
 	token: '',
 
-	/*
+	/**
 	 * currentLanguage would be Typescript, which has id of 74
 	 * see https://api.judge0.com/languages/all
 	 */
@@ -20,12 +20,12 @@ const initState: AppFeatures.EditorInternal = {
 		lang => lang.id === 74
 	) as AGT.Language,
 
-	/*
+	/**
 	 * listen to language change from socket
 	 */
 	watchLangChangeFromSocket: true,
 
-	/*
+	/**
 	 * whether the editor is in freeze state (read-only state)
 	 */
 	shouldFreeze: false,
@@ -34,7 +34,7 @@ const initState: AppFeatures.EditorInternal = {
 };
 
 const editorInternalReducer = createReducer(initState)
-	/*
+	/**
 	 * triggered when
 	 * => user set languages on select language components
 	 */
@@ -48,7 +48,7 @@ const editorInternalReducer = createReducer(initState)
 		watchLangChangeFromSocket: action.payload,
 	}))
 
-	/*
+	/**
 	 * triggered when
 	 * => each time user hit clear console button
 	 */
@@ -57,7 +57,7 @@ const editorInternalReducer = createReducer(initState)
 		consoleOutput: '',
 	}))
 
-	/*
+	/**
 	 * triggered when
 	 * => each editor's onChange method invoked (debounced)
 	 */
@@ -66,7 +66,7 @@ const editorInternalReducer = createReducer(initState)
 		currentlySavedCode: action.payload,
 	}))
 
-	/*
+	/**
 	 * triggered when
 	 * => user hit run button
 	 */
@@ -75,7 +75,7 @@ const editorInternalReducer = createReducer(initState)
 		isRunning: true,
 	}))
 
-	/*
+	/**
 	 * triggered when
 	 * => success get the token
 	 */
@@ -85,7 +85,7 @@ const editorInternalReducer = createReducer(initState)
 		consoleOutput: `${state.consoleOutput}\n> Code is Running\n`,
 	}))
 
-	/*
+	/**
 	 * triggered when
 	 * => fetchSubmissionResult success get submission result
 	 */

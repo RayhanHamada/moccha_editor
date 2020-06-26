@@ -16,20 +16,15 @@ import {
 	setUsername,
 	setRoomKey,
 	authenticate,
-	setIsRM,
 	getRoomExistence,
+	setIsRM,
 } from './actions';
-import {
-	addPlayer,
-	setRoomMaster,
-	setMyUsername,
-	clearPlayers,
-} from '../player-manager/actions';
+import { addPlayer, clearPlayers } from '../player-manager/actions';
 
 /**
  * triggered in case of client creating a room
  */
-export const fetchRoomKey$: MyTypes.AppEpic = (action$, state$, { socketio }) =>
+export const fetchRoomKey$: MyTypes.AppEpic = (action$, state$) =>
 	action$.pipe(
 		ofType('auth/FETCH_ROOM_KEY'),
 		mergeMap(() =>
@@ -43,17 +38,9 @@ export const fetchRoomKey$: MyTypes.AppEpic = (action$, state$, { socketio }) =>
 					 * name will appears in joined friends list
 					 */
 
-					const { username } = state$.value.authReducer;
-					const me: AppFeatures.Player = {
-						name: username,
-						socketID: socketio.id,
-					};
+					const { me } = state$.value.authReducer;
 
-					return [
-						getRoomKey.success({ roomKey }),
-						addPlayer(me),
-						setRoomMaster(me),
-					];
+					return [getRoomKey.success({ roomKey }), addPlayer(me)];
 				})
 			)
 		)
@@ -147,32 +134,23 @@ export const clearAfterExit$: MyTypes.AppEpic = (
 		ofType('auth/DEAUTHENTICATE'),
 		mergeMap(() => {
 			/*
-			 * get isRM and roomKey from current state
+			 * get isRM, our data and roomKey from current state
 			 */
-			const { isRM, roomKey } = state$.value.authReducer;
-
-			/*
-			 * get our data
-			 */
-			const { me } = state$.value.playerManagerReducer;
+			const { roomKey, me } = state$.value.authReducer;
 			const stringifiedMe = JSON.stringify(me);
-
-			/*
-			 * get our data
-			 */
 
 			/*
 			 * notice other client that this client is leaving the room.
 			 */
-			socketio.emit('player_leave', roomKey, isRM, stringifiedMe);
+			socketio.emit('player_leave', roomKey, stringifiedMe);
 			/*
 			 * check if this client is room master, if so then delete roomKey
 			 * in database, and make other client in the room leaves the room.
 			 * (probably will fixed in the future so other random client would
 			 * be the next RM if the current RM is leave the room
 			 */
-			printDevLog(`isRM: ${isRM}`);
-			if (isRM) {
+			printDevLog(`isRM: ${me.isRM}`);
+			if (me.isRM) {
 				/*
 				 * delete roomKey on the database
 				 */
@@ -184,9 +162,9 @@ export const clearAfterExit$: MyTypes.AppEpic = (
 						 * and clear player list
 						 */
 						return [
-							setIsRM(false),
 							setRoomKey(''),
 							setUsername(''),
+							setIsRM(false),
 							resetEdin(),
 							clearPlayers(),
 						];
@@ -197,13 +175,7 @@ export const clearAfterExit$: MyTypes.AppEpic = (
 			/*
 			 * if not, simply reset roomKey and username, and reset editor internal state
 			 */
-			return [
-				setRoomKey(''),
-				setUsername(''),
-				resetEdin(),
-				setMyUsername(''),
-				clearPlayers(),
-			];
+			return [setRoomKey(''), setUsername(''), resetEdin(), clearPlayers()];
 		})
 	);
 
@@ -218,12 +190,13 @@ export const socketEmitWeJoin$: MyTypes.AppEpic = (
 	action$.pipe(
 		ofType('auth/AUTHENTICATE'),
 		map(() => {
-			const { roomKey, isRM, username } = _state$.value.authReducer;
-			/*
+			const { roomKey, me } = _state$.value.authReducer;
+			const strMe = JSON.stringify(me);
+			/**
 			 * value param for emit: roomKey, username and isRM (is room master)
 			 */
-			printDevLog(`this player is rm ? ${isRM}`);
-			socketio.emit('player-join', roomKey, username, isRM);
+			printDevLog(`this player is rm ? ${me.isRM}`);
+			socketio.emit('player-join', roomKey, strMe);
 			printDevLog(`emitted player-join`);
 			return setRoomKey(roomKey);
 		})

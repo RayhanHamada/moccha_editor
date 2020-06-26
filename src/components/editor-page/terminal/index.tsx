@@ -1,5 +1,6 @@
-import React from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import React from 'react';
 
 import { MyTypes } from '../../../store/app-custom-types';
 
@@ -11,9 +12,12 @@ const mapStateToProps = ({ editorInternalReducer }: MyTypes.RootState) => ({
 	consoleOutput: editorInternalReducer.consoleOutput,
 });
 
-export type TerminalProps = ReturnType<typeof mapStateToProps>;
+const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
+	bindActionCreators({}, dispatch);
 
-const TerminalWrapper = (props: TerminalProps) => {
+type Props = AGT.Props<typeof mapStateToProps, typeof mapDispatchToProps>;
+
+const TerminalWrapper = (props: Props) => {
 	return (
 		<div className="" id="terminal-wrapper">
 			<ClearConsoleButton />
@@ -27,4 +31,4 @@ const TerminalWrapper = (props: TerminalProps) => {
 	);
 };
 
-export default connect(mapStateToProps)(TerminalWrapper);
+export default connect(mapStateToProps, mapDispatchToProps)(TerminalWrapper);

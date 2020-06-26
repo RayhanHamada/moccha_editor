@@ -1,14 +1,19 @@
 import React from 'react';
-import { MyTypes } from '../../../store/app-custom-types';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { MyTypes } from '../../../store/app-custom-types';
 
 const mapStateToProps = ({ playerManagerReducer }: MyTypes.RootState) => ({
 	players: playerManagerReducer.players,
 });
 
-type PlayerListProps = ReturnType<typeof mapStateToProps>;
+const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
+	bindActionCreators({}, dispatch);
 
-const PlayerList = (props: PlayerListProps) => {
+type Props = AGT.Props<typeof mapStateToProps, typeof mapDispatchToProps>;
+
+const PlayerList = (props: Props) => {
 	return (
 		<div id="player-list" className="ml-10">
 			<p className="text-2xl">
@@ -16,11 +21,11 @@ const PlayerList = (props: PlayerListProps) => {
 			</p>
 			{props.players.map((playa, idx) => (
 				<p key={idx}>
-					{idx + 1}. {playa.name}
+					{idx + 1}. {playa.username}
 				</p>
 			))}
 		</div>
 	);
 };
 
-export default connect(mapStateToProps)(PlayerList);
+export default connect(mapStateToProps, mapDispatchToProps)(PlayerList);

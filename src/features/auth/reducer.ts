@@ -1,19 +1,27 @@
 import { createReducer } from 'typesafe-actions';
+import randomColor from 'randomcolor';
 
 const initialState: AppFeatures.Auth = {
-	username: '',
+	me: {
+		username: '',
+		socketID: '',
+		cursorColor: '',
+		isRM: false,
+	},
 	roomKey: '',
 	authenticated: false,
 	isLoading: false,
 	loadingMsg: '',
-	isRM: false,
 	copied: false,
 };
 
 const roomReducer = createReducer({ ...initialState } as AppFeatures.Auth)
 	.handleType('auth/SET_USERNAME', (state, action) => ({
 		...state,
-		username: action.payload,
+		me: {
+			...state.me,
+			username: action.payload,
+		},
 	}))
 
 	.handleType('auth/SET_ROOM_KEY', (state, action) => ({
@@ -23,7 +31,26 @@ const roomReducer = createReducer({ ...initialState } as AppFeatures.Auth)
 
 	.handleType('auth/SET_IS_RM', (state, action) => ({
 		...state,
-		isRM: action.payload,
+		me: {
+			...state.me,
+			isRM: action.payload,
+		},
+	}))
+
+	.handleType('auth/SET_SOCKET_ID', (state, action) => ({
+		...state,
+		me: {
+			...state.me,
+			socketID: action.payload,
+		},
+	}))
+
+	.handleType('auth/SET_CURSOR_COLOR', state => ({
+		...state,
+		me: {
+			...state.me,
+			cursorColor: randomColor(),
+		},
 	}))
 
 	.handleType('auth/AUTHENTICATE', state => ({
@@ -57,7 +84,7 @@ const roomReducer = createReducer({ ...initialState } as AppFeatures.Auth)
 		loadingMsg: '',
 	}))
 
-	/*
+	/**
 	 * should show loading loop and loading message while app get the roomKey
 	 */
 	.handleType('auth/FETCH_ROOM_KEY', state => ({
@@ -70,25 +97,24 @@ const roomReducer = createReducer({ ...initialState } as AppFeatures.Auth)
 		...state,
 		roomKey: action.payload.roomKey,
 
-		/*
+		/**
 		 * stop showing loading loop and loading message
 		 */
 		isLoading: false,
 		loadingMsg: '',
-		/*
+		/**
 		 * because when the user got the room key means they're creating a room which means
 		 * they're the room master, set isRM is true
 		 */
-		isRM: true,
+		me: {
+			...state.me,
+			isRM: true,
+		},
 	}))
 
 	.handleType('auth/SET_COPIED', (state, action) => ({
 		...state,
 		copied: action.payload,
-	}))
-
-	.handleType('auth/RESET', () => ({
-		...initialState,
 	}));
 
 export default roomReducer;
