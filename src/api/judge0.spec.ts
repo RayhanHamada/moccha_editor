@@ -6,17 +6,20 @@ describe('Judge0 API', function() {
 	this.timeout(15000);
 
 	// passed
-	it('fetchSubmissionToken should return token', async done => {
+	it('createSubmissionAPI should return token', done => {
 		const languageID = 74; // use typescript language
 		const sourceCode = `console.log('hello world');`;
 
-		await createSubmissionAPI(languageID, sourceCode).then(token => {
-			expect(token).to.be.exist;
-			done();
-		}).catch(() => {
-			printDevLog(`error when fetch submission token`)
-		});
-		done();
+		createSubmissionAPI(languageID, sourceCode)
+			.then(token => {
+				printDevLog(`token ${JSON.stringify(token)}`)
+				expect(token).to.be.exist;
+				done();
+			})
+			.catch(() => {
+				printDevLog(`error when fetch submission token`);
+				done();
+			});
 	});
 
 	// passed
@@ -28,19 +31,24 @@ describe('Judge0 API', function() {
 		/**
 		 * fetch the token first
 		 */
-		createSubmissionAPI(languageID, sourceCode).then(async token => {
+		createSubmissionAPI(languageID, sourceCode).then(token => {
 			/**
 			 * wait atleast 6 second before requesting for submission result
 			 */
-			await setTimeout(() => {
+			setTimeout(() => {
 				/**
 				 * fetch submission result
 				 */
-				getSubmissionAPI(token).then(output => {
-					expect(output.stdout).to.be.equal(expectedValue);
-					expect(output.status.description).to.be.equal('Accepted');
-					done();
-				});
+				getSubmissionAPI(token)
+					.then(output => {
+						expect(output.stdout).to.be.equal(expectedValue);
+						expect(output.status.description).to.be.equal('Accepted');
+						done();
+					})
+					.catch(() => {
+						printDevLog('error when getting submission result !');
+						done();
+					});
 			}, 6000);
 		});
 	});
