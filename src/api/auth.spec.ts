@@ -8,7 +8,7 @@ import {
 import { clearRoomKeys } from './api.util';
 import { printDevLog } from '../utils';
 
-describe('Auth API Interface', function() {
+describe.skip('Auth API Interface', function() {
 	this.timeout(15000);
 
 	this.afterAll(done => {
