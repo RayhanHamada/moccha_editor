@@ -1,13 +1,20 @@
 import axios from 'axios';
 
+/**
+ * NOTE that testing this API call in localhost is resulting in 
+ * Access-Control-Allow-Origin error / cors error, and this is inavoidable.
+ * however, we're still able to use this API call for testing purposes.
+ */
+
 const BASE_API_URL = 'https://judge0.p.rapidapi.com';
+const rapidApiKey = process.env.X_RAPIDAPI_KEY;
 
 /**
  * headers options
  */
 const createSubmissionHeader = {
 	'x-rapidapi-host': 'judge0.p.rapidapi.com',
-	'x-rapidapi-key': process.env['x-rapidapi-key'],
+	'x-rapidapi-key': rapidApiKey,
 	'content-type': 'application/json',
 	accept: 'application/json',
 	useQueryString: true,
@@ -15,7 +22,7 @@ const createSubmissionHeader = {
 
 const getSubmissionHeader = {
 	'x-rapidapi-host': 'judge0.p.rapidapi.com',
-	'x-rapidapi-key': process.env['x-rapidapi-key'],
+	'x-rapidapi-key': rapidApiKey,
 	useQueryString: true,
 };
 
