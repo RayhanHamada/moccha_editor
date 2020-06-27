@@ -37,6 +37,7 @@ export const saveCode$: MyTypes.AppEpic = action$ =>
 
 /**
  * get submission token from https://api.judge0.com
+ * TODO: add error handling with catchError
  */
 export const fetchSubmissionToken$: MyTypes.AppEpic = (action$, state$) =>
 	action$.pipe(
@@ -64,6 +65,7 @@ export const fetchSubmissionToken$: MyTypes.AppEpic = (action$, state$) =>
 
 /**
  *  get submission result from https://api.judge0.com
+ * TODO: add error handling with catchError
  */
 export const fetchSubmissionResult$: MyTypes.AppEpic = action$ =>
 	action$.pipe(
