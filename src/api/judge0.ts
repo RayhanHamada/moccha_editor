@@ -14,12 +14,12 @@ const baseUrl = `${serverUrl}/api/judge0`;
  * @returns {string} token
  */
 export const createSubmissionAPI = (langId: number, sourceCode: string) =>
-	axios
-		.post(`${baseUrl}/v0/createSubmissions`, {
-			langId,
-			sourceCode,
-		})
-		.then(res => res.data.token as string);
+  axios
+    .post(`${baseUrl}/v0/createSubmissions`, {
+      langId,
+      sourceCode,
+    })
+    .then(res => res.data.token as string);
 
 /**
  * @name        getSubmissionAPI
@@ -30,6 +30,6 @@ export const createSubmissionAPI = (langId: number, sourceCode: string) =>
  * @returns     {AppAPI.SubmissionResult} submissionResult (see api.d.ts)
  */
 export const getSubmissionAPI = (token: string) =>
-	axios
-		.get<AppAPI.SubmissionResult>(`${baseUrl}/v0/getSubmissionResult/${token}`)
-		.then(res => res.data);
+  axios
+    .get<AppAPI.SubmissionResult>(`${baseUrl}/v0/getSubmissionResult/${token}`)
+    .then(res => res.data);

@@ -7,11 +7,11 @@ import editorInternalReducer from '../features/editor-internal/reducer';
 import playerManagerReducer from '../features/player-manager/reducer';
 
 const createRootReducer = (history: History) =>
-	combineReducers({
-		router: connectRouter(history),
-		authReducer,
-		editorInternalReducer,
-		playerManagerReducer,
-	});
+  combineReducers({
+    router: connectRouter(history),
+    authReducer,
+    editorInternalReducer,
+    playerManagerReducer,
+  });
 
 export default createRootReducer;
