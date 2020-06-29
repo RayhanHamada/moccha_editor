@@ -61,7 +61,7 @@ export default {
 			favicon: 'assets/mocha_icon.png',
 		}),
 		new MonacoWebpackPlugin({
-			languages: ['typescript', 'javascript', 'cpp', 'python', 'json'],
+			languages: ['typescript', 'javascript', 'cpp', 'python', 'json', 'ruby'],
 		}),
 	],
 	
