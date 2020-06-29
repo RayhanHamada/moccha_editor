@@ -12,7 +12,7 @@ describe('Judge0 API', function() {
 
 		createSubmissionAPI(languageID, sourceCode)
 			.then(token => {
-				printDevLog(`token ${JSON.stringify(token)}`)
+				printDevLog(`token ${JSON.stringify(token)}`);
 				expect(token).to.be.exist;
 				done();
 			})

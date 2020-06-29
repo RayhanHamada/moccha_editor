@@ -1,10 +1,12 @@
 declare namespace AppAPI {
 	type SubmissionResult = {
 		stdout: string;
-		stderr: string;
 		time: string;
-		message: string;
+		memory: number;
+		stderr: string;
+		token: string;
 		compile_output: string;
+		message: string;
 		status: {
 			id: number;
 			description: string;
