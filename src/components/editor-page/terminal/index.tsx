@@ -2,7 +2,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { MyTypes } from '../../../store/app-custom-types';
+import { MyTypes } from '../../../types/app-state';
 
 import ClearConsoleButton from '../toolbox/ClearConsoleButton';
 

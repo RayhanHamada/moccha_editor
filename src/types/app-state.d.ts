@@ -6,18 +6,18 @@ export namespace MyTypes {
 	/**
 	 * root of all action in this app
 	 */
-	type RootAction = ActionType<typeof import('./rootAction').default>;
+	type RootAction = ActionType<typeof import('../store/rootAction').default>;
 
 	/**
 	 * root of all state in this app
 	 */
 	type RootState = StateType<
-		ReturnType<typeof import('./rootReducer').default>
+		ReturnType<typeof import('../store/rootReducer').default>
 	>;
 	/**
 	 * app store
 	 */
-	type Store = StateType<typeof import('.').default>;
+	type Store = StateType<typeof import('../store').default>;
 
 	/**
 	 * specify custom Dispatch type,

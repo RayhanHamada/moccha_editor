@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { MyTypes } from '../../../store/app-custom-types';
+import { MyTypes } from '../../../types/app-state';
 
 const mapStateToProps = ({ playerManagerReducer }: MyTypes.RootState) => ({
 	players: playerManagerReducer.players,

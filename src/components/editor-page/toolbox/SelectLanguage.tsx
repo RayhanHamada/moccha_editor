@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { MyTypes } from '../../../store/app-custom-types';
+import { MyTypes } from '../../../types/app-state';
 
 import { setLanguage } from '../../../features/editor-internal/actions';
 import { supportedLanguages } from '../../../globals';

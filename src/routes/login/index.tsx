@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { MyTypes } from '../../store/app-custom-types';
+import { MyTypes } from '../../types/app-state';
 
 import BannerDesc from '../../components/misc/BannerDesc';
 import Spinner from '../../components/misc/Spinner';

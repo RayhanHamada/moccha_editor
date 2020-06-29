@@ -8,7 +8,7 @@ import {
 	incomingCodeChanges,
 	saveCode,
 } from './actions';
-import { MyTypes } from '../../store/app-custom-types';
+import { MyTypes } from '../../types/app-state';
 import { supportedLanguages } from '../../globals';
 import { DeepPartial } from 'redux';
 import { saveCode$ } from './epics';

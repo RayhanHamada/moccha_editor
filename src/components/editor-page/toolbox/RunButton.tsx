@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { MyTypes } from '../../../store/app-custom-types';
+import { MyTypes } from '../../../types/app-state';
 import * as edInActions from '../../../features/editor-internal/actions';
 
 const Button = styled.button`

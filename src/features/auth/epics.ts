@@ -2,7 +2,7 @@ import { mergeMap, map } from 'rxjs/operators';
 import { ofType } from 'redux-observable';
 import { from } from 'rxjs';
 
-import { MyTypes } from '../../store/app-custom-types';
+import { MyTypes } from '../../types/app-state';
 
 import { printDevLog } from '../../utils';
 import { resetEdin } from '../editor-internal/actions';

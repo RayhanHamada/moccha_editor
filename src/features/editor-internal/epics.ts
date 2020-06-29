@@ -4,7 +4,7 @@ import { ofType } from 'redux-observable';
 import { from } from 'rxjs';
 
 import { fetchSubmissionToken, fetchSubmissionResult } from './actions';
-import { MyTypes } from '../../store/app-custom-types';
+import { MyTypes } from '../../types/app-state';
 import { saveCode } from './actions';
 import { createSubmissionAPI, getSubmissionAPI } from '../../api/judge0';
 

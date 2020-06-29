@@ -8,7 +8,7 @@ import MonacoEditor, {
 	EditorConstructionOptions,
 } from 'react-monaco-editor';
 
-import { MyTypes } from '../../../store/app-custom-types';
+import { MyTypes } from '../../../types/app-state';
 
 import { incomingCodeChanges } from '../../../features/editor-internal/actions';
 import socket from '../../../services/socketIO';

@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import dotenv from 'dotenv';
 dotenv.config();
 
-import { MyTypes } from '../../store/app-custom-types';
+import { MyTypes } from '../../types/app-state';
 import { fetchRoomKey$, clearAfterExit$ } from './epics';
 import { clearRoomKeys } from '../../api/api.util';
 import reducer from './reducer';

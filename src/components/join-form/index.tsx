@@ -2,7 +2,7 @@ import React, { useEffect, EventHandler } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { MyTypes } from '../../store/app-custom-types';
+import { MyTypes } from '../../types/app-state';
 
 import * as authActions from '../../features/auth/actions';
 

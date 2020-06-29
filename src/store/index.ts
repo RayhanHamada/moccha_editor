@@ -4,7 +4,7 @@ import { routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory, History } from 'history';
 import { createEpicMiddleware } from 'redux-observable';
 
-import { MyTypes } from './app-custom-types';
+import { MyTypes } from '../types/app-state';
 
 import createRootReducer from './rootReducer';
 import services from '../services';

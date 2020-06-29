@@ -4,7 +4,7 @@ import { ofType } from 'redux-observable';
 import { editorUnfreeze } from '../editor-internal/actions';
 import { printDevLog } from '../../utils';
 
-import { MyTypes } from '../../store/app-custom-types';
+import { MyTypes } from '../../types/app-state';
 
 export const freezeEditor: MyTypes.AppEpic = (action$, state$, { socketio }) =>
 	action$.pipe(
