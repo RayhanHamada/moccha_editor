@@ -1,15 +1,15 @@
 import path from 'path';
-
+	
 import MonacoWebpackPlugin from 'monaco-editor-webpack-plugin';
 import TerserWebpackPlugin from 'terser-webpack-plugin';
 import HTMLWebpackPlugin from 'html-webpack-plugin';
-import { Configuration } from 'webpack';
 import DotenvCmd from 'dotenv-cmd-webpack';
-
+import { Configuration } from 'webpack';
+	
 const isProd = process.env.NODE_ENV === 'production';
 const entryPath = './src/index.tsx';
 const prodOutput = path.resolve(__dirname, './dist');
-
+	
 export default {
 	mode: isProd ? 'production' : 'development',
 	entry: {
@@ -48,8 +48,8 @@ export default {
 	},
 	plugins: [
 		/*
-		 * no need to specify env-cmd in dev mode in package.json
-		 */
+			* no need to specify env-cmd in dev mode in package.json
+			*/
 		DotenvCmd({
 			filePath: './.env-cmdrc.json',
 			env: isProd ? 'prod' : 'dev',
@@ -61,28 +61,18 @@ export default {
 			favicon: 'assets/mocha_icon.png',
 		}),
 		new MonacoWebpackPlugin({
-			languages: [
-				'typescript',
-				'javascript',
-				'cpp',
-				'php',
-				'css',
-				'csharp',
-				'python',
-				'json',
-				'kotlin',
-			],
+			languages: ['typescript', 'javascript', 'cpp', 'python', 'json'],
 		}),
 	],
-
+	
 	// only specified if environment is in production mode
-	optimization: !isProd
-		? {}
-		: {
+	optimization: isProd
+		? {
 				minimize: true,
 				minimizer: [new TerserWebpackPlugin()],
-		  },
-
+				}
+		: {},
+	
 	// only specified if the environment is in development mode
 	devServer: isProd
 		? {}
@@ -93,5 +83,5 @@ export default {
 				compress: true,
 				stats: 'errors-only',
 				overlay: true,
-		  },
+				},
 } as Configuration;
