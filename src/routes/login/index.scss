@@ -1,19 +1,19 @@
 #wrapper-login {
-	.banner {
-		flex: 4;
+  .banner {
+    flex: 4;
 
-		.banner-title,
-		.banner-desc {
-			color: #e41749;
-		}
-	}
+    .banner-title,
+    .banner-desc {
+      color: #e41749;
+    }
+  }
 
-	.join-form-wrapper {
-		flex: 1.5;
-		background-color: #e41749;
-	}
+  .join-form-wrapper {
+    flex: 1.5;
+    background-color: #e41749;
+  }
 
-	#my-github-icon:hover {
-		cursor: pointer;
-	}
+  #my-github-icon:hover {
+    cursor: pointer;
+  }
 }

@@ -16,7 +16,7 @@ const turnOnDevLog = true;
  * for logging some information in development mode
  */
 export function printDevLog(msg: string) {
-	if (isDev && turnOnDevLog) {
-		console.log(msg);
-	}
+  if (isDev && turnOnDevLog) {
+    console.log(msg);
+  }
 }

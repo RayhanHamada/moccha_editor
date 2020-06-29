@@ -1,13 +1,13 @@
 #wrapper-editor {
-	background: #e41749;
+  background: #e41749;
 
-	.code-panel {
-		flex: 3;
-	}
+  .code-panel {
+    flex: 3;
+  }
 
-	.console-panel {
-		flex: 2;
-		display: flex;
-		flex-direction: column;
-	}
+  .console-panel {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+  }
 }
