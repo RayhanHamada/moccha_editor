@@ -19,20 +19,20 @@ export const history: History = createBrowserHistory();
  * epic middleware (from redux-observable)
  */
 const epicMiddleware = createEpicMiddleware<
-	MyTypes.RootAction,
-	MyTypes.RootAction,
-	MyTypes.RootState,
-	MyTypes.Services
+  MyTypes.RootAction,
+  MyTypes.RootAction,
+  MyTypes.RootState,
+  MyTypes.Services
 >({
-	dependencies: services,
+  dependencies: services,
 });
 
 /**
  * applied middleware
  */
 const appliedMiddleware = applyMiddleware(
-	epicMiddleware,
-	routerMiddleware(history)
+  epicMiddleware,
+  routerMiddleware(history)
 );
 
 /**
@@ -40,26 +40,26 @@ const appliedMiddleware = applyMiddleware(
  * if not, then compose it normally
  */
 const composeWith =
-	process.env.NODE_ENV === 'development'
-		? composeWithDevTools(appliedMiddleware)
-		: compose(appliedMiddleware);
+  process.env.NODE_ENV === 'development'
+    ? composeWithDevTools(appliedMiddleware)
+    : compose(appliedMiddleware);
 
 /**
  * function for configuring store
  */
 export const configureStore = (preloadedState: Partial<MyTypes.RootState>) =>
-	createStore(
-		createRootReducer(history),
-		preloadedState as MyTypes.RootState,
-		composeWith
-	);
+  createStore(
+    createRootReducer(history),
+    preloadedState as MyTypes.RootState,
+    composeWith
+  );
 
 /**
  * create store for this app, override the object with something if
  * you want to provide initial value for app state
  */
 const store = configureStore(
-	/*override this parameter if you desire different initial state for your store */ {}
+  /*override this parameter if you desire different initial state for your store */ {}
 );
 
 /**

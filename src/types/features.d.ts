@@ -1,109 +1,109 @@
 declare namespace AppFeatures {
-	export interface Auth {
-		/**
-		 * our player data
-		 */
-		me: Player;
+  export interface Auth {
+    /**
+     * our player data
+     */
+    me: Player;
 
-		/**
-		 * the room key, retrieved by using auth API or friend share
-		 */
-		roomKey: string;
+    /**
+     * the room key, retrieved by using auth API or friend share
+     */
+    roomKey: string;
 
-		/**
-		 * determine if we're authenticated or not
-		 */
-		authenticated: boolean;
+    /**
+     * determine if we're authenticated or not
+     */
+    authenticated: boolean;
 
-		/**
-		 * for notify user a process is ongoing
-		 */
-		isLoading: boolean;
+    /**
+     * for notify user a process is ongoing
+     */
+    isLoading: boolean;
 
-		/**
-		 * determine whether the loading icon should appears
-		 */
-		loadingMsg: string;
+    /**
+     * determine whether the loading icon should appears
+     */
+    loadingMsg: string;
 
-		/**
-		 * copied
-		 */
-		copied: boolean;
-	}
+    /**
+     * copied
+     */
+    copied: boolean;
+  }
 
-	export interface EditorInternal {
-		/**
-		 * is the code is being ran
-		 */
-		isRunning: boolean;
+  export interface EditorInternal {
+    /**
+     * is the code is being ran
+     */
+    isRunning: boolean;
 
-		/**
-		 * currently saved code
-		 */
-		currentlySavedCode: string;
+    /**
+     * currently saved code
+     */
+    currentlySavedCode: string;
 
-		/**
-		 * token for judge0 API
-		 */
-		token: string;
+    /**
+     * token for judge0 API
+     */
+    token: string;
 
-		/**
-		 * to notify us if another player changing the language
-		 */
-		watchLangChangeFromSocket: boolean;
+    /**
+     * to notify us if another player changing the language
+     */
+    watchLangChangeFromSocket: boolean;
 
-		/**
-		 * editor related
-		 */
-		currentLanguage: AGT.Language;
+    /**
+     * editor related
+     */
+    currentLanguage: AGT.Language;
 
-		/**
-		 * consoleRelated
-		 */
-		consoleOutput: string;
+    /**
+     * consoleRelated
+     */
+    consoleOutput: string;
 
-		/**
-		 * whether the editor is in freeze state (read only state)
-		 */
-		shouldFreeze: boolean;
+    /**
+     * whether the editor is in freeze state (read only state)
+     */
+    shouldFreeze: boolean;
 
-		/**
-		 * refreshCount
-		 */
-		refreshCount: number;
-	}
+    /**
+     * refreshCount
+     */
+    refreshCount: number;
+  }
 
-	interface PlayerManager {
-		/**
-		 * players name
-		 */
-		players: Player[];
+  interface PlayerManager {
+    /**
+     * players name
+     */
+    players: Player[];
 
-		/**
-		 * indicate whether another player is attempting to join the room
-		 */
-		isPlayerOtwRoom: boolean;
-	}
+    /**
+     * indicate whether another player is attempting to join the room
+     */
+    isPlayerOtwRoom: boolean;
+  }
 
-	interface Player {
-		/**
-		 * name of the player
-		 */
-		username: string;
+  interface Player {
+    /**
+     * name of the player
+     */
+    username: string;
 
-		/**
-		 * socketID of the player
-		 */
-		socketID: string;
+    /**
+     * socketID of the player
+     */
+    socketID: string;
 
-		/**
-		 * cursor color of the player
-		 */
-		cursorColor: string;
+    /**
+     * cursor color of the player
+     */
+    cursorColor: string;
 
-		/**
-		 * is this player is room master
-		 */
-		isRM: boolean;
-	}
+    /**
+     * is this player is room master
+     */
+    isRM: boolean;
+  }
 }

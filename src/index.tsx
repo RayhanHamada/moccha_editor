@@ -10,10 +10,10 @@ import 'tailwindcss/dist/tailwind.css';
 import './style.scss';
 
 ReactDOM.render(
-	<Provider store={store}>
-		<ConnectedRouter history={history}>
-			<App />
-		</ConnectedRouter>
-	</Provider>,
-	document.getElementById('app')
+  <Provider store={store}>
+    <ConnectedRouter history={history}>
+      <App />
+    </ConnectedRouter>
+  </Provider>,
+  document.getElementById('app')
 );
