@@ -1,6 +1,6 @@
 to be fixed list:
 [x] use AGT.Props for all components props parameter
 [x] fix block comment format
-[ ] fix random things
 [ ] create type for all socket event
-[ ] fix judge0 API call not working 
+[x] fix judge0 API call not working
+[ ] make all app types in one folder
