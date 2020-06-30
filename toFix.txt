@@ -3,4 +3,5 @@ to be fixed list:
 [x] fix block comment format
 [ ] create type for all socket event
 [x] fix judge0 API call not working
-[ ] make all app types in one folder
+[x] make all app types in one folder
+[ ] fixing test

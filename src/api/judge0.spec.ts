@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { createSubmissionAPI, getSubmissionAPI } from './judge0';
 import { printDevLog } from '../utils';
 
-describe('Judge0 API', function() {
+describe.skip('Judge0 API', function() {
   this.timeout(15000);
 
   // passed

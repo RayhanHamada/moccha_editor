@@ -2,33 +2,39 @@ import { StateObservable, ActionsObservable } from 'redux-observable';
 import { expect } from 'chai';
 import { DeepPartial } from 'redux';
 import { Subject } from 'rxjs';
-import dotenv from 'dotenv';
-dotenv.config();
 
 import { MyTypes } from '../../types/app-state';
 import { fetchRoomKey$, clearAfterExit$ } from './epics';
 import { clearRoomKeys } from '../../api/api.util';
 import reducer from './reducer';
-import { setUsername, getRoomKey, setRoomKey } from './actions';
+import { setUsername, getRoomKey, setRoomKey, setSocketID } from './actions';
 
 describe("Auth's", function() {
   describe('reducer', () => {
-    let mockState: Partial<AppFeatures.Auth>;
-    this.beforeEach(() => {
-      mockState = undefined as any;
-    });
+    const mockState: AppFeatures.Auth = {
+      authenticated: false,
+      copied: false,
+      isLoading: false,
+      loadingMsg: '',
+      roomKey: '',
+      me: {
+        username: '',
+        socketID: '',
+        cursorColor: '',
+        isRM: false,
+      },
+    };
 
-    // * passed
-    it.skip('should set username', () => {
-      mockState = {
-        roomKey: '',
-        authenticated: false,
-      };
-
-      const expectedValue: Partial<AppFeatures.Auth> = {
-        username: 'test-username',
-        roomKey: '',
-        authenticated: false,
+    /**
+     * * Test starts here
+     */
+    it(`auth/SET_USERNAME should set me.username to 'test-username'`, () => {
+      const expectedValue: AppFeatures.Auth = {
+        ...mockState,
+        me: {
+          ...mockState.me,
+          username: 'test-username',
+        },
       };
 
       const username = 'test-username';
@@ -38,18 +44,10 @@ describe("Auth's", function() {
       expect(output).deep.equal(expectedValue);
     });
 
-    // * passed
-    it.skip('should set room key', () => {
-      mockState = {
-        username: '',
-        roomKey: '',
-        authenticated: false,
-      };
-
-      const expectedValue: Partial<AppFeatures.Auth> = {
-        username: '',
+    it(`auth/SET_ROOM_KEY should set roomKey to 'test-key'`, () => {
+      const expectedValue: AppFeatures.Auth = {
+        ...mockState,
         roomKey: 'test-key',
-        authenticated: false,
       };
 
       const roomKey = 'test-key';
@@ -59,73 +57,87 @@ describe("Auth's", function() {
       expect(output).deep.equal(expectedValue);
     });
 
-    describe.skip('epics', function() {
-      this.timeout(100000);
+    it(`auth/SET_SOCKET_ID should set socketId to 'test-socket'`, () => {
+      const expected: AppFeatures.Auth = {
+        ...mockState,
+        me: {
+          ...mockState.me,
+          socketID: 'test-socket',
+        },
+      };
 
-      let state$: StateObservable<MyTypes.RootState>;
+      const output = reducer(mockState, setSocketID('test-socket'));
 
-      this.beforeEach(() => {
-        state$ = new StateObservable<MyTypes.RootState>(
-          new Subject(),
-          mockState as MyTypes.RootState
-        );
+      expect(output).to.be.deep.equal(expected);
+    });
+  });
+
+  describe.skip('epics', function() {
+    this.timeout(100000);
+
+    let state$: StateObservable<MyTypes.RootState>;
+
+    this.beforeEach(() => {
+      state$ = new StateObservable<MyTypes.RootState>(
+        new Subject(),
+        mockState as MyTypes.RootState
+      );
+    });
+
+    this.afterEach(done => {
+      clearRoomKeys().then(res => {
+        console.log(`clear room keys on server: ${res.data}`);
+        done();
+      });
+    });
+
+    // * passed
+    it.skip('fetchRoomKey$ should output auth/AUTHENTICATE action', done => {
+      const action$ = ActionsObservable.of<MyTypes.RootAction>(
+        getRoomKey.request()
+      );
+
+      const expectActType: MyTypes.RootAction['type'] = 'auth/AUTHENTICATE';
+
+      const output$ = fetchRoomKey$(action$, state$, undefined as any);
+
+      output$.toPromise().then(action => {
+        expect(action.type).equal(expectActType);
+        done();
+      });
+    });
+
+    // * passed
+    it.skip('deauthenticate$ should output auth/SET_ROOM', done => {
+      // make mock state
+      const mockState: DeepPartial<MyTypes.RootState> = {
+        authReducer: {
+          username: 'test-username',
+          roomKey: 'test-roomkey',
+          authenticated: true,
+        },
+      };
+      // make state's stream
+      state$ = new StateObservable<MyTypes.RootState>(
+        new Subject(),
+        mockState as MyTypes.RootState
+      );
+
+      // action stream
+      const action$ = ActionsObservable.of<MyTypes.RootAction>({
+        type: 'auth/DEAUTHENTICATE',
       });
 
-      this.afterEach(done => {
-        clearRoomKeys().then(res => {
-          console.log(`clear room keys on server: ${res.data}`);
-          done();
-        });
-      });
+      const expectedAct: MyTypes.RootAction = {
+        type: 'auth/SET_ROOM_KEY',
+        payload: '',
+      };
 
-      // * passed
-      it.skip('fetchRoomKey$ should output auth/AUTHENTICATE action', done => {
-        const action$ = ActionsObservable.of<MyTypes.RootAction>(
-          getRoomKey.request()
-        );
+      const output$ = clearAfterExit$(action$, state$, undefined as any);
 
-        const expectActType: MyTypes.RootAction['type'] = 'auth/AUTHENTICATE';
-
-        const output$ = fetchRoomKey$(action$, state$, undefined as any);
-
-        output$.toPromise().then(action => {
-          expect(action.type).equal(expectActType);
-          done();
-        });
-      });
-
-      // * passed
-      it.skip('deauthenticate$ should output auth/SET_ROOM', done => {
-        // make mock state
-        const mockState: DeepPartial<MyTypes.RootState> = {
-          authReducer: {
-            username: 'test-username',
-            roomKey: 'test-roomkey',
-            authenticated: true,
-          },
-        };
-        // make state's stream
-        state$ = new StateObservable<MyTypes.RootState>(
-          new Subject(),
-          mockState as MyTypes.RootState
-        );
-
-        // action stream
-        const action$: ActionsObservable<MyTypes.RootAction> = ActionsObservable.of(
-          { type: 'auth/DEAUTHENTICATE' }
-        );
-
-        const expectedAct: MyTypes.RootAction = {
-          type: 'auth/SET_ROOM_KEY',
-          payload: '',
-        };
-
-        const output$ = clearAfterExit$(action$, state$, undefined as any);
-
-        output$.toPromise().then(action => {
-          expect(action).to.equal(expectedAct);
-          done();
-        });
+      output$.toPromise().then(action => {
+        expect(action).to.equal(expectedAct);
+        done();
       });
     });
   });
