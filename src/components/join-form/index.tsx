@@ -19,7 +19,7 @@ const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
       setUsername: authActions.setUsername,
       setRoomKey: authActions.setRoomKey,
       fetchRoomKey: authActions.getRoomKey.request,
-      reqRoomExistence: authActions.checkRoomExistence.request,
+      reqRoomExistence: authActions.getRoomExistence.request,
     },
     dispatch
   );

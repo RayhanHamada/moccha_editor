@@ -77,7 +77,7 @@ socket.on('player-join', (player: string) => {
   /**
    * push new player's name to players
    */
-  const playerObj: AppFeatures.Player = JSON.parse(player);
+  const playerObj: Features.Player = JSON.parse(player);
   printDevLog(`a player with name ${playerObj.username} joined`);
   store.dispatch(addPlayer(playerObj));
 
@@ -94,7 +94,7 @@ socket.on('player-join', (player: string) => {
  * for when a player leave a room,
  */
 socket.on('player_leave', (thatPlayerData: string) => {
-  const parsedPlayer: AppFeatures.Player = JSON.parse(thatPlayerData);
+  const parsedPlayer: Features.Player = JSON.parse(thatPlayerData);
   /**
    * if the player that leave is RM, then deauthenticate
    */
@@ -145,7 +145,7 @@ socket.on(
     /**
      * set all joined players
      */
-    const players = JSON.parse(stringifiedPlayers) as AppFeatures.Player[];
+    const players = JSON.parse(stringifiedPlayers) as Features.Player[];
 
     store.dispatch(setPlayers(players));
   }

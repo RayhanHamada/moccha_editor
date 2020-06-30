@@ -1,13 +1,13 @@
 import { createReducer } from 'typesafe-actions';
 
-const initialState: AppFeatures.PlayerManager = {
+const initialState: Features.PlayerManager = {
   players: [],
   isPlayerOtwRoom: false,
 };
 
 const playerManagerReducer = createReducer({
   ...initialState,
-} as AppFeatures.PlayerManager)
+} as Features.PlayerManager)
   .handleType('pm/ADD_PLAYER', (state, action) => ({
     ...state,
     players: [...state.players, action.payload],

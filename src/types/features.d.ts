@@ -1,4 +1,4 @@
-declare namespace AppFeatures {
+declare namespace Features {
   export interface Auth {
     /**
      * our player data

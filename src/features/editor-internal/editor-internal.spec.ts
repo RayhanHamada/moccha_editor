@@ -16,7 +16,7 @@ import reducer from './reducer';
 
 describe("editor internal's", function() {
   describe('action', function() {
-    let mockState: AppFeatures.EditorInternal;
+    let mockState: Features.EditorInternal;
 
     this.beforeEach(() => {
       mockState = undefined as any;

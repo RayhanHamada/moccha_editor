@@ -1,7 +1,7 @@
 import { createReducer } from 'typesafe-actions';
 import { supportedLanguages } from '../../globals';
 
-const initState: AppFeatures.EditorInternal = {
+const initState: Features.EditorInternal = {
   currentlySavedCode: `function hello(name: string) {
 	return \`hello \${name} !\`;
 }

@@ -28,19 +28,19 @@ export const fetchRoomKey$: MyTypes.AppEpic = (action$, state$) =>
   action$.pipe(
     ofType('auth/FETCH_ROOM_KEY'),
     mergeMap(() =>
-      /*
+      /**
        * get roomKey from the server
        */
       from(getRoomKeyAPI()).pipe(
         mergeMap(roomKey => {
-          /*
+          /**
            * when it's done, dispatch GOT_ROOM_KEY and ADD_PLAYER so our
            * name will appears in joined friends list
            */
 
           const { me } = state$.value.authReducer;
 
-          return [getRoomKey.success({ roomKey }), addPlayer(me)];
+          return [getRoomKey.success(roomKey), addPlayer(me)];
         })
       )
     )
@@ -53,12 +53,12 @@ export const reqRoomExistence$: MyTypes.AppEpic = (action$, state$) =>
   action$.pipe(
     ofType('auth/REQ_ROOM_EXISTENCE'),
     mergeMap(() => {
-      /*
+      /**
        * get the roomKey from current state
        */
       const { roomKey } = state$.value.authReducer;
 
-      /*
+      /**
        * just return getRoomExistence.success
        */
       return from(checkRoomExistenceAPI(roomKey)).pipe(
@@ -75,35 +75,37 @@ export const reqRoomExistence$: MyTypes.AppEpic = (action$, state$) =>
  */
 export const onRoomKeyExist$: MyTypes.AppEpic = action$ =>
   action$.pipe(
-    /*
+    /**
      * check if the action is either GOT_ROOM_KEY (in case a client create a room)
      * or JOIN_ROOM (in case of client joining a room)
      */
     ofType('auth/GOT_ROOM_KEY', 'auth/SUCCESS_ROOM_EXISTENCE'),
 
-    /*
+    /**
      * if so then set authenticated to true
      */
     mergeMap(action => {
-      /*
+      /**
        * if we're intended to join a room
        */
       if (action.type === 'auth/SUCCESS_ROOM_EXISTENCE') {
-        /*
+        /**
          * and the room is exists,
          */
         if (action.payload) {
-          // * then trigger SET_MY_CARET and AUTHENTICATE action
+          /**
+           * then trigger SET_MY_CARET and AUTHENTICATE action
+           */
           return [authenticate()];
         }
 
-        /*
+        /**
          * if not, then return cancel to join the room
          */
         return [getRoomExistence.cancel()];
       }
 
-      /*
+      /**
        * after we're intended to create a room
        */
       return [authenticate()];
@@ -133,17 +135,17 @@ export const clearAfterExit$: MyTypes.AppEpic = (
   action$.pipe(
     ofType('auth/DEAUTHENTICATE'),
     mergeMap(() => {
-      /*
+      /**
        * get isRM, our data and roomKey from current state
        */
       const { roomKey, me } = state$.value.authReducer;
       const stringifiedMe = JSON.stringify(me);
 
-      /*
+      /**
        * notice other client that this client is leaving the room.
        */
       socketio.emit('player_leave', roomKey, stringifiedMe);
-      /*
+      /**
        * check if this client is room master, if so then delete roomKey
        * in database, and make other client in the room leaves the room.
        * (probably will fixed in the future so other random client would
@@ -151,13 +153,13 @@ export const clearAfterExit$: MyTypes.AppEpic = (
        */
       printDevLog(`isRM: ${me.isRM}`);
       if (me.isRM) {
-        /*
+        /**
          * delete roomKey on the database
          */
         printDevLog('should execute delete room document');
         return from(deleteRoomKeyAPI(roomKey)).pipe(
           mergeMap(() => {
-            /*
+            /**
              * and make isRM to be false, and reset room and username,
              * and clear player list
              */
@@ -172,7 +174,7 @@ export const clearAfterExit$: MyTypes.AppEpic = (
         );
       }
 
-      /*
+      /**
        * if not, simply reset roomKey and username, and reset editor internal state
        */
       return [setRoomKey(''), setUsername(''), resetEdin(), clearPlayers()];

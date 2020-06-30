@@ -7,29 +7,44 @@ import { MyTypes } from '../../types/app-state';
 import { fetchRoomKey$, clearAfterExit$ } from './epics';
 import { clearRoomKeys } from '../../api/api.util';
 import reducer from './reducer';
-import { setUsername, getRoomKey, setRoomKey, setSocketID } from './actions';
+import {
+  setUsername,
+  getRoomKey,
+  setRoomKey,
+  setSocketID,
+  setIsRM,
+  setCursorColor,
+  authenticate,
+  deauthenticate,
+  getRoomExistence,
+  setCopied,
+} from './actions';
+
+const initialState: Features.Auth = {
+  authenticated: false,
+  copied: false,
+  isLoading: false,
+  loadingMsg: '',
+  roomKey: '',
+  me: {
+    username: '',
+    socketID: '',
+    cursorColor: '',
+    isRM: false,
+  },
+};
 
 describe("Auth's", function() {
   describe('reducer', () => {
-    const mockState: AppFeatures.Auth = {
-      authenticated: false,
-      copied: false,
-      isLoading: false,
-      loadingMsg: '',
-      roomKey: '',
-      me: {
-        username: '',
-        socketID: '',
-        cursorColor: '',
-        isRM: false,
-      },
-    };
-
     /**
      * * Test starts here
      */
     it(`auth/SET_USERNAME should set me.username to 'test-username'`, () => {
-      const expectedValue: AppFeatures.Auth = {
+      const mockState = {
+        ...initialState,
+      };
+
+      const expectedValue: Features.Auth = {
         ...mockState,
         me: {
           ...mockState.me,
@@ -45,7 +60,11 @@ describe("Auth's", function() {
     });
 
     it(`auth/SET_ROOM_KEY should set roomKey to 'test-key'`, () => {
-      const expectedValue: AppFeatures.Auth = {
+      const mockState: Features.Auth = {
+        ...initialState,
+      };
+
+      const expectedValue: Features.Auth = {
         ...mockState,
         roomKey: 'test-key',
       };
@@ -58,7 +77,11 @@ describe("Auth's", function() {
     });
 
     it(`auth/SET_SOCKET_ID should set socketId to 'test-socket'`, () => {
-      const expected: AppFeatures.Auth = {
+      const mockState: Features.Auth = {
+        ...initialState,
+      };
+
+      const expected: Features.Auth = {
         ...mockState,
         me: {
           ...mockState.me,
@@ -67,78 +90,155 @@ describe("Auth's", function() {
       };
 
       const output = reducer(mockState, setSocketID('test-socket'));
-
       expect(output).to.be.deep.equal(expected);
     });
-  });
 
-  describe.skip('epics', function() {
-    this.timeout(100000);
+    it(`auth/SET_IS_RM should set me.isRM to true`, () => {
+      const mockState: Features.Auth = {
+        ...initialState,
+      };
 
-    let state$: StateObservable<MyTypes.RootState>;
-
-    this.beforeEach(() => {
-      state$ = new StateObservable<MyTypes.RootState>(
-        new Subject(),
-        mockState as MyTypes.RootState
-      );
-    });
-
-    this.afterEach(done => {
-      clearRoomKeys().then(res => {
-        console.log(`clear room keys on server: ${res.data}`);
-        done();
-      });
-    });
-
-    // * passed
-    it.skip('fetchRoomKey$ should output auth/AUTHENTICATE action', done => {
-      const action$ = ActionsObservable.of<MyTypes.RootAction>(
-        getRoomKey.request()
-      );
-
-      const expectActType: MyTypes.RootAction['type'] = 'auth/AUTHENTICATE';
-
-      const output$ = fetchRoomKey$(action$, state$, undefined as any);
-
-      output$.toPromise().then(action => {
-        expect(action.type).equal(expectActType);
-        done();
-      });
-    });
-
-    // * passed
-    it.skip('deauthenticate$ should output auth/SET_ROOM', done => {
-      // make mock state
-      const mockState: DeepPartial<MyTypes.RootState> = {
-        authReducer: {
-          username: 'test-username',
-          roomKey: 'test-roomkey',
-          authenticated: true,
+      const expected: Features.Auth = {
+        ...mockState,
+        me: {
+          ...mockState.me,
+          isRM: true,
         },
       };
-      // make state's stream
-      state$ = new StateObservable<MyTypes.RootState>(
-        new Subject(),
-        mockState as MyTypes.RootState
-      );
+      const output = reducer(mockState, setIsRM(true));
+      expect(output).to.be.deep.equal(expected);
+    });
 
-      // action stream
-      const action$ = ActionsObservable.of<MyTypes.RootAction>({
-        type: 'auth/DEAUTHENTICATE',
-      });
-
-      const expectedAct: MyTypes.RootAction = {
-        type: 'auth/SET_ROOM_KEY',
-        payload: '',
+    it(`auth/SET_CURSOR_COLOR should set me.cursorColor`, () => {
+      const mockState: Features.Auth = {
+        ...initialState,
       };
 
-      const output$ = clearAfterExit$(action$, state$, undefined as any);
-
-      output$.toPromise().then(action => {
-        expect(action).to.equal(expectedAct);
-        done();
-      });
+      const output = reducer(mockState, setCursorColor());
+      expect(output.me.cursorColor).not.empty;
     });
+
+    it(`auth/AUTHENTICATE should set authenticated to be true`, () => {
+      const mockState: Features.Auth = {
+        ...initialState,
+      };
+
+      const expected: Features.Auth = {
+        ...mockState,
+        authenticated: true,
+      };
+      const output = reducer(mockState, authenticate());
+      expect(output).to.be.deep.equal(expected);
+    });
+
+    it(`auth/DEAUTHENTICATE should set authenticated to be false`, () => {
+      const mockState: Features.Auth = {
+        ...initialState,
+        authenticated: true,
+      };
+
+      const expected: Features.Auth = {
+        ...mockState,
+        authenticated: false,
+      };
+      const output = reducer(mockState, deauthenticate());
+      expect(output).to.be.deep.equal(expected);
+    });
+
+    it(`auth/REQ_ROOM_EXISTENCE should set isLoading to be true`, () => {
+      const mockState: Features.Auth = {
+        ...initialState,
+        roomKey: '093b38v8d9',
+      };
+
+      const expected: Features.Auth = {
+        ...mockState,
+        isLoading: true,
+        loadingMsg: `Checking room 093b38v... existence, please wait...`,
+      };
+
+      const output = reducer(mockState, getRoomExistence.request());
+      expect(output).to.be.deep.equal(expected);
+    });
+
+    it(`auth/SUCCESS_ROOM_EXISTENCE should set isLoading to false`, () => {
+      const mockState: Features.Auth = {
+        ...initialState,
+        isLoading: true,
+      };
+
+      const expected: Features.Auth = {
+        ...mockState,
+        isLoading: false,
+        loadingMsg: '',
+      };
+      const output = reducer(mockState, getRoomExistence.success());
+      expect(output).to.be.deep.equal(expected);
+    });
+
+    it(`auth/CANCEL_ROOM should set isLoading to be false`, () => {
+      const mockState: Features.Auth = {
+        ...initialState,
+      };
+
+      const expected: Features.Auth = {
+        ...mockState,
+        isLoading: false,
+        loadingMsg: '',
+      };
+
+      const output = reducer(mockState, getRoomExistence.cancel());
+      expect(output).to.be.deep.equal(expected);
+    });
+
+    it(`auth/FETCH_ROOM_KEY should set isLoading to be true`, () => {
+      const mockState: Features.Auth = {
+        ...initialState,
+      };
+
+      const expected: Features.Auth = {
+        ...mockState,
+        isLoading: true,
+        loadingMsg: 'Fetching key, please wait...',
+      };
+
+      const output = reducer(mockState, getRoomKey.request());
+      expect(output).to.be.deep.equal(expected);
+    });
+
+    it(`auth/GOT_ROOM_KEY should work`, () => {
+      const mockState = {
+        ...initialState,
+        isLoading: true,
+      };
+      const expected: Features.Auth = {
+        ...mockState,
+        roomKey: 'room-key-example',
+        isLoading: false,
+        loadingMsg: '',
+        me: {
+          ...mockState.me,
+          isRM: true,
+        },
+      };
+      const output = reducer(mockState, getRoomKey.success('room-key-example'));
+      expect(output).to.be.deep.equal(expected);
+    });
+
+    it(`auth/SET_COPIED should set copied to be true`, () => {
+      const mockState: Features.Auth = {
+        ...initialState,
+      };
+      const expected: Features.Auth = {
+        ...mockState,
+        copied: true,
+      };
+      const output = reducer(mockState, setCopied(true));
+      expect(output).to.be.deep.equal(expected);
+    });
+
+    /**
+     * * test end here
+     */
   });
 });
