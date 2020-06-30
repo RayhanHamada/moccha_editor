@@ -95,7 +95,7 @@ const roomReducer = createReducer({ ...initialState } as Features.Auth)
 
   .handleType('auth/GOT_ROOM_KEY', (state, action) => ({
     ...state,
-    roomKey: action.payload.roomKey,
+    roomKey: action.payload,
 
     /**
      * stop showing loading loop and loading message
