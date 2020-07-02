@@ -16,21 +16,18 @@ export const setRoomKey = createAction(
   (roomKey: string) => roomKey
 )();
 
+/**
+ * set our socketId
+ */
 export const setSocketID = createAction(
   'auth/SET_SOCKET_ID',
   (socketId: string) => socketId
 )();
 
-export const setCursorColor = createAction('auth/SET_CURSOR_COLOR')();
-
 /**
- * for checking existence of a room on the database
+ * set editor cursor color randomly
  */
-export const checkRoomExistence = createAsyncAction(
-  'auth/REQ_ROOM_EXISTENCE',
-  'auth/GOT_ROOM_EXISTENCE',
-  'auth/FAILED_ROOM_EXISTENCE'
-)<undefined, boolean, Error>();
+export const setCursorColor = createAction('auth/SET_CURSOR_COLOR')();
 
 /**
  *  for get room existence
@@ -40,7 +37,7 @@ export const getRoomExistence = createAsyncAction(
   'auth/SUCCESS_ROOM_EXISTENCE',
   'auth/FAILED_GET_ROOM_EXISTENCE',
   'auth/CANCEL_ROOM'
-)<string, boolean, undefined, undefined>();
+)<undefined, undefined, undefined, undefined>();
 
 /**
  * to set isRM
@@ -57,7 +54,7 @@ export const setIsRM = createAction(
 export const authenticate = createAction('auth/AUTHENTICATE')();
 
 /**
- * deauthenticate
+ * deauthenticate user
  */
 export const deauthenticate = createAction('auth/DEAUTHENTICATE')();
 
@@ -68,8 +65,11 @@ export const getRoomKey = createAsyncAction(
   'auth/FETCH_ROOM_KEY',
   'auth/GOT_ROOM_KEY',
   'auth/FAIL_FETCH_ROOM_KEY'
-)<undefined, { roomKey: string }, undefined>();
+)<undefined, string, undefined>();
 
+/**
+ * set copied for roomKey
+ */
 export const setCopied = createAction(
   'auth/SET_COPIED',
   (copied: boolean) => copied

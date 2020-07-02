@@ -1,7 +1,7 @@
 import { createReducer } from 'typesafe-actions';
 import randomColor from 'randomcolor';
 
-const initialState: AppFeatures.Auth = {
+const initialState: Features.Auth = {
   me: {
     username: '',
     socketID: '',
@@ -15,7 +15,7 @@ const initialState: AppFeatures.Auth = {
   copied: false,
 };
 
-const roomReducer = createReducer({ ...initialState } as AppFeatures.Auth)
+const roomReducer = createReducer({ ...initialState } as Features.Auth)
   .handleType('auth/SET_USERNAME', (state, action) => ({
     ...state,
     me: {
@@ -29,19 +29,19 @@ const roomReducer = createReducer({ ...initialState } as AppFeatures.Auth)
     roomKey: action.payload,
   }))
 
-  .handleType('auth/SET_IS_RM', (state, action) => ({
-    ...state,
-    me: {
-      ...state.me,
-      isRM: action.payload,
-    },
-  }))
-
   .handleType('auth/SET_SOCKET_ID', (state, action) => ({
     ...state,
     me: {
       ...state.me,
       socketID: action.payload,
+    },
+  }))
+
+  .handleType('auth/SET_IS_RM', (state, action) => ({
+    ...state,
+    me: {
+      ...state.me,
+      isRM: action.payload,
     },
   }))
 
@@ -95,7 +95,7 @@ const roomReducer = createReducer({ ...initialState } as AppFeatures.Auth)
 
   .handleType('auth/GOT_ROOM_KEY', (state, action) => ({
     ...state,
-    roomKey: action.payload.roomKey,
+    roomKey: action.payload,
 
     /**
      * stop showing loading loop and loading message

@@ -1,11 +1,8 @@
 import { createReducer } from 'typesafe-actions';
 import { supportedLanguages } from '../../globals';
 
-const initState: AppFeatures.EditorInternal = {
-  currentlySavedCode: `function hello(name: string) {
-	return \`hello \${name} !\`;
-}
-	`,
+const initState: Features.EditorInternal = {
+  currentlySavedCode: ``,
 
   consoleOutput: 'Wello There !',
 
@@ -13,7 +10,7 @@ const initState: AppFeatures.EditorInternal = {
   token: '',
 
   /**
-   * currentLanguage would be Typescript, which has id of 74
+   * currentLanguage default would be Typescript, which has id of 74
    * see https://api.judge0.com/languages/all
    */
   currentLanguage: supportedLanguages.find(
@@ -26,7 +23,7 @@ const initState: AppFeatures.EditorInternal = {
   watchLangChangeFromSocket: true,
 
   /**
-   * whether the editor is in freeze state (read-only state)
+   * whether the editor should be freezed (read-only state)
    */
   shouldFreeze: false,
 
@@ -90,12 +87,11 @@ const editorInternalReducer = createReducer(initState)
    * => fetchSubmissionResult success get submission result
    */
   .handleType('edin/GOT_SUBMISSION_RESULT', (state, { payload }) => {
-    const stdout = payload.stdout === null ? '' : `${payload.stdout}\n`;
-    const stderr = payload.stderr === null ? '' : `${payload.stderr}\n`;
-    const time = payload.time === null ? '' : `Done in ${payload.time} s`;
-    const compOut =
-      payload.compile_output === null ? '' : `${payload.compile_output}\n`;
-    const message = payload.message === null ? '' : `${payload.message}\n`;
+    const stdout = `${payload.stdout ?? ''}\n`;
+    const stderr = `${payload.stdout ?? ''}\n`;
+    const time = `Done in ${payload.time ?? ''} s`;
+    const compOut = `${payload.compile_output ?? ''}\n`;
+    const message = `${payload.message ?? ''}\n`;
 
     return {
       ...state,

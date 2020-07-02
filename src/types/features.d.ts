@@ -1,4 +1,4 @@
-declare namespace AppFeatures {
+declare namespace Features {
   export interface Auth {
     /**
      * our player data
@@ -78,11 +78,6 @@ declare namespace AppFeatures {
      * players name
      */
     players: Player[];
-
-    /**
-     * indicate whether another player is attempting to join the room
-     */
-    isPlayerOtwRoom: boolean;
   }
 
   interface Player {
