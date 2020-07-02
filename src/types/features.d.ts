@@ -78,11 +78,6 @@ declare namespace Features {
      * players name
      */
     players: Player[];
-
-    /**
-     * indicate whether another player is attempting to join the room
-     */
-    isPlayerOtwRoom: boolean;
   }
 
   interface Player {

@@ -1,11 +1,4 @@
-import { StateObservable, ActionsObservable } from 'redux-observable';
 import { expect } from 'chai';
-import { DeepPartial } from 'redux';
-import { Subject } from 'rxjs';
-
-import { MyTypes } from '../../types/app-state';
-import { fetchRoomKey$, clearAfterExit$ } from './epics';
-import { clearRoomKeys } from '../../api/api.util';
 import reducer from './reducer';
 import {
   setUsername,
@@ -34,8 +27,8 @@ const initialState: Features.Auth = {
   },
 };
 
-describe("Auth's", function() {
-  describe('reducer', () => {
+describe("Auth", function() {
+  describe('actions', () => {
     /**
      * * Test starts here
      */

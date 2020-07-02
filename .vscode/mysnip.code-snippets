@@ -21,9 +21,14 @@
     "prefix": "titred",
     "body": [
       "it(`${actions} should set ${toSet}`, () => {",
-      "const expected: ${expectedType} = ${expectedValue};",
-      "const output = reducer(${mockState}, ${actionCall});",
-      "expect(output).to.be.${deep}equal(expected);",
+      "const initialState: Features.${initialType} = {",
+      "...mockState,",
+      "}",
+      "const expected: Features.${expectedType} = {",
+      "",
+      "};",
+      "const output = reducer(${initialState}, ${actionCall});",
+      "expect(output).to.be.deep.equal(expected);",
       "});"
     ]
   }

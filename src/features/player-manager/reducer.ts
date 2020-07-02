@@ -2,7 +2,6 @@ import { createReducer } from 'typesafe-actions';
 
 const initialState: Features.PlayerManager = {
   players: [],
-  isPlayerOtwRoom: false,
 };
 
 const playerManagerReducer = createReducer({

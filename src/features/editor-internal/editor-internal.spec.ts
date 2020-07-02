@@ -1,150 +1,193 @@
 import { expect } from 'chai';
-import { Subject } from 'rxjs';
-import { StateObservable, ActionsObservable } from 'redux-observable';
 
 import {
   setLanguage,
   fetchSubmissionToken,
-  incomingCodeChanges,
   saveCode,
+  watchLangChange,
+  clearConsole,
+  editorFreeze,
+  editorUnfreeze,
+  resetEdin,
 } from './actions';
-import { MyTypes } from '../../types/app-state';
-import { supportedLanguages } from '../../globals';
-import { DeepPartial } from 'redux';
-import { saveCode$ } from './epics';
 import reducer from './reducer';
 
-describe("editor internal's", function() {
-  describe('action', function() {
-    let mockState: Features.EditorInternal;
+describe('editor internal', function() {
+  describe('actions', function() {
+    const mockState: Features.EditorInternal = {
+      consoleOutput: 'Wello There !',
+      currentLanguage: {
+        nameInEditor: 'typescript',
+        name: 'Typescript',
+        id: 74,
+        version: '3.7.4',
+      },
+      currentlySavedCode: '',
+      isRunning: false,
+      refreshCount: 0,
+      shouldFreeze: false,
+      token: '',
+      watchLangChangeFromSocket: true,
+    };
 
-    this.beforeEach(() => {
-      mockState = undefined as any;
-    });
+    it(`edin/SET_LANG should set currentLanguage to javascript`, () => {
+      const initialState: Features.EditorInternal = {
+        ...mockState,
+      };
 
-    // * passed
-    it.skip('setLanguage should set language to Javascript', () => {
-      // set mock state
-      mockState = {
-        isRunning: false,
+      const expected: Features.EditorInternal = {
+        ...initialState,
         currentLanguage: {
-          name: 'Typescript',
-          nameInEditor: 'typescript',
-          id: 74,
-          version: '3.7.4',
-        },
-        consoleOutput: '',
-        currentlySavedCode: '',
-        token: '',
-        shouldFreeze: false,
-        refreshCount: 0,
-        watchLangChangeFromSocket: false,
-      };
-
-      const expectedLanguage = supportedLanguages[1];
-      const action = setLanguage(expectedLanguage);
-      const languageAfterSet = reducer(mockState, action).currentLanguage;
-
-      expect(languageAfterSet).to.be.deep.equal(expectedLanguage);
-    });
-
-    it('fetchSubmissionToken.request should set isRunning', () => {
-      // set mock state
-      mockState = {
-        isRunning: false,
-        currentLanguage: {
-          name: 'Typescript',
-          nameInEditor: 'typescript',
-          id: 74,
-          version: '3.7.4',
-        },
-        consoleOutput: '',
-        currentlySavedCode: '',
-        token: '',
-        shouldFreeze: false,
-        refreshCount: 0,
-        watchLangChangeFromSocket: false,
-      };
-
-      /*
-       * should set isRunning to true
-       */
-      const expectedValue = true;
-      const action = fetchSubmissionToken.request();
-      const afterValue = reducer(mockState, action).isRunning;
-
-      expect(afterValue).to.be.equal(expectedValue);
-    });
-
-    it('fetchSubmissionToken.success should set token and consoleOuput', () => {
-      // * set mock state
-      mockState = {
-        isRunning: false,
-        currentLanguage: {
-          name: 'Typescript',
-          nameInEditor: 'typescript',
-          id: 74,
-          version: '3.7.4',
-        },
-        consoleOutput: '',
-        currentlySavedCode: '',
-        token: '',
-        shouldFreeze: false,
-        refreshCount: 0,
-        watchLangChangeFromSocket: false,
-      };
-
-      /*
-       * set token
-       */
-      let expectedValue = 'test-token';
-      const action = fetchSubmissionToken.success(expectedValue);
-      let output = reducer(mockState, action);
-
-      let actualValue = output.token;
-      expect(actualValue).to.be.equal(expectedValue);
-
-      /*
-       * set consoleOutput
-       */
-      expectedValue = '\n> Code is Running\n';
-      output = reducer(mockState, action);
-
-      actualValue = output.consoleOutput;
-
-      expect(actualValue).to.be.equal(expectedValue);
-    });
-  });
-
-  describe('epics', function() {
-    this.timeout(5000);
-
-    let state$: StateObservable<MyTypes.RootState>;
-
-    // * passed
-    it.skip('saveCode', done => {
-      // * mock state
-      const mockState: DeepPartial<MyTypes.RootState> = {
-        editorInternalReducer: {
-          currentlySavedCode: '',
+          nameInEditor: 'javascript',
+          name: 'Javascript',
+          id: 63,
+          version: 'Node.js 12.14.0',
         },
       };
-
-      // * set state stream
-      state$ = new StateObservable(
-        new Subject(),
-        mockState as MyTypes.RootState
+      const output = reducer(
+        mockState,
+        setLanguage({
+          nameInEditor: 'javascript',
+          name: 'Javascript',
+          id: 63,
+          version: 'Node.js 12.14.0',
+        })
       );
 
-      const code = 'test-code';
-      const expectedValue = saveCode(code);
-      const action$ = ActionsObservable.of(incomingCodeChanges(code));
-      const $output = saveCode$(action$, state$, undefined as any);
-
-      $output.toPromise().then(action => {
-        expect(action).to.be.deep.equal(expectedValue);
-        done();
-      });
+      expect(output).to.be.deep.equal(expected);
     });
+
+    it(`edin/WATCH_LANG_CHANGE should set watchLangChangeFromSocket to be false`, () => {
+      const initialState: Features.EditorInternal = {
+        ...mockState,
+      };
+      const expected: Features.EditorInternal = {
+        ...mockState,
+        watchLangChangeFromSocket: false,
+      };
+
+      const output = reducer(initialState, watchLangChange(false));
+
+      expect(output).to.be.deep.equal(expected);
+    });
+
+    it(`edin/CLEAR_CONSOLE should set consoleOutput to be empty`, () => {
+      const initialState: Features.EditorInternal = {
+        ...mockState,
+        consoleOutput: 'example of console output',
+      };
+
+      const expected: Features.EditorInternal = {
+        ...mockState,
+        consoleOutput: '',
+      };
+
+      const output = reducer(initialState, clearConsole());
+      expect(output).to.be.deep.equal(expected);
+    });
+
+    it(`edin/SAVE_CODE should save code`, () => {
+      const initialState: Features.EditorInternal = {
+        ...mockState,
+      };
+
+      const expected: Features.EditorInternal = {
+        ...mockState,
+        currentlySavedCode: `console.log('hello world');`,
+      };
+
+      const output = reducer(
+        initialState,
+        saveCode(`console.log('hello world');`)
+      );
+
+      expect(output).to.be.deep.equal(expected);
+    });
+
+    it(`edin/FETCH_SUBMISSION_TOKEN should isRunning to be true`, () => {
+      const initialState: Features.EditorInternal = {
+        ...mockState,
+      };
+
+      const expected: Features.EditorInternal = {
+        ...mockState,
+        isRunning: true,
+      };
+
+      const output = reducer(initialState, fetchSubmissionToken.request());
+
+      expect(output).to.be.deep.equal(expected);
+    });
+
+    it(`edin/GOT_SUBMISSION_TOKEN should set token`, () => {
+      const initialState: Features.EditorInternal = {
+        ...mockState,
+      };
+
+      const expected: Features.EditorInternal = {
+        ...mockState,
+        token: 'token-example',
+        consoleOutput: 'Wello There !\n> Code is Running\n',
+      };
+
+      const output = reducer(
+        initialState,
+        fetchSubmissionToken.success('token-example')
+      );
+
+      expect(output).to.be.deep.equal(expected);
+    });
+
+    it(`edin/EDITOR_FREEZE should set shouldFreeze to true`, () => {
+      const initialState: Features.EditorInternal = {
+        ...mockState,
+      };
+
+      const expected: Features.EditorInternal = {
+        ...initialState,
+        shouldFreeze: true,
+      };
+
+      const output = reducer(initialState, editorFreeze());
+
+      expect(output).to.be.deep.equal(expected);
+    });
+
+    it(`edin/EDITOR_UNFREEZE should set shouldFreeze to false`, () => {
+      const initialState: Features.EditorInternal = {
+        ...mockState,
+        shouldFreeze: true,
+      };
+
+      const expected: Features.EditorInternal = {
+        ...initialState,
+        shouldFreeze: false,
+      };
+      const output = reducer(initialState, editorUnfreeze());
+
+      expect(output).to.be.deep.equal(expected);
+    });
+
+    it(`edin/RESET should reset editor internal state`, () => {
+      const initialState: Features.EditorInternal = {
+        ...mockState,
+        consoleOutput: 'adasdasdasdas',
+        refreshCount: 123213,
+        isRunning: true,
+        token: 'randomtookennn',
+      };
+
+      const expected: Features.EditorInternal = {
+        ...mockState,
+      };
+
+      const output = reducer(initialState, resetEdin());
+
+      expect(output).to.be.deep.equal(expected);
+    });
+
+    /**
+     * * test end
+     */
   });
 });
