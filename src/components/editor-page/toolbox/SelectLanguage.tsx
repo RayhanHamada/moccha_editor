@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { MyTypes } from '../../../types/app-state';
+import { MyTypes } from '../../../types/app-store';
 
 import { setLanguage } from '../../../features/editor-internal/actions';
 import { supportedLanguages } from '../../../globals';
@@ -39,9 +39,7 @@ SelectLanguage.defaultProps = {
     /**
      * get watchLangChange
      */
-    const {
-      watchLangChangeFromSocket,
-    } = store.getState().editorInternalReducer;
+    const { watchLangChangeFromSocket } = store.getState().edin;
 
     /**
      * when we emit change-language from the socket, it would received by other client's
@@ -73,7 +71,7 @@ SelectLanguage.defaultProps = {
     /**
      * broadcast to another client in current room
      */
-    const { roomKey } = store.getState().authReducer;
+    const { roomKey } = store.getState().auth;
 
     socket.emit('cl', roomKey, language.id);
     printDevLog('change-language emitted');

@@ -4,7 +4,7 @@ import { ofType } from 'redux-observable';
 import { from } from 'rxjs';
 
 import { fetchSubmissionToken, fetchSubmissionResult } from './actions';
-import { MyTypes } from '../../types/app-state';
+import { MyTypes } from '../../types/app-store';
 import { saveCode } from './actions';
 import { createSubmissionAPI, getSubmissionAPI } from '../../api/judge0';
 
@@ -49,8 +49,8 @@ export const fetchSubmissionToken$: MyTypes.AppEpic = (action$, state$) =>
       /**
        * get the language id and source code from current state of editor internal's reducer
        */
-      const languageID = state$.value.editorInternalReducer.currentLanguage.id;
-      const srcCode = state$.value.editorInternalReducer.currentlySavedCode;
+      const languageID = state$.value.edin.currentLanguage.id;
+      const srcCode = state$.value.edin.currentlySavedCode;
       /**
        * call fetchSubmissionToken API and pipe it's value (which is the token),
        * and dispatch fetchSubmissionToken.success action so the token will be saved

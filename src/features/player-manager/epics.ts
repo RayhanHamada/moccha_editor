@@ -4,7 +4,7 @@ import { ofType } from 'redux-observable';
 import { editorUnfreeze } from '../editor-internal/actions';
 import { printDevLog } from '../../utils';
 
-import { MyTypes } from '../../types/app-state';
+import { MyTypes } from '../../types/app-store';
 
 export const freezeEditor: MyTypes.AppEpic = (action$, state$, { socketio }) =>
   action$.pipe(
@@ -13,11 +13,8 @@ export const freezeEditor: MyTypes.AppEpic = (action$, state$, { socketio }) =>
      * and if we're a room master, emit content_synchronize socket event
      */
     tap(() => {
-      const { roomKey, me } = state$.value.authReducer;
-      const {
-        currentlySavedCode,
-        currentLanguage,
-      } = state$.value.editorInternalReducer;
+      const { roomKey, me } = state$.value.auth;
+      const { currentlySavedCode, currentLanguage } = state$.value.edin;
 
       /**
        * get language ID to be sent
@@ -27,7 +24,7 @@ export const freezeEditor: MyTypes.AppEpic = (action$, state$, { socketio }) =>
       /**
        * get recently joined player
        */
-      const { players } = state$.value.playerManagerReducer;
+      const { players } = state$.value.pm;
       const recentPlayerSocketID = players[players.length - 1].socketID;
 
       /**

@@ -2,7 +2,7 @@ import React, { useEffect, EventHandler } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { MyTypes } from '../../types/app-state';
+import { MyTypes } from '../../types/app-store';
 
 import * as authActions from '../../features/auth/actions';
 
@@ -24,10 +24,10 @@ const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
     dispatch
   );
 
-const mapStateToProps = ({ authReducer }: MyTypes.RootState) => ({
-  username: authReducer.me.username,
-  roomKey: authReducer.roomKey,
-  authenticated: authReducer.authenticated,
+const mapStateToProps = ({ auth }: MyTypes.RootState) => ({
+  username: auth.me.username,
+  roomKey: auth.roomKey,
+  authenticated: auth.authenticated,
 });
 
 type Props = AGT.Props<typeof mapStateToProps, typeof mapDispatchToProps>;

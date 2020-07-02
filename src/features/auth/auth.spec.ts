@@ -27,7 +27,7 @@ const initialState: Features.Auth = {
   },
 };
 
-describe("Auth", function() {
+describe('Auth', function() {
   describe('actions', () => {
     /**
      * * Test starts here
@@ -165,7 +165,7 @@ describe("Auth", function() {
         isLoading: false,
         loadingMsg: '',
       };
-      const output = reducer(mockState, getRoomExistence.success());
+      const output = reducer(mockState, getRoomExistence.success(true));
       expect(output).to.be.deep.equal(expected);
     });
 

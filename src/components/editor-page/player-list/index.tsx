@@ -2,10 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { MyTypes } from '../../../types/app-state';
+import { MyTypes } from '../../../types/app-store';
 
-const mapStateToProps = ({ playerManagerReducer }: MyTypes.RootState) => ({
-  players: playerManagerReducer.players,
+const mapStateToProps = ({ pm }: MyTypes.RootState) => ({
+  players: pm.players,
 });
 
 const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>

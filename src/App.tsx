@@ -3,15 +3,15 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import React, { useEffect } from 'react';
 
-import { MyTypes } from './types/app-state';
+import { MyTypes } from './types/app-store';
 
 import EditorPage from './routes/editor/';
 import LoginPage from './routes/login/';
 import routes from './routes/routes-names';
 import * as authActions from './features/auth/actions';
 
-const mapStateToProps = ({ authReducer }: MyTypes.RootState) => ({
-  authenticated: authReducer.authenticated,
+const mapStateToProps = ({ auth }: MyTypes.RootState) => ({
+  authenticated: auth.authenticated,
 });
 
 const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>

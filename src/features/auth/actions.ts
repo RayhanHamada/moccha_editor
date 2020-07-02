@@ -37,7 +37,7 @@ export const getRoomExistence = createAsyncAction(
   'auth/SUCCESS_ROOM_EXISTENCE',
   'auth/FAILED_GET_ROOM_EXISTENCE',
   'auth/CANCEL_ROOM'
-)<undefined, undefined, undefined, undefined>();
+)<undefined, boolean, undefined, undefined>();
 
 /**
  * to set isRM

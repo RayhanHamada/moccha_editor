@@ -1,11 +1,11 @@
 import { combineEpics } from 'redux-observable';
 
-import * as authEpic from '../features/auth/epics';
-import * as editorInternalEpic from '../features/editor-internal/epics';
-import * as pmEpic from '../features/player-manager/epics';
+import * as auth from '../features/auth/epics';
+import * as edin from '../features/editor-internal/epics';
+import * as pm from '../features/player-manager/epics';
 
 export default combineEpics(
-  ...Object.values(authEpic),
-  ...Object.values(editorInternalEpic),
-  ...Object.values(pmEpic)
+  ...Object.values(auth),
+  ...Object.values(edin),
+  ...Object.values(pm)
 );

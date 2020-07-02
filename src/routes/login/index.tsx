@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { MyTypes } from '../../types/app-state';
+import { MyTypes } from '../../types/app-store';
 
 import BannerDesc from '../../components/misc/BannerDesc';
 import Spinner from '../../components/misc/Spinner';
@@ -11,9 +11,9 @@ import Typer from '../../components/misc/Typer';
 import './index.scss';
 import { bindActionCreators } from 'redux';
 
-const mapStateToProps = ({ authReducer }: MyTypes.RootState) => ({
-  isLoading: authReducer.isLoading,
-  loadingMsg: authReducer.loadingMsg,
+const mapStateToProps = ({ auth }: MyTypes.RootState) => ({
+  isLoading: auth.isLoading,
+  loadingMsg: auth.loadingMsg,
 });
 
 const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
