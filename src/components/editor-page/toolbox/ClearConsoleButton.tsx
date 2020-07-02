@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { bindActionCreators } from 'redux';
 
-import { MyTypes } from '../../../types/app-state';
+import { MyTypes } from '../../../types/app-store';
 import * as edinActions from '../../../features/editor-internal/actions';
 import { connect } from 'react-redux';
 

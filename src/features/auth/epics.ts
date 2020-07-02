@@ -2,7 +2,7 @@ import { mergeMap, map } from 'rxjs/operators';
 import { ofType } from 'redux-observable';
 import { from } from 'rxjs';
 
-import { MyTypes } from '../../types/app-state';
+import { MyTypes } from '../../types/app-store';
 
 import { printDevLog } from '../../utils';
 import { resetEdin } from '../editor-internal/actions';
@@ -38,7 +38,7 @@ export const fetchRoomKey$: MyTypes.AppEpic = (action$, state$) =>
            * name will appears in joined friends list
            */
 
-          const { me } = state$.value.authReducer;
+          const { me } = state$.value.auth;
 
           return [getRoomKey.success(roomKey), addPlayer(me)];
         })
@@ -56,7 +56,7 @@ export const reqRoomExistence$: MyTypes.AppEpic = (action$, state$) =>
       /**
        * get the roomKey from current state
        */
-      const { roomKey } = state$.value.authReducer;
+      const { roomKey } = state$.value.auth;
 
       /**
        * just return getRoomExistence.success
@@ -138,7 +138,7 @@ export const clearAfterExit$: MyTypes.AppEpic = (
       /**
        * get isRM, our data and roomKey from current state
        */
-      const { roomKey, me } = state$.value.authReducer;
+      const { roomKey, me } = state$.value.auth;
       const stringifiedMe = JSON.stringify(me);
 
       /**
@@ -192,7 +192,7 @@ export const socketEmitWeJoin$: MyTypes.AppEpic = (
   action$.pipe(
     ofType('auth/AUTHENTICATE'),
     map(() => {
-      const { roomKey, me } = _state$.value.authReducer;
+      const { roomKey, me } = _state$.value.auth;
       const strMe = JSON.stringify(me);
       /**
        * value param for emit: roomKey, username and isRM (is room master)

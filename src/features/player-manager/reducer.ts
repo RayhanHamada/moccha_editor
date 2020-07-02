@@ -4,7 +4,7 @@ const initialState: Features.PlayerManager = {
   players: [],
 };
 
-const playerManagerReducer = createReducer({
+const reducer = createReducer({
   ...initialState,
 } as Features.PlayerManager)
   .handleType('pm/ADD_PLAYER', (state, action) => ({
@@ -28,4 +28,4 @@ const playerManagerReducer = createReducer({
     ...state,
     players: [],
   }));
-export default playerManagerReducer;
+export default reducer;

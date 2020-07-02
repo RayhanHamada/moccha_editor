@@ -8,7 +8,7 @@ import MonacoEditor, {
   EditorConstructionOptions,
 } from 'react-monaco-editor';
 
-import { MyTypes } from '../../../types/app-state';
+import { MyTypes } from '../../../types/app-store';
 
 import { incomingCodeChanges } from '../../../features/editor-internal/actions';
 import socket from '../../../services/socketIO';
@@ -26,16 +26,13 @@ const options: EditorConstructionOptions = {
   fontSize: 13,
 };
 
-const mapStateToProps = ({
-  editorInternalReducer,
-  authReducer,
-}: MyTypes.RootState) => ({
-  lang: editorInternalReducer.currentLanguage,
-  editorInitialValue: editorInternalReducer.currentlySavedCode,
-  roomKey: authReducer.roomKey,
-  shouldFreeze: editorInternalReducer.shouldFreeze,
-  refreshCount: editorInternalReducer.refreshCount,
-  savedCode: editorInternalReducer.currentlySavedCode,
+const mapStateToProps = ({ edin, auth }: MyTypes.RootState) => ({
+  lang: edin.currentLanguage,
+  editorInitialValue: edin.currentlySavedCode,
+  roomKey: auth.roomKey,
+  shouldFreeze: edin.shouldFreeze,
+  refreshCount: edin.refreshCount,
+  savedCode: edin.currentlySavedCode,
 });
 
 const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>

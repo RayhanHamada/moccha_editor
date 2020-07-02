@@ -15,7 +15,7 @@ const initialState: Features.Auth = {
   copied: false,
 };
 
-const roomReducer = createReducer({ ...initialState } as Features.Auth)
+const reducer = createReducer({ ...initialState } as Features.Auth)
   .handleType('auth/SET_USERNAME', (state, action) => ({
     ...state,
     me: {
@@ -117,4 +117,4 @@ const roomReducer = createReducer({ ...initialState } as Features.Auth)
     copied: action.payload,
   }));
 
-export default roomReducer;
+export default reducer;

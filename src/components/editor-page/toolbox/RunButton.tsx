@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { MyTypes } from '../../../types/app-state';
+import { MyTypes } from '../../../types/app-store';
 import * as edInActions from '../../../features/editor-internal/actions';
 
 const Button = styled.button`
@@ -27,8 +27,8 @@ Button.defaultProps = {
   ),
 };
 
-const mapStateToProps = ({ editorInternalReducer }: MyTypes.RootState) => ({
-  isRunning: editorInternalReducer.isRunning,
+const mapStateToProps = ({ edin }: MyTypes.RootState) => ({
+  isRunning: edin.isRunning,
 });
 
 const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>

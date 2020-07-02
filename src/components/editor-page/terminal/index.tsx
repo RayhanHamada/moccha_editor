@@ -2,14 +2,14 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { MyTypes } from '../../../types/app-state';
+import { MyTypes } from '../../../types/app-store';
 
 import ClearConsoleButton from '../toolbox/ClearConsoleButton';
 
 import './index.scss';
 
-const mapStateToProps = ({ editorInternalReducer }: MyTypes.RootState) => ({
-  consoleOutput: editorInternalReducer.consoleOutput,
+const mapStateToProps = ({ edin }: MyTypes.RootState) => ({
+  consoleOutput: edin.consoleOutput,
 });
 
 const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>

@@ -2,15 +2,15 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import React from 'react';
 
-import { MyTypes } from '../../../types/app-state';
+import { MyTypes } from '../../../types/app-store';
 
 import SelectLanguage from './SelectLanguage';
 import RunButton from './RunButton';
 
 import './index.scss';
 
-const mapStateToProps = ({ editorInternalReducer }: MyTypes.RootState) => ({
-  langId: editorInternalReducer.currentLanguage.id,
+const mapStateToProps = ({ edin }: MyTypes.RootState) => ({
+  langId: edin.currentLanguage.id,
 });
 
 const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>

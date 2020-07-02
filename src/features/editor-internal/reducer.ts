@@ -30,7 +30,7 @@ const initState: Features.EditorInternal = {
   refreshCount: 0,
 };
 
-const editorInternalReducer = createReducer(initState)
+const reducer = createReducer(initState)
   /**
    * triggered when
    * => user set languages on select language components
@@ -119,4 +119,4 @@ const editorInternalReducer = createReducer(initState)
     ...initState,
   }));
 
-export default editorInternalReducer;
+export default reducer;
