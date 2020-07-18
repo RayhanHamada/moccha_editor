@@ -11,7 +11,7 @@ import MonacoEditor, {
 import { MyTypes } from '../../../types/app-store';
 
 import { incomingCodeChanges } from '../../../features/editor-internal/actions';
-import socket from '../../../services/socketIO';
+import services from '../../../services';
 import { printDevLog } from '../../../utils';
 import store from '../../../store';
 
@@ -65,41 +65,50 @@ const MonacoWrapper = (props: Props) => {
   }, [props.refreshCount]);
 
   useEffect(() => {
+    const { socketService } = services;
     /**
      * if mounted, bind editor to ChangeEditorManager
      */
     const ecm = new EditorContentManager({
       editor: editorRef.editor as editor.IStandaloneCodeEditor,
-      onInsert: function(idx, text) {
-        const insertion: AGT.TextChange = {
-          idx,
-          text,
-        };
 
-        socket.emit('text-insertion', props.roomKey, JSON.stringify(insertion));
+      /**
+       * collaborative editor events
+       */
+      onInsert: function(idx, text) {
+        socketService.emit({
+          name: 'text-insertion',
+          data: {
+            roomKey: props.roomKey,
+            idx,
+            text,
+          },
+        });
         printDevLog(`trigger insert`);
       },
       onDelete: function(idx, len) {
-        const deletion: AGT.TextChange = {
-          idx,
-          len,
-        };
-
-        socket.emit('text-deletion', props.roomKey, JSON.stringify(deletion));
+        socketService.emit({
+          name: 'text-deletion',
+          data: {
+            roomKey: props.roomKey,
+            idx,
+            len,
+          },
+        });
+        // socket.emit('text-deletion', props.roomKey, JSON.stringify(deletion));
         printDevLog(`trigger delete`);
       },
       onReplace: function(idx, len, text) {
-        const replacement: AGT.TextChange = {
-          idx,
-          len,
-          text,
-        };
+        socketService.emit({
+          name: 'text-replacement',
+          data: {
+            roomKey: props.roomKey,
+            idx,
+            len,
+            text,
+          },
+        });
 
-        socket.emit(
-          'text-replacement',
-          props.roomKey,
-          JSON.stringify(replacement)
-        );
         printDevLog(`trigger replace`);
       },
     });
@@ -107,21 +116,21 @@ const MonacoWrapper = (props: Props) => {
     /**
      * listening for any code change from server socket
      */
-    socket.on('text-insertion', (insertion: string) => {
+    socketService.on('text-insertion', (insertion: string) => {
       const { idx, text }: AGT.TextChange = JSON.parse(insertion);
 
       ecm.insert(idx as number, text as string);
       printDevLog('receive insert');
     });
 
-    socket.on('text-deletion', (deletion: string) => {
+    socketService.on('text-deletion', (deletion: string) => {
       const { idx, len }: AGT.TextChange = JSON.parse(deletion);
 
       ecm.delete(idx as number, len as number);
       printDevLog('receive delete');
     });
 
-    socket.on('text-replacement', (replacement: string) => {
+    socketService.on('text-replacement', (replacement: string) => {
       const { idx, len, text }: AGT.TextChange = JSON.parse(replacement);
 
       ecm.replace(idx as number, len as number, text as string);
@@ -132,9 +141,9 @@ const MonacoWrapper = (props: Props) => {
       /**
        * when component will unmount, turn off these socket listener
        */
-      socket.off('text-insertion');
-      socket.off('text-deletion');
-      socket.off('text-replacement');
+      socketService.off('text-insertion');
+      socketService.off('text-deletion');
+      socketService.off('text-replacement');
     };
   }, []);
 
@@ -158,7 +167,6 @@ const MonacoWrapper = (props: Props) => {
         ref={el => (editorRef = el as MonacoEditor)}
         defaultValue={props.editorInitialValue}
         onChange={handleChange}
-        // editorDidMount={}
       />
     </div>
   );

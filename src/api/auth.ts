@@ -13,6 +13,10 @@ const CHECK_ROOM_EXISTENCE = `${BASE_SERVER_URL}/api/auth/${apiVersion}/checkRoo
 const GET_ROOM_KEYS = `${BASE_SERVER_URL}/api/auth/${apiVersion}/getRoomKeys`;
 const DELETE_ROOM_KEY = `${BASE_SERVER_URL}/api/auth/${apiVersion}/deleteRoomKey`;
 
+/**
+ * TODO: make all this API name suffixed with "API"
+ */
+
 export const getAuthEndpoint = () =>
   axios.get(GET_AUTH_ENDPOINT).then(res => res.data as string);
 

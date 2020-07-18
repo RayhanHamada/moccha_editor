@@ -37,7 +37,6 @@ export const fetchRoomKey$: MyTypes.AppEpic = (action$, state$) =>
            * when it's done, dispatch GOT_ROOM_KEY and ADD_PLAYER so our
            * name will appears in joined friends list
            */
-
           const { me } = state$.value.auth;
 
           return [getRoomKey.success(roomKey), addPlayer(me)];
@@ -130,7 +129,7 @@ export const alertRoomNotExists$: MyTypes.AppEpic = action$ =>
 export const clearAfterExit$: MyTypes.AppEpic = (
   action$,
   state$,
-  { socketio }
+  { socketService }
 ) =>
   action$.pipe(
     ofType('auth/DEAUTHENTICATE'),
@@ -139,12 +138,18 @@ export const clearAfterExit$: MyTypes.AppEpic = (
        * get isRM, our data and roomKey from current state
        */
       const { roomKey, me } = state$.value.auth;
-      const stringifiedMe = JSON.stringify(me);
 
       /**
        * notice other client that this client is leaving the room.
        */
-      socketio.emit('player_leave', roomKey, stringifiedMe);
+      socketService.emit({
+        name: 'player_leave',
+        data: {
+          roomKey,
+          player: me,
+        },
+      });
+
       /**
        * check if this client is room master, if so then delete roomKey
        * in database, and make other client in the room leaves the room.
@@ -152,11 +157,13 @@ export const clearAfterExit$: MyTypes.AppEpic = (
        * be the next RM if the current RM is leave the room
        */
       printDevLog(`isRM: ${me.isRM}`);
+
       if (me.isRM) {
         /**
          * delete roomKey on the database
          */
         printDevLog('should execute delete room document');
+
         return from(deleteRoomKeyAPI(roomKey)).pipe(
           mergeMap(() => {
             /**
@@ -187,18 +194,25 @@ export const clearAfterExit$: MyTypes.AppEpic = (
 export const socketEmitWeJoin$: MyTypes.AppEpic = (
   action$,
   _state$,
-  { socketio }
+  { socketService }
 ) =>
   action$.pipe(
     ofType('auth/AUTHENTICATE'),
     map(() => {
       const { roomKey, me } = _state$.value.auth;
-      const strMe = JSON.stringify(me);
+
       /**
        * value param for emit: roomKey, username and isRM (is room master)
        */
       printDevLog(`this player is rm ? ${me.isRM}`);
-      socketio.emit('player-join', roomKey, strMe);
+      socketService.emit({
+        name: 'player-join',
+        data: {
+          roomKey,
+          player: me,
+        },
+      });
+
       printDevLog(`emitted player-join`);
       return setRoomKey(roomKey);
     })

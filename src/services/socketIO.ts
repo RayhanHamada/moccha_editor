@@ -17,6 +17,7 @@ import {
   setPlayers,
   removePlayer,
 } from '../features/player-manager/actions';
+
 import routes from '../routes/routes-names';
 
 /**
@@ -32,6 +33,7 @@ socket.on('connect', () => {
    * get socket session id
    */
   const socketID = socket.id;
+
   printDevLog(`my socket id is ${socketID}`);
 
   /**
@@ -43,13 +45,15 @@ socket.on('connect', () => {
 /**
  * listener for language change
  */
-socket.on('cl', (langID: number) => {
+socket.on('cl', (data: string) => {
   printDevLog('on change-language triggered !');
+
+  const { langId }: Receiver.CL = JSON.parse(data);
   /**
    * find language in supportedLanguages that id === langID
    */
   const language = supportedLanguages.find(
-    lang => lang.id === langID
+    lang => lang.id === langId
   ) as AGT.Language;
 
   /**
@@ -61,7 +65,6 @@ socket.on('cl', (langID: number) => {
   /**
    * dispatch change
    */
-
   store.dispatch(setLanguage(language));
 
   /**
@@ -73,13 +76,15 @@ socket.on('cl', (langID: number) => {
 /**
  * for when a player join a room
  */
-socket.on('player-join', (player: string) => {
+socket.on('player-join', (data: string) => {
   /**
    * push new player's name to players
    */
-  const playerObj: Features.Player = JSON.parse(player);
-  printDevLog(`a player with name ${playerObj.username} joined`);
-  store.dispatch(addPlayer(playerObj));
+  const { player }: Receiver.PlayerJoin = JSON.parse(data);
+
+  printDevLog(`a player with name ${player.username} joined`);
+
+  store.dispatch(addPlayer(player));
 
   /**
    * and dispatch editorFreeze (this may happen for at least 3 seconds),
@@ -93,62 +98,91 @@ socket.on('player-join', (player: string) => {
 /**
  * for when a player leave a room,
  */
-socket.on('player_leave', (thatPlayerData: string) => {
-  const parsedPlayer: Features.Player = JSON.parse(thatPlayerData);
+socket.on('player_leave', (data: string) => {
+  const { player }: Receiver.PlayerLeave = JSON.parse(data);
   /**
    * if the player that leave is RM, then deauthenticate
    */
-  if (parsedPlayer.isRM) {
+  if (player.isRM) {
     store.dispatch(deauthenticate());
     history.replace(routes.home);
-    alert('You were leaving because room Master is leaving the Room');
+    alert('Room Master is leaving the Room !');
     return;
   }
 
   /**
    * remove leaving player from player list
    */
-  store.dispatch(removePlayer(parsedPlayer));
+  store.dispatch(removePlayer(player));
   printDevLog(`should dispatch removePlayer`);
 });
 
 /**
  * on RM sent us(the recently joined player) for editor state synchronization
  */
-socket.on(
-  'editor_sync',
-  (code: string, currLangID: number, stringifiedPlayers: string) => {
-    /**
-     * dispatch edin/SAVE_CODE action
-     */
-    store.dispatch(saveCode(code));
+socket.on('editor_sync', (data: string) => {
+  const { code, langId, players }: Receiver.EditorSync = JSON.parse(data);
+  /**
+   * dispatch edin/SAVE_CODE action
+   */
+  store.dispatch(saveCode(code));
 
-    /**
-     * refresh the editor with updated value
-     */
-    store.dispatch(refreshEditor());
+  /**
+   * refresh the editor with updated value
+   */
+  store.dispatch(refreshEditor());
 
-    /**
-     * find language based on the currLangID
-     */
-    const lang = supportedLanguages.find(
-      lang => lang.id === currLangID
-    ) as AGT.Language;
+  /**
+   * find language based on the currLangID
+   */
+  const lang = supportedLanguages.find(
+    lang => lang.id === langId
+  ) as AGT.Language;
 
-    /**
-     * make SelectLanguage to not listen for a while
-     */
-    store.dispatch(watchLangChange(false));
-    store.dispatch(setLanguage(lang));
-    store.dispatch(watchLangChange(true));
+  /**
+   * make SelectLanguage to not listen for a while
+   */
+  store.dispatch(watchLangChange(false));
+  store.dispatch(setLanguage(lang));
+  store.dispatch(watchLangChange(true));
 
-    /**
-     * set all joined players
-     */
-    const players = JSON.parse(stringifiedPlayers) as Features.Player[];
+  /**
+   * set all joined players
+   */
+  store.dispatch(setPlayers(players));
+});
 
-    store.dispatch(setPlayers(players));
-  }
-);
+/**
+ * for socket emit event
+ */
+function emit(eventName: Emitter.EventList) {
+  socket.emit(eventName.name, JSON.stringify(eventName.data));
+}
 
-export default socket;
+/**
+ * make socket listen for event
+ */
+function on(
+  eventName: Emitter.EventList['name'],
+  fn: (...args: any[]) => void
+) {
+  return socket.on(eventName, fn);
+}
+
+/**
+ * make socket stop listen for an event
+ */
+function off(
+  eventName: Emitter.EventList['name'],
+  fn?: (...args: any[]) => void
+) {
+  return socket.off(eventName, fn);
+}
+
+const socketService = {
+  emit,
+  on,
+  off,
+};
+
+export default socketService;

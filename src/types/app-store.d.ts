@@ -14,6 +14,7 @@ export namespace MyTypes {
   type RootState = StateType<
     ReturnType<typeof import('../store/rootReducer').default>
   >;
+
   /**
    * app store
    */
