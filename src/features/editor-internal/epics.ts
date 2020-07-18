@@ -49,13 +49,14 @@ export const fetchSubmissionToken$: MyTypes.AppEpic = (action$, state$) =>
       /**
        * get the language id and source code from current state of editor internal's reducer
        */
-      const languageID = state$.value.edin.currentLanguage.id;
-      const srcCode = state$.value.edin.currentlySavedCode;
+      const langId = state$.value.edin.currentLanguage.id;
+      const code = state$.value.edin.currentlySavedCode;
+
       /**
        * call fetchSubmissionToken API and pipe it's value (which is the token),
        * and dispatch fetchSubmissionToken.success action so the token will be saved
        */
-      return from(createSubmissionAPI(languageID, srcCode)).pipe(
+      return from(createSubmissionAPI(langId, code)).pipe(
         map(token => {
           return fetchSubmissionToken.success(token);
         })
@@ -78,10 +79,7 @@ export const fetchSubmissionResult$: MyTypes.AppEpic = action$ =>
       /**
        * cast action object to Payload Action and get it's payload as token
        */
-      const token = (action as PayloadAction<
-        'edin/GOT_SUBMISSION_TOKEN' | 'edin/FETCH_SUBMISSION_RESULT',
-        string
-      >).payload;
+      const token = (action as any).payload;
 
       /**
        * get submission result based on token value.

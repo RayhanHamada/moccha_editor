@@ -35,6 +35,10 @@ SelectLanguage.defaultProps = {
       ))}
     </>
   ),
+
+  /**
+   * TODO: make this event happen on epics
+   */
   onChange: function(ev) {
     /**
      * get watchLangChange
@@ -73,7 +77,14 @@ SelectLanguage.defaultProps = {
      */
     const { roomKey } = store.getState().auth;
 
-    socket.emit('cl', roomKey, language.id);
+    socket.emit({
+      name: 'cl',
+      data: {
+        roomKey,
+        langId: language.id,
+      },
+    });
+
     printDevLog('change-language emitted');
   },
 };

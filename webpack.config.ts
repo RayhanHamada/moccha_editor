@@ -53,7 +53,6 @@ export default {
 		DotenvCmd({
 			filePath: './.env-cmdrc.json',
 			env: isProd ? 'prod' : 'dev',
-			debug: true,
 		}),
 		new HTMLWebpackPlugin({
 			title: 'React with Webpack and Typescript Support Boilerplate',

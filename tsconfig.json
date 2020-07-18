@@ -64,5 +64,9 @@
     "forceConsistentCasingInFileNames": true,  /* Disallow inconsistently-cased references to the same file. */
     "noErrorTruncation": true,
     "resolveJsonModule": true
+  },
+  "typeAcquisition": {
+    "enable": true,
+    "include": ["src/types"]
   }
 }
