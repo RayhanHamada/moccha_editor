@@ -2,7 +2,7 @@ import { tap, delay, mapTo } from 'rxjs/operators';
 import { ofType } from 'redux-observable';
 
 import { editorUnfreeze } from '../editor-internal/actions';
-import { printDevLog } from '../../utils';
+import { debugLog } from '../../utils';
 
 import { MyTypes } from '../../types/app-store';
 
@@ -60,7 +60,7 @@ export const freezeEditor: MyTypes.AppEpic = (
           },
         });
 
-        printDevLog(`socket should emit editor_sync`);
+        debugLog(`socket should emit editor_sync`);
       }
     }),
     /**

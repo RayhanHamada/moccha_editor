@@ -4,7 +4,7 @@ import { from } from 'rxjs';
 
 import { MyTypes } from '../../types/app-store';
 
-import { printDevLog } from '../../utils';
+import { debugLog } from '../../utils';
 import { resetEdin } from '../editor-internal/actions';
 import {
   getRoomKeyAPI,
@@ -62,7 +62,7 @@ export const reqRoomExistence$: MyTypes.AppEpic = (action$, state$) =>
        */
       return from(checkRoomExistenceAPI(roomKey)).pipe(
         map(res => {
-          printDevLog(`is room exists : ${res}`);
+          debugLog(`is room exists : ${res}`);
           return getRoomExistence.success(res);
         })
       );
@@ -156,13 +156,13 @@ export const clearAfterExit$: MyTypes.AppEpic = (
        * (probably will fixed in the future so other random client would
        * be the next RM if the current RM is leave the room
        */
-      printDevLog(`isRM: ${me.isRM}`);
+      debugLog(`isRM: ${me.isRM}`);
 
       if (me.isRM) {
         /**
          * delete roomKey on the database
          */
-        printDevLog('should execute delete room document');
+        debugLog('should execute delete room document');
 
         return from(deleteRoomKeyAPI(roomKey)).pipe(
           mergeMap(() => {
@@ -204,7 +204,7 @@ export const socketEmitWeJoin$: MyTypes.AppEpic = (
       /**
        * value param for emit: roomKey, username and isRM (is room master)
        */
-      printDevLog(`this player is rm ? ${me.isRM}`);
+      debugLog(`this player is rm ? ${me.isRM}`);
       socketService.emit({
         name: 'player-join',
         data: {
@@ -213,7 +213,7 @@ export const socketEmitWeJoin$: MyTypes.AppEpic = (
         },
       });
 
-      printDevLog(`emitted player-join`);
+      debugLog(`emitted player-join`);
       return setRoomKey(roomKey);
     })
   );

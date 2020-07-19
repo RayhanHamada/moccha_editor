@@ -62,7 +62,7 @@ export const fetchSubmissionToken$: MyTypes.AppEpic = (action$, state$) =>
 
 /**
  *  get submission result from https://api.judge0.com
- * TODO: separate edin/GOT_SUBMISSION_TOKEN action's epics (make gotSubmissionToken$) 
+ * TODO: separate edin/GOT_SUBMISSION_TOKEN action's epics (make gotSubmissionToken$)
  * TODO: add error handling with catchError
  */
 export const fetchSubmissionResult$: MyTypes.AppEpic = action$ =>

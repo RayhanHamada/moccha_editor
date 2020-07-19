@@ -8,7 +8,7 @@ import { supportedLanguages } from '../../../globals';
 import socket from '../../../services/socketIO';
 import store from '../../../store';
 
-import { printDevLog } from '../../../utils';
+import { debugLog } from '../../../utils';
 
 const Option = styled.option`
   background: #1e1e1e;
@@ -85,7 +85,7 @@ SelectLanguage.defaultProps = {
       },
     });
 
-    printDevLog('change-language emitted');
+    debugLog('change-language emitted');
   },
 };
 

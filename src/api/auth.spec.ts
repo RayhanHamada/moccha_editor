@@ -6,7 +6,7 @@ import {
   deleteRoomKeyAPI,
 } from './auth';
 import { clearRoomKeysAPI } from './api.util';
-import { printDevLog } from '../utils';
+import { debugLog } from '../utils';
 
 describe.skip('Auth API Interface', function() {
   this.timeout(15000);
@@ -62,23 +62,23 @@ describe.skip('Auth API Interface', function() {
                     done();
                   })
                   .catch(() => {
-                    printDevLog(
+                    debugLog(
                       `error when checking room existence after deleting roomKey`
                     );
                   });
               })
               .catch(() => {
-                printDevLog(`error when deleting room key`);
+                debugLog(`error when deleting room key`);
               });
           })
           .catch(() => {
-            printDevLog(
+            debugLog(
               `error when checking room existence before deleting roomKey`
             );
           });
       })
       .catch(() => {
-        printDevLog(`error when get roomKey`);
+        debugLog(`error when get roomKey`);
       });
   });
 });

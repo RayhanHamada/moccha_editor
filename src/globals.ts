@@ -1,9 +1,6 @@
 /**
  * currently supported languages
  */
-
-import { isDev } from './utils';
-
 export const supportedLanguages: AGT.Language[] = [
   {
     nameInEditor: 'typescript',
@@ -49,6 +46,12 @@ export const supportedLanguages: AGT.Language[] = [
   },
 ];
 
-export const serverUrl = isDev
-  ? (process.env.MOCK_BASE_SERVER_URL as string)
-  : (process.env.BASE_SERVER_URL as string);
+/**
+ * determine if this app run in development mode
+ */
+export const isDev = process.env.NODE_ENV === 'development';
+
+/**
+ * backend server url
+ */
+export const serverUrl = process.env.BASE_SERVER_URL as string;

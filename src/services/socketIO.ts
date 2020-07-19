@@ -11,7 +11,7 @@ import {
   refreshEditor,
 } from '../features/editor-internal/actions';
 
-import { printDevLog } from '../utils';
+import { debugLog } from '../utils';
 import {
   addPlayer,
   setPlayers,
@@ -34,7 +34,7 @@ socket.on('connect', () => {
    */
   const socketID = socket.id;
 
-  printDevLog(`my socket id is ${socketID}`);
+  debugLog(`my socket id is ${socketID}`);
 
   /**
    * set it to reducer
@@ -46,7 +46,7 @@ socket.on('connect', () => {
  * listener for language change
  */
 socket.on('cl', (data: string) => {
-  printDevLog('on change-language triggered !');
+  debugLog('on change-language triggered !');
 
   const { langId }: Receiver.CL = JSON.parse(data);
   /**
@@ -82,7 +82,7 @@ socket.on('player-join', (data: string) => {
    */
   const { player }: Receiver.PlayerJoin = JSON.parse(data);
 
-  printDevLog(`a player with name ${player.username} joined`);
+  debugLog(`a player with name ${player.username} joined`);
 
   store.dispatch(addPlayer(player));
 
@@ -114,7 +114,7 @@ socket.on('player_leave', (data: string) => {
    * remove leaving player from player list
    */
   store.dispatch(removePlayer(player));
-  printDevLog(`should dispatch removePlayer`);
+  debugLog(`should dispatch removePlayer`);
 });
 
 /**

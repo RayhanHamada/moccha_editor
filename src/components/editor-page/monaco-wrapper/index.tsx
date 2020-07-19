@@ -11,7 +11,7 @@ import MonacoEditor, {
 import { MyTypes } from '../../../types/app-store';
 
 import { incomingCodeChanges } from '../../../features/editor-internal/actions';
-import { printDevLog } from '../../../utils';
+import { debugLog } from '../../../utils';
 import services from '../../../services';
 import store from '../../../store';
 
@@ -84,7 +84,7 @@ const MonacoWrapper = (props: Props) => {
             text,
           },
         });
-        printDevLog(`trigger insert`);
+        debugLog(`trigger insert`);
       },
       onDelete: function(idx, len) {
         socketService.emit({
@@ -95,7 +95,7 @@ const MonacoWrapper = (props: Props) => {
             len,
           },
         });
-        printDevLog(`trigger delete`);
+        debugLog(`trigger delete`);
       },
       onReplace: function(idx, len, text) {
         socketService.emit({
@@ -108,7 +108,7 @@ const MonacoWrapper = (props: Props) => {
           },
         });
 
-        printDevLog(`trigger replace`);
+        debugLog(`trigger replace`);
       },
     });
 
@@ -119,21 +119,21 @@ const MonacoWrapper = (props: Props) => {
       const { idx, text }: AGT.TextChange = JSON.parse(insertion);
 
       ecm.insert(idx as number, text as string);
-      printDevLog('receive insert');
+      debugLog('receive insert');
     });
 
     socketService.on('text-deletion', (deletion: string) => {
       const { idx, len }: AGT.TextChange = JSON.parse(deletion);
 
       ecm.delete(idx as number, len as number);
-      printDevLog('receive delete');
+      debugLog('receive delete');
     });
 
     socketService.on('text-replacement', (replacement: string) => {
       const { idx, len, text }: AGT.TextChange = JSON.parse(replacement);
 
       ecm.replace(idx as number, len as number, text as string);
-      printDevLog('receive replace');
+      debugLog('receive replace');
     });
 
     return () => {

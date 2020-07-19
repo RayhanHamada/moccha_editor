@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { createSubmissionAPI, getSubmissionAPI } from './judge0';
-import { printDevLog } from '../utils';
+import { debugLog } from '../utils';
 
 describe.skip('Judge0 API', function() {
   this.timeout(15000);
@@ -12,12 +12,12 @@ describe.skip('Judge0 API', function() {
 
     createSubmissionAPI(languageID, sourceCode)
       .then(token => {
-        printDevLog(`token ${JSON.stringify(token)}`);
+        debugLog(`token ${JSON.stringify(token)}`);
         expect(token).to.be.exist;
         done();
       })
       .catch(() => {
-        printDevLog(`error when fetch submission token`);
+        debugLog(`error when fetch submission token`);
         done();
       });
   });
@@ -46,7 +46,7 @@ describe.skip('Judge0 API', function() {
             done();
           })
           .catch(() => {
-            printDevLog('error when getting submission result !');
+            debugLog('error when getting submission result !');
             done();
           });
       }, 6000);

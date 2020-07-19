@@ -6,7 +6,7 @@ import { MyTypes } from '../../types/app-store';
 
 import * as edinActions from '../../features/editor-internal/actions';
 import * as authActions from '../../features/auth/actions';
-import { printDevLog } from '../../utils';
+import { debugLog } from '../../utils';
 import { history } from '../../store';
 import routes from '../routes-names';
 
@@ -41,7 +41,7 @@ const EditorPage = (props: Props) => {
    */
   window.onbeforeunload = function() {
     props.deauthenticate();
-    printDevLog('deauthenticated !');
+    debugLog('deauthenticated !');
     props.resetEdin();
     history.replace(routes.home);
   };
@@ -51,7 +51,7 @@ const EditorPage = (props: Props) => {
    */
   window.onpopstate = function() {
     props.deauthenticate();
-    printDevLog('deauthenticated !');
+    debugLog('deauthenticated !');
     props.resetEdin();
     history.replace(routes.home);
   };
@@ -64,7 +64,7 @@ const EditorPage = (props: Props) => {
     if (!props.authenticated) {
       props.resetEdin();
       history.replace(routes.home);
-      printDevLog('should be back to login');
+      debugLog('should be back to login');
     }
   }, [props.authenticated]);
 
