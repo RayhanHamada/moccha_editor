@@ -1,12 +1,11 @@
 import { map, debounceTime, mergeMap, delay } from 'rxjs/operators';
-import { PayloadAction } from 'typesafe-actions';
 import { ofType } from 'redux-observable';
 import { from } from 'rxjs';
 
+import { createSubmissionAPI, getSubmissionAPI } from '../../api/judge0';
 import { fetchSubmissionToken, fetchSubmissionResult } from './actions';
 import { MyTypes } from '../../types/app-store';
 import { saveCode } from './actions';
-import { createSubmissionAPI, getSubmissionAPI } from '../../api/judge0';
 
 /**
  * for saving code from editor every 2000 each time editor's onChange event
@@ -23,10 +22,8 @@ export const saveCode$: MyTypes.AppEpic = action$ =>
       /**
        * get payload as source code
        */
-      const sourceCode = (action as PayloadAction<
-        'edin/INCOMING_CODE_CHANGES',
-        string
-      >).payload;
+      const sourceCode =
+        action.type === 'edin/INCOMING_CODE_CHANGES' ? action.payload : '';
 
       /**
        * return saveCode func to be dispatched in the store
@@ -49,14 +46,13 @@ export const fetchSubmissionToken$: MyTypes.AppEpic = (action$, state$) =>
       /**
        * get the language id and source code from current state of editor internal's reducer
        */
-      const langId = state$.value.edin.currentLanguage.id;
-      const code = state$.value.edin.currentlySavedCode;
+      const { language, sourceCode } = state$.value.edin;
 
       /**
        * call fetchSubmissionToken API and pipe it's value (which is the token),
        * and dispatch fetchSubmissionToken.success action so the token will be saved
        */
-      return from(createSubmissionAPI(langId, code)).pipe(
+      return from(createSubmissionAPI(language.id, sourceCode)).pipe(
         map(token => {
           return fetchSubmissionToken.success(token);
         })
@@ -66,6 +62,7 @@ export const fetchSubmissionToken$: MyTypes.AppEpic = (action$, state$) =>
 
 /**
  *  get submission result from https://api.judge0.com
+ * TODO: separate edin/GOT_SUBMISSION_TOKEN action's epics (make gotSubmissionToken$) 
  * TODO: add error handling with catchError
  */
 export const fetchSubmissionResult$: MyTypes.AppEpic = action$ =>

@@ -6,7 +6,7 @@ declare namespace AGT {
   /**
    * supported languages by monaco editor (not all)
    * for full set of supported languages,
-   * see https://github.com/microsoft/monaco-editor-webpack-plugin/blob/master/src/languages.ts
+   * @see https://github.com/microsoft/monaco-editor-webpack-plugin/blob/master/src/languages.ts
    */
   type SupportedLanguageName =
     | 'typescript'
@@ -24,7 +24,7 @@ declare namespace AGT {
   interface Language {
     /**
      * this property for specifying language the editor deals with,
-     * see https://github.com/microsoft/monaco-editor-webpack-plugin/blob/master/src/languages.ts
+     * @see https://github.com/microsoft/monaco-editor-webpack-plugin/blob/master/src/languages.ts
      */
     nameInEditor: SupportedLanguageName;
 
@@ -57,6 +57,6 @@ declare namespace AGT {
    */
   type Props<
     _MapStateToProps extends (rootState: any) => Record<string, any>,
-    _MapDispatchToProps extends (dispatch: any) => any
+    _MapDispatchToProps extends (dispatch: any) => Record<string, any>
   > = ReturnType<_MapStateToProps> & ReturnType<_MapDispatchToProps>;
 }

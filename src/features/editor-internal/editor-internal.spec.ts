@@ -16,13 +16,13 @@ describe('editor internal', function() {
   describe('actions', function() {
     const mockState: Features.EditorInternal = {
       consoleOutput: 'Wello There !',
-      currentLanguage: {
+      language: {
         nameInEditor: 'typescript',
         name: 'Typescript',
         id: 74,
         version: '3.7.4',
       },
-      currentlySavedCode: '',
+      sourceCode: '',
       isRunning: false,
       refreshCount: 0,
       shouldFreeze: false,
@@ -37,7 +37,7 @@ describe('editor internal', function() {
 
       const expected: Features.EditorInternal = {
         ...initialState,
-        currentLanguage: {
+        language: {
           nameInEditor: 'javascript',
           name: 'Javascript',
           id: 63,
@@ -93,7 +93,7 @@ describe('editor internal', function() {
 
       const expected: Features.EditorInternal = {
         ...mockState,
-        currentlySavedCode: `console.log('hello world');`,
+        sourceCode: `console.log('hello world');`,
       };
 
       const output = reducer(

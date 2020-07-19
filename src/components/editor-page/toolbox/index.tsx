@@ -10,7 +10,7 @@ import RunButton from './RunButton';
 import './index.scss';
 
 const mapStateToProps = ({ edin }: MyTypes.RootState) => ({
-  langId: edin.currentLanguage.id,
+  langId: edin.language.id,
 });
 
 const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>

@@ -5,14 +5,14 @@ import {
   checkRoomExistenceAPI,
   deleteRoomKeyAPI,
 } from './auth';
-import { clearRoomKeys } from './api.util';
+import { clearRoomKeysAPI } from './api.util';
 import { printDevLog } from '../utils';
 
 describe.skip('Auth API Interface', function() {
   this.timeout(15000);
 
   this.afterAll(done => {
-    clearRoomKeys().then(res => {
+    clearRoomKeysAPI().then(res => {
       console.log(`clearing room key on server: ${res.data}`);
       done();
     });

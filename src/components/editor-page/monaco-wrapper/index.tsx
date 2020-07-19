@@ -11,8 +11,8 @@ import MonacoEditor, {
 import { MyTypes } from '../../../types/app-store';
 
 import { incomingCodeChanges } from '../../../features/editor-internal/actions';
-import services from '../../../services';
 import { printDevLog } from '../../../utils';
+import services from '../../../services';
 import store from '../../../store';
 
 import './index.scss';
@@ -27,12 +27,12 @@ const options: EditorConstructionOptions = {
 };
 
 const mapStateToProps = ({ edin, auth }: MyTypes.RootState) => ({
-  lang: edin.currentLanguage,
-  editorInitialValue: edin.currentlySavedCode,
+  lang: edin.language,
+  editorInitialValue: edin.sourceCode,
   roomKey: auth.roomKey,
   shouldFreeze: edin.shouldFreeze,
   refreshCount: edin.refreshCount,
-  savedCode: edin.currentlySavedCode,
+  savedCode: edin.sourceCode,
 });
 
 const mapDispatchToProps = (dispatch: MyTypes.AppDispatch) =>
@@ -95,7 +95,6 @@ const MonacoWrapper = (props: Props) => {
             len,
           },
         });
-        // socket.emit('text-deletion', props.roomKey, JSON.stringify(deletion));
         printDevLog(`trigger delete`);
       },
       onReplace: function(idx, len, text) {

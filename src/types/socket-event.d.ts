@@ -10,6 +10,9 @@ declare namespace Emitter {
     data: Payload & { roomKey: string };
   }
 
+  /**
+   * if any of these event is changed, the Receiver types on the backend also should be change accordingly
+   */
   type EventList =
     | EmitEvent<
         'cl',

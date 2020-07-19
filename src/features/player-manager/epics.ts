@@ -33,12 +33,12 @@ export const freezeEditor: MyTypes.AppEpic = (
         /**
          * get saved code and current language
          */
-        const { currentlySavedCode, currentLanguage } = state$.value.edin;
+        const { sourceCode, language } = state$.value.edin;
 
         /**
          * get language ID to be sent
          */
-        const langId = currentLanguage.id;
+        const langId = language.id;
 
         /**
          * get recently joined player
@@ -53,7 +53,7 @@ export const freezeEditor: MyTypes.AppEpic = (
           name: 'editor_sync',
           data: {
             recentClientId: recentPlayerSocketID,
-            code: currentlySavedCode,
+            code: sourceCode,
             roomKey,
             langId,
             players,

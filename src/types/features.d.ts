@@ -40,7 +40,7 @@ declare namespace Features {
     /**
      * currently saved code
      */
-    currentlySavedCode: string;
+    sourceCode: string;
 
     /**
      * token for judge0 API
@@ -53,9 +53,9 @@ declare namespace Features {
     watchLangChangeFromSocket: boolean;
 
     /**
-     * editor related
+     * current language
      */
-    currentLanguage: AGT.Language;
+    language: AGT.Language;
 
     /**
      * consoleRelated

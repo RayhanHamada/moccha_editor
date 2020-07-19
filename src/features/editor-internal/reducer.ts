@@ -2,7 +2,7 @@ import { createReducer } from 'typesafe-actions';
 import { supportedLanguages } from '../../globals';
 
 const initState: Features.EditorInternal = {
-  currentlySavedCode: ``,
+  sourceCode: ``,
 
   consoleOutput: 'Wello There !',
 
@@ -13,9 +13,7 @@ const initState: Features.EditorInternal = {
    * currentLanguage default would be Typescript, which has id of 74
    * see https://api.judge0.com/languages/all
    */
-  currentLanguage: supportedLanguages.find(
-    lang => lang.id === 74
-  ) as AGT.Language,
+  language: supportedLanguages.find(lang => lang.id === 74) as AGT.Language,
 
   /**
    * listen to language change from socket
@@ -37,7 +35,7 @@ const reducer = createReducer(initState)
    */
   .handleType('edin/SET_LANG', (state, action) => ({
     ...state,
-    currentLanguage: action.payload,
+    language: action.payload,
   }))
 
   .handleType('edin/WATCH_LANG_CHANGE', (state, action) => ({
@@ -60,7 +58,7 @@ const reducer = createReducer(initState)
    */
   .handleType('edin/SAVE_CODE', (state, action) => ({
     ...state,
-    currentlySavedCode: action.payload,
+    sourceCode: action.payload,
   }))
 
   /**
