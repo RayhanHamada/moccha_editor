@@ -7,9 +7,9 @@ import { MyTypes } from '../../types/app-store';
 import { printDevLog } from '../../utils';
 import { resetEdin } from '../editor-internal/actions';
 import {
-  getRoomKey as getRoomKeyAPI,
-  deleteRoomKey as deleteRoomKeyAPI,
-  checkRoomExistence as checkRoomExistenceAPI,
+  getRoomKeyAPI,
+  deleteRoomKeyAPI,
+  checkRoomExistenceAPI,
 } from '../../api/auth';
 import {
   getRoomKey,

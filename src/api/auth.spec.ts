@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 import {
-  getRoomKey,
-  getAuthEndpoint,
-  checkRoomExistence,
-  deleteRoomKey,
+  getRoomKeyAPI,
+  getAuthEndpointAPI,
+  checkRoomExistenceAPI,
+  deleteRoomKeyAPI,
 } from './auth';
 import { clearRoomKeys } from './api.util';
 import { printDevLog } from '../utils';
@@ -20,7 +20,7 @@ describe.skip('Auth API Interface', function() {
 
   // * passed
   it('should get to auth endpoint', done => {
-    getAuthEndpoint().then(val => {
+    getAuthEndpointAPI().then(val => {
       expect(val).exist;
       done();
     });
@@ -28,7 +28,7 @@ describe.skip('Auth API Interface', function() {
 
   // * passed
   it('should get room key', done => {
-    getRoomKey().then(val => {
+    getRoomKeyAPI().then(val => {
       expect(val, `the keys: ${val}`).exist;
       done();
     });
@@ -36,8 +36,8 @@ describe.skip('Auth API Interface', function() {
 
   // * passed
   it('should check for key existence', done => {
-    getRoomKey().then(roomKey => {
-      checkRoomExistence(roomKey).then(exists => {
+    getRoomKeyAPI().then(roomKey => {
+      checkRoomExistenceAPI(roomKey).then(exists => {
         expect(exists, `roomKey is ${roomKey}`).to.be.true;
         done();
       });
@@ -47,16 +47,16 @@ describe.skip('Auth API Interface', function() {
   // * passed
   it('should delete specific key', done => {
     // create room key on server
-    getRoomKey()
+    getRoomKeyAPI()
       .then(key => {
         // then check room existence if exists
-        checkRoomExistence(key)
+        checkRoomExistenceAPI(key)
           .then(existsBefore => {
             // then delete that generated key
-            deleteRoomKey(key)
+            deleteRoomKeyAPI(key)
               .then(() => {
                 // then check room existence again if not exists
-                checkRoomExistence(key)
+                checkRoomExistenceAPI(key)
                   .then(existsAfter => {
                     expect(existsBefore && !existsAfter).to.be.true;
                     done();
