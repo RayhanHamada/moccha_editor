@@ -16,6 +16,11 @@ export const watchLangChange = createAction(
   (watch: boolean) => watch
 )();
 
+export const changeLanguage = createAction(
+  'edin/CHANGE_LANGUAGE',
+  (langId: number) => langId
+)();
+
 /**
  * clearing console
  */

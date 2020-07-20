@@ -76,6 +76,7 @@ const MonacoWrapper = (props: Props) => {
        * collaborative editor events
        */
       onInsert: function(idx, text) {
+        debugLog(`trigger insert`);
         socketService.emit({
           name: 'text-insertion',
           data: {
@@ -84,9 +85,9 @@ const MonacoWrapper = (props: Props) => {
             text,
           },
         });
-        debugLog(`trigger insert`);
       },
       onDelete: function(idx, len) {
+        debugLog(`trigger delete`);
         socketService.emit({
           name: 'text-deletion',
           data: {
@@ -95,9 +96,9 @@ const MonacoWrapper = (props: Props) => {
             len,
           },
         });
-        debugLog(`trigger delete`);
       },
       onReplace: function(idx, len, text) {
+        debugLog(`trigger replace`);
         socketService.emit({
           name: 'text-replacement',
           data: {
@@ -107,8 +108,6 @@ const MonacoWrapper = (props: Props) => {
             text,
           },
         });
-
-        debugLog(`trigger replace`);
       },
     });
 
@@ -118,22 +117,22 @@ const MonacoWrapper = (props: Props) => {
     socketService.on('text-insertion', (insertion: string) => {
       const { idx, text }: AGT.TextChange = JSON.parse(insertion);
 
-      ecm.insert(idx as number, text as string);
       debugLog('receive insert');
+      ecm.insert(idx as number, text as string);
     });
 
     socketService.on('text-deletion', (deletion: string) => {
       const { idx, len }: AGT.TextChange = JSON.parse(deletion);
 
-      ecm.delete(idx as number, len as number);
       debugLog('receive delete');
+      ecm.delete(idx as number, len as number);
     });
 
     socketService.on('text-replacement', (replacement: string) => {
       const { idx, len, text }: AGT.TextChange = JSON.parse(replacement);
 
-      ecm.replace(idx as number, len as number, text as string);
       debugLog('receive replace');
+      ecm.replace(idx as number, len as number, text as string);
     });
 
     return () => {

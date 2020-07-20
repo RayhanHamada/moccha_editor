@@ -3,9 +3,8 @@ import styled from 'styled-components';
 
 import { MyTypes } from '../../../types/app-store';
 
-import { setLanguage } from '../../../features/editor-internal/actions';
+import { changeLanguage } from '../../../features/editor-internal/actions';
 import { supportedLanguages } from '../../../globals';
-import socket from '../../../services/socketIO';
 import store from '../../../store';
 
 import { debugLog } from '../../../utils';
@@ -36,9 +35,6 @@ SelectLanguage.defaultProps = {
     </>
   ),
 
-  /**
-   * TODO: make this event happen on epics
-   */
   onChange: function(ev) {
     /**
      * get watchLangChange
@@ -56,34 +52,12 @@ SelectLanguage.defaultProps = {
     /**
      * get option's value as language id
      */
-    const languageId: number = parseInt(
-      ev.target.options[ev.target.selectedIndex].value
-    );
+    const langId = parseInt(ev.target.options[ev.target.selectedIndex].value);
 
     /**
-     * get language value based on language id
+     * should dispatch changeLanguage here
      */
-    const language = supportedLanguages.find(
-      val => val.id === languageId
-    ) as AGT.Language;
-
-    /**
-     * dispatch language change to store
-     */
-    store.dispatch<MyTypes.RootAction>(setLanguage(language));
-
-    /**
-     * broadcast to another client in current room
-     */
-    const { roomKey } = store.getState().auth;
-
-    socket.emit({
-      name: 'cl',
-      data: {
-        roomKey,
-        langId: language.id,
-      },
-    });
+    store.dispatch<MyTypes.RootAction>(changeLanguage(langId));
 
     debugLog('change-language emitted');
   },

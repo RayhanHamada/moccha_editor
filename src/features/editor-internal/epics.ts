@@ -1,11 +1,16 @@
-import { map, debounceTime, mergeMap, delay } from 'rxjs/operators';
+import { map, debounceTime, mergeMap, delay, tap } from 'rxjs/operators';
 import { ofType } from 'redux-observable';
 import { from } from 'rxjs';
 
 import { createSubmissionAPI, getSubmissionAPI } from '../../api/judge0';
-import { fetchSubmissionToken, fetchSubmissionResult } from './actions';
+import {
+  fetchSubmissionToken,
+  fetchSubmissionResult,
+  setLanguage,
+} from './actions';
 import { MyTypes } from '../../types/app-store';
 import { saveCode } from './actions';
+import { supportedLanguages } from '../../globals';
 
 /**
  * for saving code from editor every 2000 each time editor's onChange event
@@ -29,6 +34,46 @@ export const saveCode$: MyTypes.AppEpic = action$ =>
        * return saveCode func to be dispatched in the store
        */
       return saveCode(sourceCode);
+    })
+  );
+
+/**
+ * for changeLanguage action event
+ */
+export const changeLanguage$: MyTypes.AppEpic = (
+  action$,
+  state$,
+  { socketService }
+) =>
+  action$.pipe(
+    ofType('edin/CHANGE_LANGUAGE'),
+    map(action => {
+      /**
+       * the payload is number
+       */
+      const langId: number = (action as any).payload;
+
+      const lang = supportedLanguages.find(
+        lang => lang.id === langId
+      ) as AGT.Language;
+
+      /**
+       * get roomKey
+       */
+      const { roomKey } = state$.value.auth;
+
+      /**
+       * emit socket event
+       */
+      socketService.emit({
+        name: 'cl',
+        data: {
+          roomKey,
+          langId,
+        },
+      });
+
+      return setLanguage(lang);
     })
   );
 

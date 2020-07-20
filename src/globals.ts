@@ -1,7 +1,7 @@
 /**
  * currently supported languages
  */
-export const supportedLanguages: AGT.Language[] = [
+export const supportedLanguages: readonly AGT.Language[] = [
   {
     nameInEditor: 'typescript',
     name: 'Typescript',
