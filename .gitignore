@@ -5,3 +5,5 @@ prod.env
 .env-cmdrc.json
 /netlify.toml
 ./toFix.txt
+yarn.lock
+yarn-error.log
